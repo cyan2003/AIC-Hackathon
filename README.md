@@ -21,27 +21,23 @@ hybrid retrieval and LangGraph orchestration.
 - Hermes CLI
 
 ## Architecture
-(paste Excalidraw diagram here as image)
+
 
 ## Setup Instructions
 
-### 1. Clone Repository
-git clone https://github.com/yourteam/intelligent-recruiter
-cd intelligent-recruiter
-
-### 2. Create Virtual Environment
+### 1. Create Virtual Environment
 python -m venv venv
 source venv/bin/activate  # Mac/Linux
 venv\Scripts\activate     # Windows
 
-### 3. Install Libraries
+### 2. Install Libraries
 pip install -r requirements.txt
 
-### 4. Configure Environment
+### 3. Configure Environment
 cp .env.example .env
 # Add your API keys inside .env
 
-### 5. Run Application
+### 4. Run Application
 streamlit run ui/app.py
 
 ## How It Works
