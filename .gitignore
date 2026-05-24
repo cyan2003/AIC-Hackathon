@@ -1,0 +1,22 @@
+aic-marathon-chutes-workshop-hermes-project/
+logs/
+
+# Development Environment
+.venv/
+node_modules/
+venv/
+env/
+
+# Claude CLI & Proxy Cache
+.fcc/
+.claude/
+*.cache
+
+# Build & Logs
+__pycache__/
+*.pyc
+logs/
+*.log
+
+# Sensitive Files
+.env

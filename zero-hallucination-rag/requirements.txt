@@ -1,0 +1,40 @@
+# Web framework
+fastapi>=0.100.0
+uvicorn[standard]>=0.23.0
+
+# Data validation
+pydantic>=2.0.0
+pydantic-settings>=2.0.0
+
+# Vector databases (choose one or both)
+qdrant-client>=1.6.0
+# pymilvus>=2.3.0  # Alternative to Qdrant
+
+# Embedding models
+sentence-transformers>=2.2.0
+torch>=2.0.0  # For sentence-transformers
+numpy>=1.24.0
+
+# Lexical search
+rank-bm25>=0.2.2  # For BM25 implementation
+# elasticsearch>=8.0.0  # Alternative for lexical search
+
+# Document processing
+python-docx>=0.8.11
+pypdf>=3.16.0
+beautifulsoup4>=4.12.0
+markdownify>=0.11.6
+
+# Utilities
+python-dotenv>=1.0.0
+loguru>=0.7.0
+tenacity>=8.0.0
+asyncio-throttle>=1.0.0
+prometheus-client>=0.17.0
+
+# Development dependencies
+pytest>=7.0.0
+pytest-asyncio>=0.21.0
+black>=23.0.0
+ruff>=0.1.0
+mypy>=1.0.0
