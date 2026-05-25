@@ -31,6 +31,7 @@ loguru>=0.7.0
 tenacity>=8.0.0
 asyncio-throttle>=1.0.0
 prometheus-client>=0.17.0
+python-multipart>=0.0.6  # For FastAPI file uploads
 
 # Development dependencies
 pytest>=7.0.0
