@@ -1,11 +1,14 @@
 aic-marathon-chutes-workshop-hermes-project/
 logs/
+.ruffs_cache/
+
 
 # Development Environment
 .venv/
+zero-hallucination-rag/.venv
 node_modules/
 venv/
-env/
+.env/
 
 # Claude CLI & Proxy Cache
 .fcc/
