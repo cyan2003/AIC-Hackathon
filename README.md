@@ -48,7 +48,7 @@ streamlit run ui/app.py
 5. Every claim cited back to resume
 
 ## Project Structure
-intelligent-recruiter/
+zero-hallucination-rag/
 ├── ingest/
 ├── retrieval/
 ├── agent/
