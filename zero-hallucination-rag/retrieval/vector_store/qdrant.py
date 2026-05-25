@@ -1,0 +1,301 @@
+"""
+Qdrant vector store implementation.
+
+Integrates with a Qdrant instance (local or cloud) to provide
+high-performance approximate nearest-neighbour search using HNSW indices.
+
+Supports two-collection architecture for resume/JD separation.
+"""
+
+from __future__ import annotations
+
+from typing import Any, Optional, Sequence
+
+from core.config import VectorStoreConfig
+from core.constants import (
+    HNSW_EF_CONSTRUCT,
+    HNSW_M,
+    JD_COLLECTION_NAME,
+    RESUME_COLLECTION_NAME,
+)
+from core.exceptions import VectorStoreConnectionError, VectorStoreError
+from retrieval.interfaces import SearchResult, VectorStore
+from utils.logging import get_logger
+
+logger = get_logger(__name__)
+
+
+class QdrantVectorStore(VectorStore):
+    """
+    Qdrant-backed vector store with two-collection architecture.
+
+    Manages separate collections for resumes and job descriptions
+    to enable cross-collection retrieval (embed resume → search JDs).
+
+    Parameters
+    ----------
+    config:
+        Vector store configuration (host, port, collection names, etc.).
+    embedding_dimension:
+        Dimensionality of the vectors to be stored.
+    """
+
+    def __init__(self, config: VectorStoreConfig, embedding_dimension: int) -> None:
+        self._config = config
+        self._dimension = embedding_dimension
+        self._client = None  # Lazy-loaded
+
+    # -- Lifecycle --------------------------------------------------------
+
+    def _get_client(self):
+        """Lazy-initialise the Qdrant client."""
+        if self._client is not None:
+            return self._client
+
+        try:
+            from qdrant_client import QdrantClient
+
+            self._client = QdrantClient(
+                host=self._config.host,
+                port=self._config.port,
+                grpc_port=self._config.grpc_port,
+                prefer_grpc=self._config.prefer_grpc,
+                api_key=self._config.api_key,
+                timeout=self._config.timeout,
+            )
+            logger.info(
+                "Connected to Qdrant",
+                host=self._config.host,
+                port=self._config.port,
+            )
+            return self._client
+        except ImportError as exc:
+            raise VectorStoreError(
+                "qdrant-client is required. Install with: pip install qdrant-client"
+            ) from exc
+        except Exception as exc:
+            raise VectorStoreConnectionError(
+                f"Failed to connect to Qdrant at "
+                f"{self._config.host}:{self._config.port}: {exc}"
+            ) from exc
+
+    def _resolve_collection(self, collection: Optional[str] = None) -> str:
+        """Resolve collection name, defaulting to the resume collection."""
+        if collection:
+            return collection
+        return self._config.resume_collection or RESUME_COLLECTION_NAME
+
+    async def initialize(self) -> None:
+        """Create both resume and JD collections if they do not exist."""
+        client = self._get_client()
+        try:
+            from qdrant_client.models import Distance, HnswConfigDiff, VectorParams
+
+            collections = client.get_collections().collections
+            existing = {c.name for c in collections}
+
+            for coll_name in (
+                self._config.resume_collection or RESUME_COLLECTION_NAME,
+                self._config.jd_collection or JD_COLLECTION_NAME,
+            ):
+                if coll_name not in existing:
+                    client.create_collection(
+                        collection_name=coll_name,
+                        vectors_config=VectorParams(
+                            size=self._dimension,
+                            distance=Distance.COSINE,
+                        ),
+                        hnsw_config=HnswConfigDiff(
+                            m=HNSW_M,
+                            ef_construct=HNSW_EF_CONSTRUCT,
+                        ),
+                    )
+                    logger.info(
+                        "Created Qdrant collection",
+                        collection=coll_name,
+                        dimension=self._dimension,
+                    )
+                else:
+                    logger.info(
+                        "Qdrant collection already exists",
+                        collection=coll_name,
+                    )
+        except Exception as exc:
+            raise VectorStoreError(
+                f"Failed to initialize Qdrant collections: {exc}"
+            ) from exc
+
+    async def close(self) -> None:
+        if self._client:
+            self._client.close()
+            self._client = None
+            logger.info("Qdrant client closed")
+
+    # -- CRUD -------------------------------------------------------------
+
+    async def upsert(
+        self,
+        ids: Sequence[str],
+        vectors: Sequence[list[float]],
+        payloads: Optional[Sequence[dict[str, Any]]] = None,
+        *,
+        collection: Optional[str] = None,
+    ) -> None:
+        """
+        Insert or update vectors.
+
+        Parameters
+        ----------
+        collection:
+            Target collection name. Defaults to the resume collection.
+        """
+        client = self._get_client()
+        coll = self._resolve_collection(collection)
+        try:
+            from qdrant_client.models import PointStruct
+
+            points = [
+                PointStruct(
+                    id=idx,
+                    vector=vec,
+                    payload=payloads[i] if payloads else {},
+                )
+                for i, (idx, vec) in enumerate(zip(ids, vectors))
+            ]
+            client.upsert(collection_name=coll, points=points)
+            logger.debug("Upserted vectors", count=len(points), collection=coll)
+        except Exception as exc:
+            raise VectorStoreError(f"Qdrant upsert failed: {exc}") from exc
+
+    async def search(
+        self,
+        vector: list[float],
+        *,
+        top_k: int = 10,
+        filters: Optional[dict[str, Any]] = None,
+        collection: Optional[str] = None,
+    ) -> list[SearchResult]:
+        """
+        Search for nearest neighbours.
+
+        Parameters
+        ----------
+        collection:
+            Target collection name. Defaults to the resume collection.
+            For resume→JD matching, pass the JD collection name.
+        """
+        client = self._get_client()
+        coll = self._resolve_collection(collection)
+        try:
+            if hasattr(client, "query_points"):
+                response = client.query_points(
+                    collection_name=coll,
+                    query=vector,
+                    limit=top_k,
+                    query_filter=self._build_filter(filters) if filters else None,
+                )
+                hits = response.points
+            else:
+                hits = client.search(
+                    collection_name=coll,
+                    query_vector=vector,
+                    limit=top_k,
+                    query_filter=self._build_filter(filters) if filters else None,
+                )
+            results: list[SearchResult] = []
+            for hit in hits:
+                payload = hit.payload or {}
+                results.append(
+                    SearchResult(
+                        document_id=payload.get("document_id", ""),
+                        chunk_id=str(hit.id),
+                        text=payload.get("text", ""),
+                        score=hit.score,
+                        metadata=payload,
+                        source="vector",
+                    )
+                )
+            return results
+        except Exception as exc:
+            raise VectorStoreError(f"Qdrant search failed: {exc}") from exc
+
+    async def delete(
+        self,
+        ids: Sequence[str],
+        *,
+        collection: Optional[str] = None,
+    ) -> None:
+        client = self._get_client()
+        coll = self._resolve_collection(collection)
+        try:
+            from qdrant_client.models import PointIdsList
+
+            client.delete(
+                collection_name=coll,
+                points_selector=PointIdsList(points=list(ids)),
+            )
+            logger.debug("Deleted vectors", count=len(ids), collection=coll)
+        except Exception as exc:
+            raise VectorStoreError(f"Qdrant delete failed: {exc}") from exc
+
+    async def count(self, *, collection: Optional[str] = None) -> int:
+        client = self._get_client()
+        coll = self._resolve_collection(collection)
+        try:
+            info = client.get_collection(coll)
+            return info.points_count or 0
+        except Exception as exc:
+            raise VectorStoreError(f"Qdrant count failed: {exc}") from exc
+
+    # -- Convenience methods for domain-specific access -------------------
+
+    async def search_jds(
+        self,
+        vector: list[float],
+        *,
+        top_k: int = 10,
+        filters: Optional[dict[str, Any]] = None,
+    ) -> list[SearchResult]:
+        """Search the job descriptions collection (for resume→JD matching)."""
+        jd_collection = self._config.jd_collection or JD_COLLECTION_NAME
+        return await self.search(
+            vector, top_k=top_k, filters=filters, collection=jd_collection
+        )
+
+    async def upsert_resumes(
+        self,
+        ids: Sequence[str],
+        vectors: Sequence[list[float]],
+        payloads: Optional[Sequence[dict[str, Any]]] = None,
+    ) -> None:
+        """Upsert into the resumes collection."""
+        resume_collection = self._config.resume_collection or RESUME_COLLECTION_NAME
+        await self.upsert(ids, vectors, payloads, collection=resume_collection)
+
+    async def upsert_jds(
+        self,
+        ids: Sequence[str],
+        vectors: Sequence[list[float]],
+        payloads: Optional[Sequence[dict[str, Any]]] = None,
+    ) -> None:
+        """Upsert into the job descriptions collection."""
+        jd_collection = self._config.jd_collection or JD_COLLECTION_NAME
+        await self.upsert(ids, vectors, payloads, collection=jd_collection)
+
+    # -- Helpers ----------------------------------------------------------
+
+    @staticmethod
+    def _build_filter(filters: dict[str, Any]):
+        """
+        Convert a simple key-value filter dict to a Qdrant ``Filter``.
+
+        For advanced filter logic, callers should construct Qdrant filter
+        objects directly.
+        """
+        from qdrant_client.models import FieldCondition, Filter, MatchValue
+
+        conditions = [
+            FieldCondition(key=k, match=MatchValue(value=v))
+            for k, v in filters.items()
+        ]
+        return Filter(must=conditions)

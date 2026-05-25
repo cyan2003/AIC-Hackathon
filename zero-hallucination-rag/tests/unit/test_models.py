@@ -1,152 +1,189 @@
 """
-Unit tests for Pydantic data models in the Document Ingestion pipeline.
+Unit tests for data models and Pydantic validation schemas in the pipeline.
 """
 import pytest
-from datetime import datetime
 from pydantic import ValidationError
-from api.models.document import RawDocument, ChunkedDocument
+from core.config import DocumentType
+from ingestion.interfaces import RawDocument, ProcessedChunk, EmbeddedChunk
+from api.models.ingestion import (
+    ResumeIngestionResponse,
+    JDIngestionResponse,
+    IngestionErrorResponse,
+)
+from api.models.retrieval import (
+    MatchFilters,
+    MatchRequest,
+    MatchedSection,
+    MatchResult,
+    MatchResponse,
+)
 
 
-def test_raw_document_valid():
-    """Test creating a valid RawDocument."""
+def test_raw_document():
+    """Test RawDocument dataclass initialization and defaults."""
     doc = RawDocument(
-        id="doc_123",
-        content="This is a test document.",
-        format="text/plain",
-        created_at=datetime.now(),
-        updated_at=datetime.now()
+        source="test.pdf",
+        content="hello resume content",
+        document_type=DocumentType.RESUME,
     )
+    assert doc.source == "test.pdf"
+    assert doc.content == "hello resume content"
+    assert doc.mime_type == "text/plain"
+    assert doc.document_type == DocumentType.RESUME
+    assert doc.metadata == {}
 
-    assert doc.id == "doc_123"
-    assert doc.content == "This is a test document."
-    assert doc.format == "text/plain"
-    assert isinstance(doc.created_at, datetime)
-    assert isinstance(doc.updated_at, datetime)
-
-
-def test_raw_document_missing_required_fields():
-    """Test that RawDocument requires id, content, and format."""
-    with pytest.raises(ValidationError) as exc_info:
-        RawDocument()  # Missing all required fields
-
-    errors = exc_info.value.errors()
-    assert len(errors) == 3
-    error_fields = {error["loc"][0] for error in errors}
-    assert error_fields == {"id", "content", "format"}
+    doc_with_meta = RawDocument(
+        source="test.docx",
+        content=b"bytes",
+        mime_type="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        metadata={"author": "John Doe"},
+    )
+    assert doc_with_meta.content == b"bytes"
+    assert doc_with_meta.metadata == {"author": "John Doe"}
 
 
-def test_raw_document_invalid_format():
-    """Test RawDocument with invalid format type."""
+def test_processed_chunk():
+    """Test ProcessedChunk dataclass initialization."""
+    chunk = ProcessedChunk(
+        chunk_id="chunk-1",
+        document_id="doc-123",
+        text="Sample chunk content",
+        chunk_index=2,
+        metadata={"chunk_section": "experience"},
+    )
+    assert chunk.chunk_id == "chunk-1"
+    assert chunk.document_id == "doc-123"
+    assert chunk.text == "Sample chunk content"
+    assert chunk.chunk_index == 2
+    assert chunk.metadata == {"chunk_section": "experience"}
+
+
+def test_embedded_chunk():
+    """Test EmbeddedChunk dataclass initialization."""
+    chunk = ProcessedChunk(
+        chunk_id="chunk-1",
+        document_id="doc-123",
+        text="Sample chunk content",
+    )
+    embedded = EmbeddedChunk(chunk=chunk, embedding=[0.1, 0.2, 0.3])
+    assert embedded.chunk == chunk
+    assert embedded.embedding == [0.1, 0.2, 0.3]
+
+
+def test_resume_ingestion_response():
+    """Test ResumeIngestionResponse validation."""
+    response = ResumeIngestionResponse(
+        document_id="doc-123",
+        source="resume.pdf",
+        chunks_created=5,
+        metadata={"candidate_name": "Alice Smith"},
+    )
+    assert response.document_id == "doc-123"
+    assert response.source == "resume.pdf"
+    assert response.chunks_created == 5
+    assert response.metadata == {"candidate_name": "Alice Smith"}
+    assert response.message == "Resume ingested successfully"
+
+    # Test required fields validation
     with pytest.raises(ValidationError):
-        RawDocument(
-            id="doc_123",
-            content="Test content",
-            format=123,  # Should be string
-            created_at=datetime.now(),
-            updated_at=datetime.now()
-        )
+        ResumeIngestionResponse(document_id="doc-123")  # Missing other fields
 
 
-def test_raw_document_timestamps_optional():
-    """Test that timestamps are optional in RawDocument."""
-    doc = RawDocument(
-        id="doc_123",
-        content="Test content",
-        format="text/plain"
+def test_jd_ingestion_response():
+    """Test JDIngestionResponse validation."""
+    response = JDIngestionResponse(
+        document_id="jd-456",
+        source="jd.docx",
+        chunks_created=3,
+        metadata={"job_title": "Python Developer"},
     )
+    assert response.document_id == "jd-456"
+    assert response.source == "jd.docx"
+    assert response.chunks_created == 3
+    assert response.metadata == {"job_title": "Python Developer"}
+    assert response.message == "Job description ingested successfully"
 
-    assert doc.created_at is None
-    assert doc.updated_at is None
 
-
-def test_chunked_document_valid():
-    """Test creating a valid ChunkedDocument."""
-    chunk = ChunkedDocument(
-        id="chunk_456",
-        chunk_index=0,
-        content="This is a test chunk.",
-        parent_id="doc_123",
-        embedding=[0.1, 0.2, 0.3, 0.4],
-        metadata={"source": "test", "page": 1}
+def test_ingestion_error_response():
+    """Test IngestionErrorResponse validation."""
+    err = IngestionErrorResponse(
+        source="failed.pdf",
+        error="Invalid file type",
     )
-
-    assert chunk.id == "chunk_456"
-    assert chunk.chunk_index == 0
-    assert chunk.content == "This is a test chunk."
-    assert chunk.parent_id == "doc_123"
-    assert chunk.embedding == [0.1, 0.2, 0.3, 0.4]
-    assert chunk.metadata == {"source": "test", "page": 1}
+    assert err.source == "failed.pdf"
+    assert err.error == "Invalid file type"
+    assert err.message == "Ingestion failed"
 
 
-def test_chunked_document_missing_required_fields():
-    """Test that ChunkedDocument requires id, chunk_index, content, parent_id, and embedding."""
-    with pytest.raises(ValidationError) as exc_info:
-        ChunkedDocument()  # Missing all required fields
+def test_match_filters():
+    """Test MatchFilters validation."""
+    filters = MatchFilters(
+        skills=["Python", "SQL"],
+        experience_years_max=5,
+        education_level="bachelor",
+        industry="Tech",
+    )
+    assert filters.skills == ["Python", "SQL"]
+    assert filters.experience_years_max == 5
+    assert filters.education_level == "bachelor"
+    assert filters.industry == "Tech"
 
-    errors = exc_info.value.errors()
-    assert len(errors) == 5
-    error_fields = {error["loc"][0] for error in errors}
-    assert error_fields == {"id", "chunk_index", "content", "parent_id", "embedding"}
 
+def test_match_request():
+    """Test MatchRequest validation."""
+    req = MatchRequest(
+        resume_text="Experienced Python Dev",
+        top_k=5,
+        filters=MatchFilters(skills=["Python"]),
+    )
+    assert req.resume_text == "Experienced Python Dev"
+    assert req.top_k == 5
+    assert req.filters.skills == ["Python"]
 
-def test_chunked_document_embedding_type_validation():
-    """Test that embedding must be a list of numbers."""
+    # Test top_k validation
     with pytest.raises(ValidationError):
-        ChunkedDocument(
-            id="chunk_456",
-            chunk_index=0,
-            content="Test chunk",
-            parent_id="doc_123",
-            embedding="not a list",  # Should be list
-            metadata={}
-        )
-
+        MatchRequest(top_k=0)  # ge=1 validation failure
     with pytest.raises(ValidationError):
-        ChunkedDocument(
-            id="chunk_456",
-            chunk_index=0,
-            content="Test chunk",
-            parent_id="doc_123",
-            embedding=[0.1, "invalid", 0.3],  # Should be numbers
-            metadata={}
-        )
+        MatchRequest(top_k=101)  # le=100 validation failure
 
 
-def test_chunked_document_chunk_index_non_negative():
-    """Test that chunk_index must be non-negative."""
-    with pytest.raises(ValidationError):
-        ChunkedDocument(
-            id="chunk_456",
-            chunk_index=-1,  # Should be >= 0
-            content="Test chunk",
-            parent_id="doc_123",
-            embedding=[0.1, 0.2],
-            metadata={}
-        )
+def test_matched_section():
+    """Test MatchedSection validation."""
+    sec = MatchedSection(section="requirements", text="Must know Python", score=0.85)
+    assert sec.section == "requirements"
+    assert sec.text == "Must know Python"
+    assert sec.score == 0.85
 
 
-def test_chunked_document_metadata_default():
-    """Test that metadata defaults to empty dict."""
-    chunk = ChunkedDocument(
-        id="chunk_456",
-        chunk_index=0,
-        content="Test chunk",
-        parent_id="doc_123",
-        embedding=[0.1, 0.2]
+def test_match_result():
+    """Test MatchResult validation."""
+    res = MatchResult(
+        document_id="jd-123",
+        job_title="Software Engineer",
+        score=0.92,
+        matched_sections=[
+            MatchedSection(section="requirements", text="Must know Python", score=0.85)
+        ],
+        metadata={"skills": ["Python"]},
     )
+    assert res.document_id == "jd-123"
+    assert res.job_title == "Software Engineer"
+    assert res.score == 0.92
+    assert len(res.matched_sections) == 1
+    assert res.metadata == {"skills": ["Python"]}
 
-    assert chunk.metadata == {}
 
-
-def test_chunked_document_metadata_optional():
-    """Test that metadata can be explicitly set."""
-    chunk = ChunkedDocument(
-        id="chunk_456",
-        chunk_index=0,
-        content="Test chunk",
-        parent_id="doc_123",
-        embedding=[0.1, 0.2],
-        metadata={"author": "John Doe", "section": "Introduction"}
+def test_match_response():
+    """Test MatchResponse validation."""
+    resp = MatchResponse(
+        results=[
+            MatchResult(document_id="jd-123", score=0.92)
+        ],
+        total_candidates=1,
+        timings={"search": 0.05, "rerank": 0.1},
+        resume_metadata={"candidate_name": "Bob"},
     )
-
-    assert chunk.metadata == {"author": "John Doe", "section": "Introduction"}
+    assert len(resp.results) == 1
+    assert resp.total_candidates == 1
+    assert resp.timings["search"] == 0.05
+    assert resp.resume_metadata == {"candidate_name": "Bob"}
