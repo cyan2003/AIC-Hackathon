@@ -85,27 +85,18 @@ python -m pytest tests/
 5. **Citations & Verification**: Citations are generated back to the source document chunks, ensuring zero hallucination.
 
 ## Project Structure
-```text
 zero-hallucination-rag/
-├── api/                       # FastAPI router, models, and dependencies
-│   ├── models/                # Pydantic schemas for request/response validation
-│   └── routers/               # Endpoints (/ingest, /match, /health)
-├── core/                      # Configuration, constants, and custom exceptions
-├── ingestion/                 # Document ingestion engine
-│   ├── embedders/             # Embedding generation wrappers (HuggingFace)
-│   ├── processors/            # Validator, cleaner, section-aware chunkers, extractors
-│   └── storage/               # Document and metadata stores (in-memory)
-├── retrieval/                 # Search, fusion, and reranking engine
-│   ├── fusion/                # Reciprocal Rank Fusion & Weighted Score Fusion
-│   ├── lexical_store/         # BM25 keyword search implementation
-│   ├── query/                 # Query processors and transformations
-│   └── vector_store/          # Qdrant client implementation (in-memory & remote)
-├── tests/                     # Unit, integration, and system tests
-│   ├── unit/                  # Tests for models, processors, retrieval components
-│   ├── integration/           # Tests for API endpoints and pipeline coordination
-│   └── system/                # End-to-end flow testing with local Qdrant memory
-└── utils/                     # Logging, monitoring, and general helper scripts
-```
+├── ingest/
+├── retrieval/
+├── agent/
+├── ui/
+├── cache/
+├── observability/
+├── evals/
+├── data/
+├── .env
+├── requirements.txt
+└── README.md
 
 ## References
 - [FastAPI Documentation](https://fastapi.tiangolo.com/)

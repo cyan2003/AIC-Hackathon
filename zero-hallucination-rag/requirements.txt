@@ -39,3 +39,14 @@ pytest-asyncio>=0.21.0
 black>=23.0.0
 ruff>=0.1.0
 mypy>=1.0.0
+
+# UI & Observability Dependencies
+# Frontend Framework & Client Connections
+streamlit>=1.30.0
+streamlit-extras>=0.4.0
+httpx>=0.24.0
+
+# Advanced Observability & Agent Tracing
+arize-phoenix>=4.0.0
+openinference-instrumentation-langchain>=0.1.20
+psutil>=5.9.0
