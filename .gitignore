@@ -1,6 +1,6 @@
 aic-marathon-chutes-workshop-hermes-project/
 logs/
-.ruffs_cache/
+.ruff_cache/
 
 
 # Development Environment
@@ -17,6 +17,8 @@ venv/
 
 # Build & Logs
 __pycache__/
+zero-hallucination-rag/.pytest_cache/
+zero-hallucination-rag/.ruff_cache/
 *.pyc
 logs/
 *.log
