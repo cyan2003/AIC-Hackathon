@@ -1,0 +1,30 @@
+# .understandignore
+# From .gitignore
+
+# aic-marathon-chutes-workshop-hermes-project/
+# logs/
+# .ruffs_cache/
+# zero-hallucination-rag/.venv
+# .env/
+# .fcc/
+# .claude/
+# *.cache
+# *.pyc
+# logs/
+# .env
+
+# Detected dirs
+
+# tests/
+# scripts/
+
+# Test patterns
+
+# *.test.*
+# *.spec.*
+
+# Active exclusions
+.venv/
+zero-hallucination-rag/.venv/
+__pycache__/
+*.pyc

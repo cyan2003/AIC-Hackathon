@@ -167,6 +167,19 @@ class RetrievalConfig(BaseSettings):
     fusion: FusionConfig = Field(default_factory=FusionConfig)
 
 
+class AgentConfig(BaseSettings):
+    """Configuration for the LLM-powered assessment agent."""
+
+    model_config = SettingsConfigDict(env_prefix="AGENT_")
+
+    api_key: Optional[str] = Field(None, alias="CHUTES_API_KEY")
+    base_url: str = "https://llm.chutes.ai/v1"
+    model: str = "deepseek-ai/DeepSeek-R1-0528"
+    max_tokens: int = 4096
+    temperature: float = 0.3
+    timeout: float = 120.0
+
+
 # ---------------------------------------------------------------------------
 # Root settings
 # ---------------------------------------------------------------------------
@@ -197,6 +210,7 @@ class Settings(BaseSettings):
     # -- Sub-configs --
     ingestion: IngestionConfig = Field(default_factory=IngestionConfig)
     retrieval: RetrievalConfig = Field(default_factory=RetrievalConfig)
+    agent: AgentConfig = Field(default_factory=AgentConfig)
 
 
 def get_settings() -> Settings:

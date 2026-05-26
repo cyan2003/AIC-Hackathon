@@ -1,11 +1,11 @@
 aic-marathon-chutes-workshop-hermes-project/
 logs/
-.ruffs_cache/
+.ruff_cache/
 
 
 # Development Environment
 .venv/
-zero-hallucination-rag/.venv
+zero-hallucination-rag/.venv/
 node_modules/
 venv/
 .env/
@@ -17,9 +17,13 @@ venv/
 
 # Build & Logs
 __pycache__/
+zero-hallucination-rag/.pytest_cache/
+zero-hallucination-rag/.ruff_cache/
 *.pyc
 logs/
 *.log
 
 # Sensitive Files
 .env
+.understand-anything/intermediate/
+.understand-anything/diff-overlay.json

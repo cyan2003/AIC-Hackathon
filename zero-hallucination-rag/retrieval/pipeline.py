@@ -119,7 +119,7 @@ class RetrievalPipeline:
 
         # 4. Fuse
         t0 = time.perf_counter()
-        fused = self._fuser.fuse([vector_results, lexical_results])
+        fused = self._fuser.fuse({"vector": vector_results, "lexical": lexical_results})
         timings["fusion"] = time.perf_counter() - t0
 
         total_candidates = len(fused)

@@ -1,0 +1,1684 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 12,
+  "filesSkipped": [],
+  "results": [
+    {
+      "path": "zero-hallucination-rag/api/main.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 122,
+      "nonEmptyLines": 96,
+      "functions": [
+        {
+          "name": "lifespan",
+          "startLine": 24,
+          "endLine": 61,
+          "params": [
+            "app"
+          ]
+        },
+        {
+          "name": "root",
+          "startLine": 109,
+          "endLine": 122,
+          "params": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "lifespan",
+          "line": 23,
+          "isDefault": false
+        },
+        {
+          "name": "root",
+          "line": 108,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "lifespan",
+          "callee": "get_settings",
+          "lineNumber": 35
+        },
+        {
+          "caller": "lifespan",
+          "callee": "setup_logging",
+          "lineNumber": 36
+        },
+        {
+          "caller": "lifespan",
+          "callee": "get_logger",
+          "lineNumber": 37
+        },
+        {
+          "caller": "lifespan",
+          "callee": "logger.info",
+          "lineNumber": 38
+        },
+        {
+          "caller": "lifespan",
+          "callee": "QdrantVectorStore",
+          "lineNumber": 47
+        },
+        {
+          "caller": "lifespan",
+          "callee": "vector_store.initialize",
+          "lineNumber": 51
+        },
+        {
+          "caller": "lifespan",
+          "callee": "logger.info",
+          "lineNumber": 52
+        },
+        {
+          "caller": "lifespan",
+          "callee": "logger.warning",
+          "lineNumber": 54
+        },
+        {
+          "caller": "lifespan",
+          "callee": "str",
+          "lineNumber": 56
+        },
+        {
+          "caller": "lifespan",
+          "callee": "logger.info",
+          "lineNumber": 61
+        }
+      ],
+      "metrics": {
+        "importCount": 5,
+        "exportCount": 2,
+        "functionCount": 2,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "zero-hallucination-rag/api/models/__init__.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 27,
+      "nonEmptyLines": 25,
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "zero-hallucination-rag/api/models/ingestion.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 43,
+      "nonEmptyLines": 31,
+      "classes": [
+        {
+          "name": "ResumeIngestionResponse",
+          "startLine": 12,
+          "endLine": 22,
+          "methods": [],
+          "properties": [
+            "document_id",
+            "source",
+            "chunks_created",
+            "metadata",
+            "message"
+          ]
+        },
+        {
+          "name": "JDIngestionResponse",
+          "startLine": 25,
+          "endLine": 35,
+          "methods": [],
+          "properties": [
+            "document_id",
+            "source",
+            "chunks_created",
+            "metadata",
+            "message"
+          ]
+        },
+        {
+          "name": "IngestionErrorResponse",
+          "startLine": 38,
+          "endLine": 43,
+          "methods": [],
+          "properties": [
+            "source",
+            "error",
+            "message"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "ResumeIngestionResponse",
+          "line": 12,
+          "isDefault": false
+        },
+        {
+          "name": "JDIngestionResponse",
+          "line": 25,
+          "isDefault": false
+        },
+        {
+          "name": "IngestionErrorResponse",
+          "line": 38,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 3,
+        "functionCount": 0,
+        "classCount": 3
+      }
+    },
+    {
+      "path": "zero-hallucination-rag/api/models/retrieval.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 87,
+      "nonEmptyLines": 68,
+      "classes": [
+        {
+          "name": "MatchFilters",
+          "startLine": 12,
+          "endLine": 26,
+          "methods": [],
+          "properties": [
+            "skills",
+            "experience_years_max",
+            "education_level",
+            "industry"
+          ]
+        },
+        {
+          "name": "MatchRequest",
+          "startLine": 29,
+          "endLine": 43,
+          "methods": [],
+          "properties": [
+            "resume_text",
+            "top_k",
+            "filters"
+          ]
+        },
+        {
+          "name": "MatchedSection",
+          "startLine": 46,
+          "endLine": 51,
+          "methods": [],
+          "properties": [
+            "section",
+            "text",
+            "score"
+          ]
+        },
+        {
+          "name": "MatchResult",
+          "startLine": 54,
+          "endLine": 67,
+          "methods": [],
+          "properties": [
+            "document_id",
+            "job_title",
+            "score",
+            "matched_sections",
+            "metadata"
+          ]
+        },
+        {
+          "name": "MatchResponse",
+          "startLine": 70,
+          "endLine": 87,
+          "methods": [],
+          "properties": [
+            "results",
+            "total_candidates",
+            "timings",
+            "resume_metadata"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "MatchFilters",
+          "line": 12,
+          "isDefault": false
+        },
+        {
+          "name": "MatchRequest",
+          "line": 29,
+          "isDefault": false
+        },
+        {
+          "name": "MatchedSection",
+          "line": 46,
+          "isDefault": false
+        },
+        {
+          "name": "MatchResult",
+          "line": 54,
+          "isDefault": false
+        },
+        {
+          "name": "MatchResponse",
+          "line": 70,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 5,
+        "functionCount": 0,
+        "classCount": 5
+      }
+    },
+    {
+      "path": "zero-hallucination-rag/api/routers/__init__.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 9,
+      "nonEmptyLines": 7,
+      "metrics": {
+        "importCount": 3,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "zero-hallucination-rag/api/routers/health.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 96,
+      "nonEmptyLines": 79,
+      "functions": [
+        {
+          "name": "health_check",
+          "startLine": 26,
+          "endLine": 28,
+          "params": []
+        },
+        {
+          "name": "readiness_check",
+          "startLine": 36,
+          "endLine": 74,
+          "params": []
+        },
+        {
+          "name": "prometheus_metrics",
+          "startLine": 83,
+          "endLine": 96,
+          "params": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "health_check",
+          "line": 21,
+          "isDefault": false
+        },
+        {
+          "name": "readiness_check",
+          "line": 31,
+          "isDefault": false
+        },
+        {
+          "name": "prometheus_metrics",
+          "line": 77,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "readiness_check",
+          "callee": "get_settings",
+          "lineNumber": 45
+        },
+        {
+          "caller": "readiness_check",
+          "callee": "QdrantVectorStore",
+          "lineNumber": 46
+        },
+        {
+          "caller": "readiness_check",
+          "callee": "store.count",
+          "lineNumber": 51
+        },
+        {
+          "caller": "readiness_check",
+          "callee": "store.count",
+          "lineNumber": 54
+        },
+        {
+          "caller": "readiness_check",
+          "callee": "store.close",
+          "lineNumber": 58
+        },
+        {
+          "caller": "readiness_check",
+          "callee": "logger.warning",
+          "lineNumber": 69
+        },
+        {
+          "caller": "readiness_check",
+          "callee": "str",
+          "lineNumber": 69
+        },
+        {
+          "caller": "readiness_check",
+          "callee": "Response",
+          "lineNumber": 70
+        },
+        {
+          "caller": "prometheus_metrics",
+          "callee": "PlainTextResponse",
+          "lineNumber": 88
+        },
+        {
+          "caller": "prometheus_metrics",
+          "callee": "generate_latest().decode",
+          "lineNumber": 89
+        },
+        {
+          "caller": "prometheus_metrics",
+          "callee": "generate_latest",
+          "lineNumber": 89
+        },
+        {
+          "caller": "prometheus_metrics",
+          "callee": "PlainTextResponse",
+          "lineNumber": 93
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 3,
+        "functionCount": 3,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "zero-hallucination-rag/api/routers/ingestion.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 277,
+      "nonEmptyLines": 229,
+      "functions": [
+        {
+          "name": "_read_upload",
+          "startLine": 38,
+          "endLine": 67,
+          "params": [
+            "file"
+          ]
+        },
+        {
+          "name": "_extract_text",
+          "startLine": 70,
+          "endLine": 112,
+          "params": [
+            "content",
+            "mime_type"
+          ]
+        },
+        {
+          "name": "ingest_resume",
+          "startLine": 127,
+          "endLine": 198,
+          "params": [
+            "file"
+          ]
+        },
+        {
+          "name": "ingest_jd",
+          "startLine": 208,
+          "endLine": 277,
+          "params": [
+            "file"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "_read_upload",
+          "line": 38,
+          "isDefault": false
+        },
+        {
+          "name": "_extract_text",
+          "line": 70,
+          "isDefault": false
+        },
+        {
+          "name": "ingest_resume",
+          "line": 120,
+          "isDefault": false
+        },
+        {
+          "name": "ingest_jd",
+          "line": 201,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "_read_upload",
+          "callee": "filename.rsplit(\".\", 1)[-1].lower",
+          "lineNumber": 51
+        },
+        {
+          "caller": "_read_upload",
+          "callee": "filename.rsplit",
+          "lineNumber": 51
+        },
+        {
+          "caller": "_read_upload",
+          "callee": "_EXTENSION_MIME_MAP.get",
+          "lineNumber": 52
+        },
+        {
+          "caller": "_read_upload",
+          "callee": "HTTPException",
+          "lineNumber": 55
+        },
+        {
+          "caller": "_read_upload",
+          "callee": "file.read",
+          "lineNumber": 60
+        },
+        {
+          "caller": "_read_upload",
+          "callee": "HTTPException",
+          "lineNumber": 62
+        },
+        {
+          "caller": "_extract_text",
+          "callee": "PdfReader",
+          "lineNumber": 79
+        },
+        {
+          "caller": "_extract_text",
+          "callee": "io.BytesIO",
+          "lineNumber": 79
+        },
+        {
+          "caller": "_extract_text",
+          "callee": "page.extract_text",
+          "lineNumber": 82
+        },
+        {
+          "caller": "_extract_text",
+          "callee": "text_parts.append",
+          "lineNumber": 84
+        },
+        {
+          "caller": "_extract_text",
+          "callee": "\"\\n\\n\".join",
+          "lineNumber": 85
+        },
+        {
+          "caller": "_extract_text",
+          "callee": "HTTPException",
+          "lineNumber": 87
+        },
+        {
+          "caller": "_extract_text",
+          "callee": "Document",
+          "lineNumber": 100
+        },
+        {
+          "caller": "_extract_text",
+          "callee": "io.BytesIO",
+          "lineNumber": 100
+        },
+        {
+          "caller": "_extract_text",
+          "callee": "para.text.strip",
+          "lineNumber": 101
+        },
+        {
+          "caller": "_extract_text",
+          "callee": "\"\\n\\n\".join",
+          "lineNumber": 102
+        },
+        {
+          "caller": "_extract_text",
+          "callee": "HTTPException",
+          "lineNumber": 104
+        },
+        {
+          "caller": "_extract_text",
+          "callee": "HTTPException",
+          "lineNumber": 109
+        },
+        {
+          "caller": "ingest_resume",
+          "callee": "File",
+          "lineNumber": 127
+        },
+        {
+          "caller": "ingest_resume",
+          "callee": "_read_upload",
+          "lineNumber": 137
+        },
+        {
+          "caller": "ingest_resume",
+          "callee": "_extract_text",
+          "lineNumber": 138
+        },
+        {
+          "caller": "ingest_resume",
+          "callee": "get_settings",
+          "lineNumber": 151
+        },
+        {
+          "caller": "ingest_resume",
+          "callee": "RawDocument",
+          "lineNumber": 153
+        },
+        {
+          "caller": "ingest_resume",
+          "callee": "DefaultDocumentValidator",
+          "lineNumber": 161
+        },
+        {
+          "caller": "ingest_resume",
+          "callee": "DefaultTextCleaner",
+          "lineNumber": 162
+        },
+        {
+          "caller": "ingest_resume",
+          "callee": "ResumeSectionChunker",
+          "lineNumber": 163
+        },
+        {
+          "caller": "ingest_resume",
+          "callee": "ResumeMetadataExtractor",
+          "lineNumber": 164
+        },
+        {
+          "caller": "ingest_resume",
+          "callee": "create_embedder",
+          "lineNumber": 165
+        },
+        {
+          "caller": "ingest_resume",
+          "callee": "IngestionPipeline",
+          "lineNumber": 167
+        },
+        {
+          "caller": "ingest_resume",
+          "callee": "pipeline.ingest",
+          "lineNumber": 176
+        },
+        {
+          "caller": "ingest_resume",
+          "callee": "HTTPException",
+          "lineNumber": 179
+        },
+        {
+          "caller": "ingest_resume",
+          "callee": "ResumeIngestionResponse",
+          "lineNumber": 184
+        },
+        {
+          "caller": "ingest_resume",
+          "callee": "logger.error",
+          "lineNumber": 194
+        },
+        {
+          "caller": "ingest_resume",
+          "callee": "str",
+          "lineNumber": 194
+        },
+        {
+          "caller": "ingest_resume",
+          "callee": "HTTPException",
+          "lineNumber": 195
+        },
+        {
+          "caller": "ingest_jd",
+          "callee": "File",
+          "lineNumber": 208
+        },
+        {
+          "caller": "ingest_jd",
+          "callee": "_read_upload",
+          "lineNumber": 218
+        },
+        {
+          "caller": "ingest_jd",
+          "callee": "_extract_text",
+          "lineNumber": 219
+        },
+        {
+          "caller": "ingest_jd",
+          "callee": "get_settings",
+          "lineNumber": 231
+        },
+        {
+          "caller": "ingest_jd",
+          "callee": "RawDocument",
+          "lineNumber": 233
+        },
+        {
+          "caller": "ingest_jd",
+          "callee": "DefaultDocumentValidator",
+          "lineNumber": 240
+        },
+        {
+          "caller": "ingest_jd",
+          "callee": "DefaultTextCleaner",
+          "lineNumber": 241
+        },
+        {
+          "caller": "ingest_jd",
+          "callee": "JDSectionChunker",
+          "lineNumber": 242
+        },
+        {
+          "caller": "ingest_jd",
+          "callee": "JDMetadataExtractor",
+          "lineNumber": 243
+        },
+        {
+          "caller": "ingest_jd",
+          "callee": "create_embedder",
+          "lineNumber": 244
+        },
+        {
+          "caller": "ingest_jd",
+          "callee": "IngestionPipeline",
+          "lineNumber": 246
+        },
+        {
+          "caller": "ingest_jd",
+          "callee": "pipeline.ingest",
+          "lineNumber": 255
+        },
+        {
+          "caller": "ingest_jd",
+          "callee": "HTTPException",
+          "lineNumber": 258
+        },
+        {
+          "caller": "ingest_jd",
+          "callee": "JDIngestionResponse",
+          "lineNumber": 263
+        },
+        {
+          "caller": "ingest_jd",
+          "callee": "logger.error",
+          "lineNumber": 273
+        },
+        {
+          "caller": "ingest_jd",
+          "callee": "str",
+          "lineNumber": 273
+        },
+        {
+          "caller": "ingest_jd",
+          "callee": "HTTPException",
+          "lineNumber": 274
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 4,
+        "functionCount": 4,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "zero-hallucination-rag/api/routers/retrieval.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 187,
+      "nonEmptyLines": 162,
+      "functions": [
+        {
+          "name": "match_resume_to_jds",
+          "startLine": 36,
+          "endLine": 187,
+          "params": [
+            "file",
+            "resume_text",
+            "top_k"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "match_resume_to_jds",
+          "line": 27,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "match_resume_to_jds",
+          "callee": "File",
+          "lineNumber": 37
+        },
+        {
+          "caller": "match_resume_to_jds",
+          "callee": "Form",
+          "lineNumber": 38
+        },
+        {
+          "caller": "match_resume_to_jds",
+          "callee": "Form",
+          "lineNumber": 39
+        },
+        {
+          "caller": "match_resume_to_jds",
+          "callee": "time.perf_counter",
+          "lineNumber": 54
+        },
+        {
+          "caller": "match_resume_to_jds",
+          "callee": "_read_upload",
+          "lineNumber": 59
+        },
+        {
+          "caller": "match_resume_to_jds",
+          "callee": "_extract_text",
+          "lineNumber": 60
+        },
+        {
+          "caller": "match_resume_to_jds",
+          "callee": "HTTPException",
+          "lineNumber": 64
+        },
+        {
+          "caller": "match_resume_to_jds",
+          "callee": "HTTPException",
+          "lineNumber": 71
+        },
+        {
+          "caller": "match_resume_to_jds",
+          "callee": "time.perf_counter",
+          "lineNumber": 75
+        },
+        {
+          "caller": "match_resume_to_jds",
+          "callee": "get_settings",
+          "lineNumber": 89
+        },
+        {
+          "caller": "match_resume_to_jds",
+          "callee": "time.perf_counter",
+          "lineNumber": 92
+        },
+        {
+          "caller": "match_resume_to_jds",
+          "callee": "RawDocument",
+          "lineNumber": 93
+        },
+        {
+          "caller": "match_resume_to_jds",
+          "callee": "ResumeMetadataExtractor",
+          "lineNumber": 94
+        },
+        {
+          "caller": "match_resume_to_jds",
+          "callee": "extractor.extract",
+          "lineNumber": 95
+        },
+        {
+          "caller": "match_resume_to_jds",
+          "callee": "time.perf_counter",
+          "lineNumber": 96
+        },
+        {
+          "caller": "match_resume_to_jds",
+          "callee": "time.perf_counter",
+          "lineNumber": 99
+        },
+        {
+          "caller": "match_resume_to_jds",
+          "callee": "DefaultTextCleaner",
+          "lineNumber": 100
+        },
+        {
+          "caller": "match_resume_to_jds",
+          "callee": "cleaner.clean",
+          "lineNumber": 101
+        },
+        {
+          "caller": "match_resume_to_jds",
+          "callee": "time.perf_counter",
+          "lineNumber": 102
+        },
+        {
+          "caller": "match_resume_to_jds",
+          "callee": "time.perf_counter",
+          "lineNumber": 104
+        },
+        {
+          "caller": "match_resume_to_jds",
+          "callee": "create_embedder",
+          "lineNumber": 105
+        },
+        {
+          "caller": "match_resume_to_jds",
+          "callee": "embedder.embed_single",
+          "lineNumber": 106
+        },
+        {
+          "caller": "match_resume_to_jds",
+          "callee": "time.perf_counter",
+          "lineNumber": 107
+        },
+        {
+          "caller": "match_resume_to_jds",
+          "callee": "time.perf_counter",
+          "lineNumber": 110
+        },
+        {
+          "caller": "match_resume_to_jds",
+          "callee": "QdrantVectorStore",
+          "lineNumber": 111
+        },
+        {
+          "caller": "match_resume_to_jds",
+          "callee": "vector_store.search_jds",
+          "lineNumber": 115
+        },
+        {
+          "caller": "match_resume_to_jds",
+          "callee": "time.perf_counter",
+          "lineNumber": 119
+        },
+        {
+          "caller": "match_resume_to_jds",
+          "callee": "time.perf_counter",
+          "lineNumber": 122
+        },
+        {
+          "caller": "match_resume_to_jds",
+          "callee": "BM25LexicalStore",
+          "lineNumber": 123
+        },
+        {
+          "caller": "match_resume_to_jds",
+          "callee": "lexical_store.search",
+          "lineNumber": 124
+        },
+        {
+          "caller": "match_resume_to_jds",
+          "callee": "time.perf_counter",
+          "lineNumber": 128
+        },
+        {
+          "caller": "match_resume_to_jds",
+          "callee": "time.perf_counter",
+          "lineNumber": 131
+        },
+        {
+          "caller": "match_resume_to_jds",
+          "callee": "ReciprocalRankFusion",
+          "lineNumber": 132
+        },
+        {
+          "caller": "match_resume_to_jds",
+          "callee": "fuser.fuse",
+          "lineNumber": 133
+        },
+        {
+          "caller": "match_resume_to_jds",
+          "callee": "len",
+          "lineNumber": 134
+        },
+        {
+          "caller": "match_resume_to_jds",
+          "callee": "time.perf_counter",
+          "lineNumber": 135
+        },
+        {
+          "caller": "match_resume_to_jds",
+          "callee": "time.perf_counter",
+          "lineNumber": 139
+        },
+        {
+          "caller": "match_resume_to_jds",
+          "callee": "CrossEncoderReranker",
+          "lineNumber": 140
+        },
+        {
+          "caller": "match_resume_to_jds",
+          "callee": "reranker.rerank",
+          "lineNumber": 143
+        },
+        {
+          "caller": "match_resume_to_jds",
+          "callee": "time.perf_counter",
+          "lineNumber": 148
+        },
+        {
+          "caller": "match_resume_to_jds",
+          "callee": "r.metadata.get",
+          "lineNumber": 154
+        },
+        {
+          "caller": "match_resume_to_jds",
+          "callee": "sections.append",
+          "lineNumber": 155
+        },
+        {
+          "caller": "match_resume_to_jds",
+          "callee": "MatchedSection",
+          "lineNumber": 156
+        },
+        {
+          "caller": "match_resume_to_jds",
+          "callee": "results.append",
+          "lineNumber": 163
+        },
+        {
+          "caller": "match_resume_to_jds",
+          "callee": "MatchResult",
+          "lineNumber": 164
+        },
+        {
+          "caller": "match_resume_to_jds",
+          "callee": "r.metadata.get",
+          "lineNumber": 166
+        },
+        {
+          "caller": "match_resume_to_jds",
+          "callee": "MatchResponse",
+          "lineNumber": 173
+        },
+        {
+          "caller": "match_resume_to_jds",
+          "callee": "logger.error",
+          "lineNumber": 183
+        },
+        {
+          "caller": "match_resume_to_jds",
+          "callee": "str",
+          "lineNumber": 183
+        },
+        {
+          "caller": "match_resume_to_jds",
+          "callee": "HTTPException",
+          "lineNumber": 184
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "zero-hallucination-rag/tests/integration/test_api.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 157,
+      "nonEmptyLines": 131,
+      "functions": [
+        {
+          "name": "client",
+          "startLine": 15,
+          "endLine": 17,
+          "params": []
+        },
+        {
+          "name": "test_root_endpoint",
+          "startLine": 20,
+          "endLine": 27,
+          "params": [
+            "client"
+          ]
+        },
+        {
+          "name": "test_health_endpoint",
+          "startLine": 30,
+          "endLine": 34,
+          "params": [
+            "client"
+          ]
+        },
+        {
+          "name": "test_metrics_endpoint",
+          "startLine": 37,
+          "endLine": 40,
+          "params": [
+            "client"
+          ]
+        },
+        {
+          "name": "test_readiness_endpoint",
+          "startLine": 44,
+          "endLine": 58,
+          "params": [
+            "mock_qdrant_cls",
+            "client"
+          ]
+        },
+        {
+          "name": "test_ingest_resume",
+          "startLine": 63,
+          "endLine": 83,
+          "params": [
+            "mock_ingest",
+            "mock_extract",
+            "client"
+          ]
+        },
+        {
+          "name": "test_ingest_jd",
+          "startLine": 88,
+          "endLine": 107,
+          "params": [
+            "mock_ingest",
+            "mock_extract",
+            "client"
+          ]
+        },
+        {
+          "name": "test_match_endpoint",
+          "startLine": 114,
+          "endLine": 157,
+          "params": [
+            "mock_reranker_cls",
+            "mock_bm25_cls",
+            "mock_qdrant_cls",
+            "mock_embedder_factory",
+            "client"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "client",
+          "line": 14,
+          "isDefault": false
+        },
+        {
+          "name": "test_root_endpoint",
+          "line": 20,
+          "isDefault": false
+        },
+        {
+          "name": "test_health_endpoint",
+          "line": 30,
+          "isDefault": false
+        },
+        {
+          "name": "test_metrics_endpoint",
+          "line": 37,
+          "isDefault": false
+        },
+        {
+          "name": "test_readiness_endpoint",
+          "line": 43,
+          "isDefault": false
+        },
+        {
+          "name": "test_ingest_resume",
+          "line": 61,
+          "isDefault": false
+        },
+        {
+          "name": "test_ingest_jd",
+          "line": 86,
+          "isDefault": false
+        },
+        {
+          "name": "test_match_endpoint",
+          "line": 110,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "client",
+          "callee": "TestClient",
+          "lineNumber": 17
+        },
+        {
+          "caller": "test_root_endpoint",
+          "callee": "client.get",
+          "lineNumber": 22
+        },
+        {
+          "caller": "test_root_endpoint",
+          "callee": "response.json",
+          "lineNumber": 24
+        },
+        {
+          "caller": "test_health_endpoint",
+          "callee": "client.get",
+          "lineNumber": 32
+        },
+        {
+          "caller": "test_health_endpoint",
+          "callee": "response.json",
+          "lineNumber": 34
+        },
+        {
+          "caller": "test_metrics_endpoint",
+          "callee": "client.get",
+          "lineNumber": 39
+        },
+        {
+          "caller": "test_readiness_endpoint",
+          "callee": "MagicMock",
+          "lineNumber": 47
+        },
+        {
+          "caller": "test_readiness_endpoint",
+          "callee": "AsyncMock",
+          "lineNumber": 48
+        },
+        {
+          "caller": "test_readiness_endpoint",
+          "callee": "AsyncMock",
+          "lineNumber": 49
+        },
+        {
+          "caller": "test_readiness_endpoint",
+          "callee": "client.get",
+          "lineNumber": 52
+        },
+        {
+          "caller": "test_readiness_endpoint",
+          "callee": "response.json",
+          "lineNumber": 54
+        },
+        {
+          "caller": "test_ingest_resume",
+          "callee": "IngestionResult",
+          "lineNumber": 66
+        },
+        {
+          "caller": "test_ingest_resume",
+          "callee": "io.BytesIO",
+          "lineNumber": 75
+        },
+        {
+          "caller": "test_ingest_resume",
+          "callee": "client.post",
+          "lineNumber": 76
+        },
+        {
+          "caller": "test_ingest_resume",
+          "callee": "response.json",
+          "lineNumber": 79
+        },
+        {
+          "caller": "test_ingest_jd",
+          "callee": "IngestionResult",
+          "lineNumber": 91
+        },
+        {
+          "caller": "test_ingest_jd",
+          "callee": "io.BytesIO",
+          "lineNumber": 99
+        },
+        {
+          "caller": "test_ingest_jd",
+          "callee": "client.post",
+          "lineNumber": 100
+        },
+        {
+          "caller": "test_ingest_jd",
+          "callee": "response.json",
+          "lineNumber": 103
+        },
+        {
+          "caller": "test_match_endpoint",
+          "callee": "MagicMock",
+          "lineNumber": 118
+        },
+        {
+          "caller": "test_match_endpoint",
+          "callee": "MagicMock",
+          "lineNumber": 123
+        },
+        {
+          "caller": "test_match_endpoint",
+          "callee": "AsyncMock",
+          "lineNumber": 124
+        },
+        {
+          "caller": "test_match_endpoint",
+          "callee": "SearchResult",
+          "lineNumber": 125
+        },
+        {
+          "caller": "test_match_endpoint",
+          "callee": "MagicMock",
+          "lineNumber": 136
+        },
+        {
+          "caller": "test_match_endpoint",
+          "callee": "AsyncMock",
+          "lineNumber": 137
+        },
+        {
+          "caller": "test_match_endpoint",
+          "callee": "MagicMock",
+          "lineNumber": 141
+        },
+        {
+          "caller": "test_match_endpoint",
+          "callee": "client.post",
+          "lineNumber": 145
+        },
+        {
+          "caller": "test_match_endpoint",
+          "callee": "response.json",
+          "lineNumber": 151
+        },
+        {
+          "caller": "test_match_endpoint",
+          "callee": "len",
+          "lineNumber": 152
+        },
+        {
+          "caller": "test_match_endpoint",
+          "callee": "len",
+          "lineNumber": 155
+        }
+      ],
+      "metrics": {
+        "importCount": 3,
+        "exportCount": 8,
+        "functionCount": 8,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "zero-hallucination-rag/tests/unit/test_models.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 252,
+      "nonEmptyLines": 219,
+      "functions": [
+        {
+          "name": "test_raw_document",
+          "startLine": 22,
+          "endLine": 45,
+          "params": []
+        },
+        {
+          "name": "test_processed_chunk",
+          "startLine": 48,
+          "endLine": 70,
+          "params": []
+        },
+        {
+          "name": "test_embedded_chunk",
+          "startLine": 73,
+          "endLine": 87,
+          "params": []
+        },
+        {
+          "name": "test_resume_ingestion_response",
+          "startLine": 90,
+          "endLine": 115,
+          "params": []
+        },
+        {
+          "name": "test_jd_ingestion_response",
+          "startLine": 118,
+          "endLine": 139,
+          "params": []
+        },
+        {
+          "name": "test_ingestion_error_response",
+          "startLine": 142,
+          "endLine": 150,
+          "params": []
+        },
+        {
+          "name": "test_match_filters",
+          "startLine": 153,
+          "endLine": 171,
+          "params": []
+        },
+        {
+          "name": "test_match_request",
+          "startLine": 174,
+          "endLine": 195,
+          "params": []
+        },
+        {
+          "name": "test_matched_section",
+          "startLine": 198,
+          "endLine": 203,
+          "params": []
+        },
+        {
+          "name": "test_match_result",
+          "startLine": 206,
+          "endLine": 229,
+          "params": []
+        },
+        {
+          "name": "test_match_response",
+          "startLine": 232,
+          "endLine": 252,
+          "params": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "test_raw_document",
+          "line": 22,
+          "isDefault": false
+        },
+        {
+          "name": "test_processed_chunk",
+          "line": 48,
+          "isDefault": false
+        },
+        {
+          "name": "test_embedded_chunk",
+          "line": 73,
+          "isDefault": false
+        },
+        {
+          "name": "test_resume_ingestion_response",
+          "line": 90,
+          "isDefault": false
+        },
+        {
+          "name": "test_jd_ingestion_response",
+          "line": 118,
+          "isDefault": false
+        },
+        {
+          "name": "test_ingestion_error_response",
+          "line": 142,
+          "isDefault": false
+        },
+        {
+          "name": "test_match_filters",
+          "line": 153,
+          "isDefault": false
+        },
+        {
+          "name": "test_match_request",
+          "line": 174,
+          "isDefault": false
+        },
+        {
+          "name": "test_matched_section",
+          "line": 198,
+          "isDefault": false
+        },
+        {
+          "name": "test_match_result",
+          "line": 206,
+          "isDefault": false
+        },
+        {
+          "name": "test_match_response",
+          "line": 232,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "test_raw_document",
+          "callee": "RawDocument",
+          "lineNumber": 24
+        },
+        {
+          "caller": "test_raw_document",
+          "callee": "RawDocument",
+          "lineNumber": 35
+        },
+        {
+          "caller": "test_processed_chunk",
+          "callee": "ProcessedChunk",
+          "lineNumber": 50
+        },
+        {
+          "caller": "test_processed_chunk",
+          "callee": "ProcessedChunk",
+          "lineNumber": 64
+        },
+        {
+          "caller": "test_embedded_chunk",
+          "callee": "ProcessedChunk",
+          "lineNumber": 75
+        },
+        {
+          "caller": "test_embedded_chunk",
+          "callee": "EmbeddedChunk",
+          "lineNumber": 80
+        },
+        {
+          "caller": "test_embedded_chunk",
+          "callee": "EmbeddedChunk",
+          "lineNumber": 85
+        },
+        {
+          "caller": "test_resume_ingestion_response",
+          "callee": "ResumeIngestionResponse",
+          "lineNumber": 92
+        },
+        {
+          "caller": "test_resume_ingestion_response",
+          "callee": "ResumeIngestionResponse",
+          "lineNumber": 105
+        },
+        {
+          "caller": "test_resume_ingestion_response",
+          "callee": "pytest.raises",
+          "lineNumber": 114
+        },
+        {
+          "caller": "test_resume_ingestion_response",
+          "callee": "ResumeIngestionResponse",
+          "lineNumber": 115
+        },
+        {
+          "caller": "test_jd_ingestion_response",
+          "callee": "JDIngestionResponse",
+          "lineNumber": 120
+        },
+        {
+          "caller": "test_jd_ingestion_response",
+          "callee": "JDIngestionResponse",
+          "lineNumber": 133
+        },
+        {
+          "caller": "test_ingestion_error_response",
+          "callee": "IngestionErrorResponse",
+          "lineNumber": 144
+        },
+        {
+          "caller": "test_match_filters",
+          "callee": "MatchFilters",
+          "lineNumber": 155
+        },
+        {
+          "caller": "test_match_filters",
+          "callee": "MatchFilters",
+          "lineNumber": 167
+        },
+        {
+          "caller": "test_match_request",
+          "callee": "MatchRequest",
+          "lineNumber": 176
+        },
+        {
+          "caller": "test_match_request",
+          "callee": "MatchFilters",
+          "lineNumber": 179
+        },
+        {
+          "caller": "test_match_request",
+          "callee": "MatchRequest",
+          "lineNumber": 186
+        },
+        {
+          "caller": "test_match_request",
+          "callee": "pytest.raises",
+          "lineNumber": 192
+        },
+        {
+          "caller": "test_match_request",
+          "callee": "MatchRequest",
+          "lineNumber": 193
+        },
+        {
+          "caller": "test_match_request",
+          "callee": "pytest.raises",
+          "lineNumber": 194
+        },
+        {
+          "caller": "test_match_request",
+          "callee": "MatchRequest",
+          "lineNumber": 195
+        },
+        {
+          "caller": "test_matched_section",
+          "callee": "MatchedSection",
+          "lineNumber": 200
+        },
+        {
+          "caller": "test_match_result",
+          "callee": "MatchResult",
+          "lineNumber": 208
+        },
+        {
+          "caller": "test_match_result",
+          "callee": "MatchedSection",
+          "lineNumber": 213
+        },
+        {
+          "caller": "test_match_result",
+          "callee": "len",
+          "lineNumber": 220
+        },
+        {
+          "caller": "test_match_result",
+          "callee": "MatchResult",
+          "lineNumber": 224
+        },
+        {
+          "caller": "test_match_response",
+          "callee": "MatchResponse",
+          "lineNumber": 234
+        },
+        {
+          "caller": "test_match_response",
+          "callee": "MatchResult",
+          "lineNumber": 236
+        },
+        {
+          "caller": "test_match_response",
+          "callee": "len",
+          "lineNumber": 242
+        },
+        {
+          "caller": "test_match_response",
+          "callee": "MatchResponse",
+          "lineNumber": 248
+        }
+      ],
+      "metrics": {
+        "importCount": 4,
+        "exportCount": 11,
+        "functionCount": 11,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "zero-hallucination-rag/utils/__init__.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 14,
+      "nonEmptyLines": 12,
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "zero-hallucination-rag/utils/logging.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 64,
+      "nonEmptyLines": 53,
+      "functions": [
+        {
+          "name": "setup_logging",
+          "startLine": 19,
+          "endLine": 59,
+          "params": [
+            "level",
+            "json_format",
+            "log_file"
+          ]
+        },
+        {
+          "name": "get_logger",
+          "startLine": 62,
+          "endLine": 64,
+          "params": [
+            "name"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "setup_logging",
+          "line": 19,
+          "isDefault": false
+        },
+        {
+          "name": "get_logger",
+          "line": 62,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "setup_logging",
+          "callee": "logger.add",
+          "lineNumber": 40
+        },
+        {
+          "caller": "setup_logging",
+          "callee": "logger.add",
+          "lineNumber": 48
+        },
+        {
+          "caller": "setup_logging",
+          "callee": "logger.add",
+          "lineNumber": 51
+        },
+        {
+          "caller": "get_logger",
+          "callee": "logger.bind",
+          "lineNumber": 64
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 2,
+        "classCount": 0
+      }
+    }
+  ]
+}

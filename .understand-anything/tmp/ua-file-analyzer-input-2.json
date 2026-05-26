@@ -1,0 +1,188 @@
+{
+  "projectRoot": "C:/Users/Damien/OneDrive/Desktop/AIC-Hackathon",
+  "batchFiles": [
+    {
+      "path": "zero-hallucination-rag/retrieval/__init__.py",
+      "language": "python",
+      "sizeLines": 32,
+      "fileCategory": "code"
+    },
+    {
+      "path": "zero-hallucination-rag/retrieval/fusion/__init__.py",
+      "language": "python",
+      "sizeLines": 9,
+      "fileCategory": "code"
+    },
+    {
+      "path": "zero-hallucination-rag/retrieval/fusion/reciprocal_rank.py",
+      "language": "python",
+      "sizeLines": 71,
+      "fileCategory": "code"
+    },
+    {
+      "path": "zero-hallucination-rag/retrieval/fusion/reranker.py",
+      "language": "python",
+      "sizeLines": 90,
+      "fileCategory": "code"
+    },
+    {
+      "path": "zero-hallucination-rag/retrieval/fusion/weighted.py",
+      "language": "python",
+      "sizeLines": 97,
+      "fileCategory": "code"
+    },
+    {
+      "path": "zero-hallucination-rag/retrieval/interfaces.py",
+      "language": "python",
+      "sizeLines": 230,
+      "fileCategory": "code"
+    },
+    {
+      "path": "zero-hallucination-rag/retrieval/lexical_store/__init__.py",
+      "language": "python",
+      "sizeLines": 8,
+      "fileCategory": "code"
+    },
+    {
+      "path": "zero-hallucination-rag/retrieval/lexical_store/base.py",
+      "language": "python",
+      "sizeLines": 9,
+      "fileCategory": "code"
+    },
+    {
+      "path": "zero-hallucination-rag/retrieval/lexical_store/bm25.py",
+      "language": "python",
+      "sizeLines": 179,
+      "fileCategory": "code"
+    },
+    {
+      "path": "zero-hallucination-rag/retrieval/lexical_store/factory.py",
+      "language": "python",
+      "sizeLines": 28,
+      "fileCategory": "code"
+    },
+    {
+      "path": "zero-hallucination-rag/retrieval/pipeline.py",
+      "language": "python",
+      "sizeLines": 193,
+      "fileCategory": "code"
+    },
+    {
+      "path": "zero-hallucination-rag/retrieval/query/__init__.py",
+      "language": "python",
+      "sizeLines": 8,
+      "fileCategory": "code"
+    },
+    {
+      "path": "zero-hallucination-rag/retrieval/query/processor.py",
+      "language": "python",
+      "sizeLines": 67,
+      "fileCategory": "code"
+    },
+    {
+      "path": "zero-hallucination-rag/retrieval/query/transformer.py",
+      "language": "python",
+      "sizeLines": 29,
+      "fileCategory": "code"
+    },
+    {
+      "path": "zero-hallucination-rag/retrieval/vector_store/base.py",
+      "language": "python",
+      "sizeLines": 9,
+      "fileCategory": "code"
+    },
+    {
+      "path": "zero-hallucination-rag/tests/integration/test_retrieval_pipeline.py",
+      "language": "python",
+      "sizeLines": 130,
+      "fileCategory": "code"
+    },
+    {
+      "path": "zero-hallucination-rag/tests/unit/test_retrieval.py",
+      "language": "python",
+      "sizeLines": 181,
+      "fileCategory": "code"
+    }
+  ],
+  "batchImportData": {
+    "zero-hallucination-rag/retrieval/__init__.py": [
+      "zero-hallucination-rag/retrieval/interfaces.py",
+      "zero-hallucination-rag/retrieval/pipeline.py"
+    ],
+    "zero-hallucination-rag/retrieval/fusion/__init__.py": [
+      "zero-hallucination-rag/retrieval/fusion/reciprocal_rank.py",
+      "zero-hallucination-rag/retrieval/fusion/reranker.py",
+      "zero-hallucination-rag/retrieval/fusion/weighted.py"
+    ],
+    "zero-hallucination-rag/retrieval/fusion/reciprocal_rank.py": [
+      "zero-hallucination-rag/core/config.py",
+      "zero-hallucination-rag/retrieval/interfaces.py"
+    ],
+    "zero-hallucination-rag/retrieval/fusion/reranker.py": [
+      "zero-hallucination-rag/core/exceptions.py",
+      "zero-hallucination-rag/retrieval/interfaces.py",
+      "zero-hallucination-rag/utils/logging.py"
+    ],
+    "zero-hallucination-rag/retrieval/fusion/weighted.py": [
+      "zero-hallucination-rag/core/config.py",
+      "zero-hallucination-rag/retrieval/interfaces.py"
+    ],
+    "zero-hallucination-rag/retrieval/interfaces.py": [],
+    "zero-hallucination-rag/retrieval/lexical_store/__init__.py": [
+      "zero-hallucination-rag/retrieval/lexical_store/bm25.py",
+      "zero-hallucination-rag/retrieval/lexical_store/factory.py"
+    ],
+    "zero-hallucination-rag/retrieval/lexical_store/base.py": [
+      "zero-hallucination-rag/retrieval/interfaces.py"
+    ],
+    "zero-hallucination-rag/retrieval/lexical_store/bm25.py": [
+      "zero-hallucination-rag/core/config.py",
+      "zero-hallucination-rag/core/exceptions.py",
+      "zero-hallucination-rag/retrieval/interfaces.py",
+      "zero-hallucination-rag/utils/logging.py"
+    ],
+    "zero-hallucination-rag/retrieval/lexical_store/factory.py": [
+      "zero-hallucination-rag/core/config.py",
+      "zero-hallucination-rag/retrieval/interfaces.py"
+    ],
+    "zero-hallucination-rag/retrieval/pipeline.py": [
+      "zero-hallucination-rag/core/config.py",
+      "zero-hallucination-rag/core/exceptions.py",
+      "zero-hallucination-rag/ingestion/interfaces.py",
+      "zero-hallucination-rag/retrieval/interfaces.py",
+      "zero-hallucination-rag/utils/logging.py"
+    ],
+    "zero-hallucination-rag/retrieval/query/__init__.py": [
+      "zero-hallucination-rag/retrieval/query/processor.py",
+      "zero-hallucination-rag/retrieval/query/transformer.py"
+    ],
+    "zero-hallucination-rag/retrieval/query/processor.py": [
+      "zero-hallucination-rag/retrieval/interfaces.py"
+    ],
+    "zero-hallucination-rag/retrieval/query/transformer.py": [
+      "zero-hallucination-rag/retrieval/interfaces.py"
+    ],
+    "zero-hallucination-rag/retrieval/vector_store/base.py": [
+      "zero-hallucination-rag/retrieval/interfaces.py"
+    ],
+    "zero-hallucination-rag/tests/integration/test_retrieval_pipeline.py": [
+      "zero-hallucination-rag/core/config.py",
+      "zero-hallucination-rag/ingestion/interfaces.py",
+      "zero-hallucination-rag/retrieval/fusion/reciprocal_rank.py",
+      "zero-hallucination-rag/retrieval/interfaces.py",
+      "zero-hallucination-rag/retrieval/lexical_store/bm25.py",
+      "zero-hallucination-rag/retrieval/pipeline.py",
+      "zero-hallucination-rag/retrieval/query/processor.py"
+    ],
+    "zero-hallucination-rag/tests/unit/test_retrieval.py": [
+      "zero-hallucination-rag/core/config.py",
+      "zero-hallucination-rag/retrieval/fusion/reciprocal_rank.py",
+      "zero-hallucination-rag/retrieval/fusion/reranker.py",
+      "zero-hallucination-rag/retrieval/fusion/weighted.py",
+      "zero-hallucination-rag/retrieval/interfaces.py",
+      "zero-hallucination-rag/retrieval/lexical_store/bm25.py",
+      "zero-hallucination-rag/retrieval/query/processor.py",
+      "zero-hallucination-rag/retrieval/query/transformer.py"
+    ]
+  }
+}

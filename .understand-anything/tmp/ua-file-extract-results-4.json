@@ -1,0 +1,1133 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 11,
+  "filesSkipped": [],
+  "results": [
+    {
+      "path": "zero-hallucination-rag/core/__init__.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 8,
+      "nonEmptyLines": 6,
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "zero-hallucination-rag/core/config.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 204,
+      "nonEmptyLines": 141,
+      "functions": [
+        {
+          "name": "get_settings",
+          "startLine": 202,
+          "endLine": 204,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "DocumentType",
+          "startLine": 17,
+          "endLine": 21,
+          "methods": [],
+          "properties": []
+        },
+        {
+          "name": "EmbeddingProvider",
+          "startLine": 24,
+          "endLine": 27,
+          "methods": [],
+          "properties": []
+        },
+        {
+          "name": "VectorStoreBackend",
+          "startLine": 30,
+          "endLine": 34,
+          "methods": [],
+          "properties": []
+        },
+        {
+          "name": "LexicalStoreBackend",
+          "startLine": 37,
+          "endLine": 40,
+          "methods": [],
+          "properties": []
+        },
+        {
+          "name": "ChunkingStrategy",
+          "startLine": 43,
+          "endLine": 50,
+          "methods": [],
+          "properties": []
+        },
+        {
+          "name": "FusionStrategy",
+          "startLine": 53,
+          "endLine": 57,
+          "methods": [],
+          "properties": []
+        },
+        {
+          "name": "EmbeddingConfig",
+          "startLine": 65,
+          "endLine": 77,
+          "methods": [],
+          "properties": [
+            "provider",
+            "model_name",
+            "dimension",
+            "batch_size",
+            "max_seq_length",
+            "device",
+            "normalize",
+            "cache_dir"
+          ]
+        },
+        {
+          "name": "ChunkingConfig",
+          "startLine": 80,
+          "endLine": 99,
+          "methods": [
+            "overlap_must_be_less_than_size"
+          ],
+          "properties": [
+            "strategy",
+            "chunk_size",
+            "chunk_overlap",
+            "min_chunk_size",
+            "max_chunk_size"
+          ]
+        },
+        {
+          "name": "VectorStoreConfig",
+          "startLine": 102,
+          "endLine": 115,
+          "methods": [],
+          "properties": [
+            "backend",
+            "host",
+            "port",
+            "grpc_port",
+            "resume_collection",
+            "jd_collection",
+            "prefer_grpc",
+            "api_key",
+            "timeout"
+          ]
+        },
+        {
+          "name": "LexicalStoreConfig",
+          "startLine": 118,
+          "endLine": 126,
+          "methods": [],
+          "properties": [
+            "backend",
+            "k1",
+            "b",
+            "max_index_size"
+          ]
+        },
+        {
+          "name": "FusionConfig",
+          "startLine": 129,
+          "endLine": 139,
+          "methods": [],
+          "properties": [
+            "strategy",
+            "rrf_k",
+            "vector_weight",
+            "lexical_weight",
+            "reranker_model",
+            "reranker_top_k"
+          ]
+        },
+        {
+          "name": "IngestionConfig",
+          "startLine": 142,
+          "endLine": 154,
+          "methods": [],
+          "properties": [
+            "batch_size",
+            "max_workers",
+            "max_document_size_mb",
+            "supported_extensions",
+            "embedding",
+            "chunking"
+          ]
+        },
+        {
+          "name": "RetrievalConfig",
+          "startLine": 157,
+          "endLine": 167,
+          "methods": [],
+          "properties": [
+            "top_k",
+            "min_score_threshold",
+            "enable_reranking",
+            "vector_store",
+            "lexical_store",
+            "fusion"
+          ]
+        },
+        {
+          "name": "Settings",
+          "startLine": 175,
+          "endLine": 199,
+          "methods": [],
+          "properties": [
+            "app_name",
+            "app_version",
+            "debug",
+            "log_level",
+            "ingestion",
+            "retrieval"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "DocumentType",
+          "line": 17,
+          "isDefault": false
+        },
+        {
+          "name": "EmbeddingProvider",
+          "line": 24,
+          "isDefault": false
+        },
+        {
+          "name": "VectorStoreBackend",
+          "line": 30,
+          "isDefault": false
+        },
+        {
+          "name": "LexicalStoreBackend",
+          "line": 37,
+          "isDefault": false
+        },
+        {
+          "name": "ChunkingStrategy",
+          "line": 43,
+          "isDefault": false
+        },
+        {
+          "name": "FusionStrategy",
+          "line": 53,
+          "isDefault": false
+        },
+        {
+          "name": "EmbeddingConfig",
+          "line": 65,
+          "isDefault": false
+        },
+        {
+          "name": "ChunkingConfig",
+          "line": 80,
+          "isDefault": false
+        },
+        {
+          "name": "VectorStoreConfig",
+          "line": 102,
+          "isDefault": false
+        },
+        {
+          "name": "LexicalStoreConfig",
+          "line": 118,
+          "isDefault": false
+        },
+        {
+          "name": "FusionConfig",
+          "line": 129,
+          "isDefault": false
+        },
+        {
+          "name": "IngestionConfig",
+          "line": 142,
+          "isDefault": false
+        },
+        {
+          "name": "RetrievalConfig",
+          "line": 157,
+          "isDefault": false
+        },
+        {
+          "name": "Settings",
+          "line": 175,
+          "isDefault": false
+        },
+        {
+          "name": "get_settings",
+          "line": 202,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "overlap_must_be_less_than_size",
+          "callee": "info.data.get",
+          "lineNumber": 94
+        },
+        {
+          "caller": "overlap_must_be_less_than_size",
+          "callee": "ValueError",
+          "lineNumber": 96
+        },
+        {
+          "caller": "get_settings",
+          "callee": "Settings",
+          "lineNumber": 204
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 15,
+        "functionCount": 1,
+        "classCount": 14
+      }
+    },
+    {
+      "path": "zero-hallucination-rag/core/exceptions.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 104,
+      "nonEmptyLines": 58,
+      "classes": [
+        {
+          "name": "RAGBaseError",
+          "startLine": 18,
+          "endLine": 24,
+          "methods": [
+            "__init__"
+          ],
+          "properties": []
+        },
+        {
+          "name": "IngestionError",
+          "startLine": 32,
+          "endLine": 33,
+          "methods": [],
+          "properties": []
+        },
+        {
+          "name": "DocumentValidationError",
+          "startLine": 36,
+          "endLine": 37,
+          "methods": [],
+          "properties": []
+        },
+        {
+          "name": "DocumentParsingError",
+          "startLine": 40,
+          "endLine": 41,
+          "methods": [],
+          "properties": []
+        },
+        {
+          "name": "ChunkingError",
+          "startLine": 44,
+          "endLine": 45,
+          "methods": [],
+          "properties": []
+        },
+        {
+          "name": "EmbeddingError",
+          "startLine": 48,
+          "endLine": 49,
+          "methods": [],
+          "properties": []
+        },
+        {
+          "name": "EmbeddingDimensionMismatchError",
+          "startLine": 52,
+          "endLine": 53,
+          "methods": [],
+          "properties": []
+        },
+        {
+          "name": "RetrievalError",
+          "startLine": 61,
+          "endLine": 62,
+          "methods": [],
+          "properties": []
+        },
+        {
+          "name": "VectorStoreError",
+          "startLine": 65,
+          "endLine": 66,
+          "methods": [],
+          "properties": []
+        },
+        {
+          "name": "VectorStoreConnectionError",
+          "startLine": 69,
+          "endLine": 70,
+          "methods": [],
+          "properties": []
+        },
+        {
+          "name": "LexicalStoreError",
+          "startLine": 73,
+          "endLine": 74,
+          "methods": [],
+          "properties": []
+        },
+        {
+          "name": "FusionError",
+          "startLine": 77,
+          "endLine": 78,
+          "methods": [],
+          "properties": []
+        },
+        {
+          "name": "QueryProcessingError",
+          "startLine": 81,
+          "endLine": 82,
+          "methods": [],
+          "properties": []
+        },
+        {
+          "name": "StorageError",
+          "startLine": 90,
+          "endLine": 91,
+          "methods": [],
+          "properties": []
+        },
+        {
+          "name": "DocumentNotFoundError",
+          "startLine": 94,
+          "endLine": 95,
+          "methods": [],
+          "properties": []
+        },
+        {
+          "name": "ConfigurationError",
+          "startLine": 103,
+          "endLine": 104,
+          "methods": [],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "RAGBaseError",
+          "line": 18,
+          "isDefault": false
+        },
+        {
+          "name": "IngestionError",
+          "line": 32,
+          "isDefault": false
+        },
+        {
+          "name": "DocumentValidationError",
+          "line": 36,
+          "isDefault": false
+        },
+        {
+          "name": "DocumentParsingError",
+          "line": 40,
+          "isDefault": false
+        },
+        {
+          "name": "ChunkingError",
+          "line": 44,
+          "isDefault": false
+        },
+        {
+          "name": "EmbeddingError",
+          "line": 48,
+          "isDefault": false
+        },
+        {
+          "name": "EmbeddingDimensionMismatchError",
+          "line": 52,
+          "isDefault": false
+        },
+        {
+          "name": "RetrievalError",
+          "line": 61,
+          "isDefault": false
+        },
+        {
+          "name": "VectorStoreError",
+          "line": 65,
+          "isDefault": false
+        },
+        {
+          "name": "VectorStoreConnectionError",
+          "line": 69,
+          "isDefault": false
+        },
+        {
+          "name": "LexicalStoreError",
+          "line": 73,
+          "isDefault": false
+        },
+        {
+          "name": "FusionError",
+          "line": 77,
+          "isDefault": false
+        },
+        {
+          "name": "QueryProcessingError",
+          "line": 81,
+          "isDefault": false
+        },
+        {
+          "name": "StorageError",
+          "line": 90,
+          "isDefault": false
+        },
+        {
+          "name": "DocumentNotFoundError",
+          "line": 94,
+          "isDefault": false
+        },
+        {
+          "name": "ConfigurationError",
+          "line": 103,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "__init__",
+          "callee": "super().__init__",
+          "lineNumber": 24
+        },
+        {
+          "caller": "__init__",
+          "callee": "super",
+          "lineNumber": 24
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 16,
+        "functionCount": 0,
+        "classCount": 16
+      }
+    },
+    {
+      "path": "zero-hallucination-rag/ingestion/embedders/__init__.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 8,
+      "nonEmptyLines": 6,
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "zero-hallucination-rag/ingestion/embedders/base.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 10,
+      "nonEmptyLines": 7,
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "zero-hallucination-rag/ingestion/embedders/factory.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 28,
+      "nonEmptyLines": 20,
+      "functions": [
+        {
+          "name": "create_embedder",
+          "startLine": 14,
+          "endLine": 28,
+          "params": [
+            "config"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "create_embedder",
+          "line": 14,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "create_embedder",
+          "callee": "HuggingFaceEmbedder",
+          "lineNumber": 26
+        },
+        {
+          "caller": "create_embedder",
+          "callee": "ValueError",
+          "lineNumber": 28
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "zero-hallucination-rag/ingestion/embedders/huggingface.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 102,
+      "nonEmptyLines": 82,
+      "classes": [
+        {
+          "name": "HuggingFaceEmbedder",
+          "startLine": 21,
+          "endLine": 102,
+          "methods": [
+            "__init__",
+            "_load_model",
+            "embed",
+            "embed_single",
+            "dimension"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "HuggingFaceEmbedder",
+          "line": 21,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "_load_model",
+          "callee": "logger.info",
+          "lineNumber": 46
+        },
+        {
+          "caller": "_load_model",
+          "callee": "SentenceTransformer",
+          "lineNumber": 51
+        },
+        {
+          "caller": "_load_model",
+          "callee": "self._model.get_sentence_embedding_dimension",
+          "lineNumber": 61
+        },
+        {
+          "caller": "_load_model",
+          "callee": "logger.info",
+          "lineNumber": 63
+        },
+        {
+          "caller": "_load_model",
+          "callee": "EmbeddingError",
+          "lineNumber": 69
+        },
+        {
+          "caller": "_load_model",
+          "callee": "EmbeddingError",
+          "lineNumber": 74
+        },
+        {
+          "caller": "embed",
+          "callee": "self._load_model",
+          "lineNumber": 82
+        },
+        {
+          "caller": "embed",
+          "callee": "self._model.encode",
+          "lineNumber": 84
+        },
+        {
+          "caller": "embed",
+          "callee": "list",
+          "lineNumber": 85
+        },
+        {
+          "caller": "embed",
+          "callee": "embeddings.tolist",
+          "lineNumber": 90
+        },
+        {
+          "caller": "embed",
+          "callee": "EmbeddingError",
+          "lineNumber": 92
+        },
+        {
+          "caller": "embed_single",
+          "callee": "self.embed",
+          "lineNumber": 96
+        }
+      ],
+      "metrics": {
+        "importCount": 4,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "zero-hallucination-rag/retrieval/vector_store/__init__.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 9,
+      "nonEmptyLines": 7,
+      "metrics": {
+        "importCount": 3,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "zero-hallucination-rag/retrieval/vector_store/factory.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 43,
+      "nonEmptyLines": 32,
+      "functions": [
+        {
+          "name": "create_vector_store",
+          "startLine": 14,
+          "endLine": 43,
+          "params": [
+            "config",
+            "embedding_dimension"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "create_vector_store",
+          "line": 14,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "create_vector_store",
+          "callee": "QdrantVectorStore",
+          "lineNumber": 36
+        },
+        {
+          "caller": "create_vector_store",
+          "callee": "MilvusVectorStore",
+          "lineNumber": 41
+        },
+        {
+          "caller": "create_vector_store",
+          "callee": "ValueError",
+          "lineNumber": 43
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "zero-hallucination-rag/retrieval/vector_store/milvus.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 69,
+      "nonEmptyLines": 53,
+      "classes": [
+        {
+          "name": "MilvusVectorStore",
+          "startLine": 22,
+          "endLine": 69,
+          "methods": [
+            "__init__",
+            "initialize",
+            "upsert",
+            "search",
+            "delete",
+            "count",
+            "close"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "MilvusVectorStore",
+          "line": 22,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "initialize",
+          "callee": "logger.warning",
+          "lineNumber": 43
+        },
+        {
+          "caller": "upsert",
+          "callee": "NotImplementedError",
+          "lineNumber": 51
+        },
+        {
+          "caller": "search",
+          "callee": "NotImplementedError",
+          "lineNumber": 60
+        },
+        {
+          "caller": "delete",
+          "callee": "NotImplementedError",
+          "lineNumber": 63
+        },
+        {
+          "caller": "count",
+          "callee": "NotImplementedError",
+          "lineNumber": 66
+        },
+        {
+          "caller": "close",
+          "callee": "logger.info",
+          "lineNumber": 69
+        }
+      ],
+      "metrics": {
+        "importCount": 4,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "zero-hallucination-rag/retrieval/vector_store/qdrant.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 307,
+      "nonEmptyLines": 270,
+      "classes": [
+        {
+          "name": "QdrantVectorStore",
+          "startLine": 28,
+          "endLine": 307,
+          "methods": [
+            "__init__",
+            "_get_client",
+            "_resolve_collection",
+            "initialize",
+            "close",
+            "upsert",
+            "search",
+            "delete",
+            "count",
+            "search_jds",
+            "upsert_resumes",
+            "upsert_jds",
+            "_build_filter"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "QdrantVectorStore",
+          "line": 28,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "_get_client",
+          "callee": "AsyncQdrantClient",
+          "lineNumber": 58
+        },
+        {
+          "caller": "_get_client",
+          "callee": "logger.info",
+          "lineNumber": 66
+        },
+        {
+          "caller": "_get_client",
+          "callee": "VectorStoreError",
+          "lineNumber": 73
+        },
+        {
+          "caller": "_get_client",
+          "callee": "VectorStoreConnectionError",
+          "lineNumber": 77
+        },
+        {
+          "caller": "initialize",
+          "callee": "self._get_client",
+          "lineNumber": 90
+        },
+        {
+          "caller": "initialize",
+          "callee": "client.get_collections",
+          "lineNumber": 95
+        },
+        {
+          "caller": "initialize",
+          "callee": "client.create_collection",
+          "lineNumber": 104
+        },
+        {
+          "caller": "initialize",
+          "callee": "VectorParams",
+          "lineNumber": 106
+        },
+        {
+          "caller": "initialize",
+          "callee": "HnswConfigDiff",
+          "lineNumber": 110
+        },
+        {
+          "caller": "initialize",
+          "callee": "logger.info",
+          "lineNumber": 115
+        },
+        {
+          "caller": "initialize",
+          "callee": "logger.info",
+          "lineNumber": 121
+        },
+        {
+          "caller": "initialize",
+          "callee": "VectorStoreError",
+          "lineNumber": 126
+        },
+        {
+          "caller": "close",
+          "callee": "self._client.close",
+          "lineNumber": 132
+        },
+        {
+          "caller": "close",
+          "callee": "logger.info",
+          "lineNumber": 134
+        },
+        {
+          "caller": "upsert",
+          "callee": "self._get_client",
+          "lineNumber": 154
+        },
+        {
+          "caller": "upsert",
+          "callee": "self._resolve_collection",
+          "lineNumber": 155
+        },
+        {
+          "caller": "upsert",
+          "callee": "PointStruct",
+          "lineNumber": 160
+        },
+        {
+          "caller": "upsert",
+          "callee": "enumerate",
+          "lineNumber": 165
+        },
+        {
+          "caller": "upsert",
+          "callee": "zip",
+          "lineNumber": 165
+        },
+        {
+          "caller": "upsert",
+          "callee": "client.upsert",
+          "lineNumber": 168
+        },
+        {
+          "caller": "upsert",
+          "callee": "logger.debug",
+          "lineNumber": 169
+        },
+        {
+          "caller": "upsert",
+          "callee": "len",
+          "lineNumber": 169
+        },
+        {
+          "caller": "upsert",
+          "callee": "VectorStoreError",
+          "lineNumber": 171
+        },
+        {
+          "caller": "search",
+          "callee": "self._get_client",
+          "lineNumber": 190
+        },
+        {
+          "caller": "search",
+          "callee": "self._resolve_collection",
+          "lineNumber": 191
+        },
+        {
+          "caller": "search",
+          "callee": "hasattr",
+          "lineNumber": 194
+        },
+        {
+          "caller": "search",
+          "callee": "client.query_points",
+          "lineNumber": 195
+        },
+        {
+          "caller": "search",
+          "callee": "self._build_filter",
+          "lineNumber": 199
+        },
+        {
+          "caller": "search",
+          "callee": "client.search",
+          "lineNumber": 203
+        },
+        {
+          "caller": "search",
+          "callee": "self._build_filter",
+          "lineNumber": 207
+        },
+        {
+          "caller": "search",
+          "callee": "results.append",
+          "lineNumber": 212
+        },
+        {
+          "caller": "search",
+          "callee": "SearchResult",
+          "lineNumber": 213
+        },
+        {
+          "caller": "search",
+          "callee": "payload.get",
+          "lineNumber": 214
+        },
+        {
+          "caller": "search",
+          "callee": "str",
+          "lineNumber": 215
+        },
+        {
+          "caller": "search",
+          "callee": "payload.get",
+          "lineNumber": 216
+        },
+        {
+          "caller": "search",
+          "callee": "VectorStoreError",
+          "lineNumber": 224
+        },
+        {
+          "caller": "delete",
+          "callee": "self._get_client",
+          "lineNumber": 232
+        },
+        {
+          "caller": "delete",
+          "callee": "self._resolve_collection",
+          "lineNumber": 233
+        },
+        {
+          "caller": "delete",
+          "callee": "client.delete",
+          "lineNumber": 238
+        },
+        {
+          "caller": "delete",
+          "callee": "PointIdsList",
+          "lineNumber": 240
+        },
+        {
+          "caller": "delete",
+          "callee": "list",
+          "lineNumber": 240
+        },
+        {
+          "caller": "delete",
+          "callee": "logger.debug",
+          "lineNumber": 242
+        },
+        {
+          "caller": "delete",
+          "callee": "len",
+          "lineNumber": 242
+        },
+        {
+          "caller": "delete",
+          "callee": "VectorStoreError",
+          "lineNumber": 244
+        },
+        {
+          "caller": "count",
+          "callee": "self._get_client",
+          "lineNumber": 247
+        },
+        {
+          "caller": "count",
+          "callee": "self._resolve_collection",
+          "lineNumber": 248
+        },
+        {
+          "caller": "count",
+          "callee": "client.get_collection",
+          "lineNumber": 251
+        },
+        {
+          "caller": "count",
+          "callee": "VectorStoreError",
+          "lineNumber": 254
+        },
+        {
+          "caller": "search_jds",
+          "callee": "self.search",
+          "lineNumber": 267
+        },
+        {
+          "caller": "upsert_resumes",
+          "callee": "self.upsert",
+          "lineNumber": 279
+        },
+        {
+          "caller": "upsert_jds",
+          "callee": "self.upsert",
+          "lineNumber": 289
+        },
+        {
+          "caller": "_build_filter",
+          "callee": "FieldCondition",
+          "lineNumber": 304
+        },
+        {
+          "caller": "_build_filter",
+          "callee": "MatchValue",
+          "lineNumber": 304
+        },
+        {
+          "caller": "_build_filter",
+          "callee": "filters.items",
+          "lineNumber": 305
+        },
+        {
+          "caller": "_build_filter",
+          "callee": "Filter",
+          "lineNumber": 307
+        }
+      ],
+      "metrics": {
+        "importCount": 5,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    }
+  ]
+}

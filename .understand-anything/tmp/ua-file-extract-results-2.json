@@ -1,0 +1,1510 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 17,
+  "filesSkipped": [],
+  "results": [
+    {
+      "path": "zero-hallucination-rag/retrieval/__init__.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 32,
+      "nonEmptyLines": 30,
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "zero-hallucination-rag/retrieval/fusion/__init__.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 9,
+      "nonEmptyLines": 7,
+      "metrics": {
+        "importCount": 3,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "zero-hallucination-rag/retrieval/fusion/reciprocal_rank.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 71,
+      "nonEmptyLines": 54,
+      "classes": [
+        {
+          "name": "ReciprocalRankFusion",
+          "startLine": 21,
+          "endLine": 71,
+          "methods": [
+            "__init__",
+            "fuse"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "ReciprocalRankFusion",
+          "line": 21,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "fuse",
+          "callee": "defaultdict",
+          "lineNumber": 44
+        },
+        {
+          "caller": "fuse",
+          "callee": "enumerate",
+          "lineNumber": 48
+        },
+        {
+          "caller": "fuse",
+          "callee": "sorted",
+          "lineNumber": 58
+        },
+        {
+          "caller": "fuse",
+          "callee": "scores.items",
+          "lineNumber": 58
+        },
+        {
+          "caller": "fuse",
+          "callee": "fused.append",
+          "lineNumber": 60
+        },
+        {
+          "caller": "fuse",
+          "callee": "SearchResult",
+          "lineNumber": 61
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "zero-hallucination-rag/retrieval/fusion/reranker.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 90,
+      "nonEmptyLines": 75,
+      "classes": [
+        {
+          "name": "CrossEncoderReranker",
+          "startLine": 17,
+          "endLine": 90,
+          "methods": [
+            "__init__",
+            "_load_model",
+            "rerank"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "CrossEncoderReranker",
+          "line": 17,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "_load_model",
+          "callee": "logger.info",
+          "lineNumber": 44
+        },
+        {
+          "caller": "_load_model",
+          "callee": "CrossEncoder",
+          "lineNumber": 45
+        },
+        {
+          "caller": "_load_model",
+          "callee": "RetrievalError",
+          "lineNumber": 47
+        },
+        {
+          "caller": "_load_model",
+          "callee": "RetrievalError",
+          "lineNumber": 52
+        },
+        {
+          "caller": "rerank",
+          "callee": "self._load_model",
+          "lineNumber": 66
+        },
+        {
+          "caller": "rerank",
+          "callee": "self._model.predict",
+          "lineNumber": 72
+        },
+        {
+          "caller": "rerank",
+          "callee": "RetrievalError",
+          "lineNumber": 74
+        },
+        {
+          "caller": "rerank",
+          "callee": "zip",
+          "lineNumber": 78
+        },
+        {
+          "caller": "rerank",
+          "callee": "reranked.append",
+          "lineNumber": 79
+        },
+        {
+          "caller": "rerank",
+          "callee": "SearchResult",
+          "lineNumber": 80
+        },
+        {
+          "caller": "rerank",
+          "callee": "float",
+          "lineNumber": 84
+        },
+        {
+          "caller": "rerank",
+          "callee": "reranked.sort",
+          "lineNumber": 89
+        }
+      ],
+      "metrics": {
+        "importCount": 3,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "zero-hallucination-rag/retrieval/fusion/weighted.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 97,
+      "nonEmptyLines": 83,
+      "classes": [
+        {
+          "name": "WeightedScoreFusion",
+          "startLine": 18,
+          "endLine": 97,
+          "methods": [
+            "__init__",
+            "fuse",
+            "_normalise"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "WeightedScoreFusion",
+          "line": 18,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "fuse",
+          "callee": "self._normalise",
+          "lineNumber": 36
+        },
+        {
+          "caller": "fuse",
+          "callee": "defaultdict",
+          "lineNumber": 38
+        },
+        {
+          "caller": "fuse",
+          "callee": "enumerate",
+          "lineNumber": 41
+        },
+        {
+          "caller": "fuse",
+          "callee": "len",
+          "lineNumber": 42
+        },
+        {
+          "caller": "fuse",
+          "callee": "sorted",
+          "lineNumber": 50
+        },
+        {
+          "caller": "fuse",
+          "callee": "scores.items",
+          "lineNumber": 51
+        },
+        {
+          "caller": "fuse",
+          "callee": "fused.append",
+          "lineNumber": 54
+        },
+        {
+          "caller": "fuse",
+          "callee": "SearchResult",
+          "lineNumber": 55
+        },
+        {
+          "caller": "_normalise",
+          "callee": "min",
+          "lineNumber": 73
+        },
+        {
+          "caller": "_normalise",
+          "callee": "max",
+          "lineNumber": 73
+        },
+        {
+          "caller": "_normalise",
+          "callee": "SearchResult",
+          "lineNumber": 77
+        },
+        {
+          "caller": "_normalise",
+          "callee": "SearchResult",
+          "lineNumber": 88
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "zero-hallucination-rag/retrieval/interfaces.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 230,
+      "nonEmptyLines": 184,
+      "classes": [
+        {
+          "name": "SearchResult",
+          "startLine": 21,
+          "endLine": 46,
+          "methods": [],
+          "properties": [
+            "document_id",
+            "chunk_id",
+            "text",
+            "score",
+            "metadata",
+            "source"
+          ]
+        },
+        {
+          "name": "RetrievalQuery",
+          "startLine": 50,
+          "endLine": 72,
+          "methods": [],
+          "properties": [
+            "original_text",
+            "processed_text",
+            "embedding",
+            "filters",
+            "top_k"
+          ]
+        },
+        {
+          "name": "RetrievalResponse",
+          "startLine": 76,
+          "endLine": 95,
+          "methods": [],
+          "properties": [
+            "query",
+            "results",
+            "total_candidates",
+            "timings"
+          ]
+        },
+        {
+          "name": "VectorStore",
+          "startLine": 103,
+          "endLine": 145,
+          "methods": [
+            "initialize",
+            "upsert",
+            "search",
+            "delete",
+            "count",
+            "close"
+          ],
+          "properties": []
+        },
+        {
+          "name": "LexicalStore",
+          "startLine": 148,
+          "endLine": 180,
+          "methods": [
+            "index",
+            "search",
+            "delete",
+            "count"
+          ],
+          "properties": []
+        },
+        {
+          "name": "ResultFuser",
+          "startLine": 183,
+          "endLine": 192,
+          "methods": [
+            "fuse"
+          ],
+          "properties": []
+        },
+        {
+          "name": "Reranker",
+          "startLine": 195,
+          "endLine": 207,
+          "methods": [
+            "rerank"
+          ],
+          "properties": []
+        },
+        {
+          "name": "QueryProcessor",
+          "startLine": 210,
+          "endLine": 216,
+          "methods": [
+            "process"
+          ],
+          "properties": []
+        },
+        {
+          "name": "QueryTransformer",
+          "startLine": 219,
+          "endLine": 230,
+          "methods": [
+            "for_vector",
+            "for_lexical"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "SearchResult",
+          "line": 20,
+          "isDefault": false
+        },
+        {
+          "name": "RetrievalQuery",
+          "line": 49,
+          "isDefault": false
+        },
+        {
+          "name": "RetrievalResponse",
+          "line": 75,
+          "isDefault": false
+        },
+        {
+          "name": "VectorStore",
+          "line": 103,
+          "isDefault": false
+        },
+        {
+          "name": "LexicalStore",
+          "line": 148,
+          "isDefault": false
+        },
+        {
+          "name": "ResultFuser",
+          "line": 183,
+          "isDefault": false
+        },
+        {
+          "name": "Reranker",
+          "line": 195,
+          "isDefault": false
+        },
+        {
+          "name": "QueryProcessor",
+          "line": 210,
+          "isDefault": false
+        },
+        {
+          "name": "QueryTransformer",
+          "line": 219,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 9,
+        "functionCount": 0,
+        "classCount": 9
+      }
+    },
+    {
+      "path": "zero-hallucination-rag/retrieval/lexical_store/__init__.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 8,
+      "nonEmptyLines": 6,
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "zero-hallucination-rag/retrieval/lexical_store/base.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 9,
+      "nonEmptyLines": 6,
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "zero-hallucination-rag/retrieval/lexical_store/bm25.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 180,
+      "nonEmptyLines": 145,
+      "classes": [
+        {
+          "name": "BM25LexicalStore",
+          "startLine": 23,
+          "endLine": 180,
+          "methods": [
+            "__init__",
+            "index",
+            "search",
+            "delete",
+            "count",
+            "_rebuild_sync",
+            "_tokenize",
+            "_matches_filter"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "BM25LexicalStore",
+          "line": 23,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "__init__",
+          "callee": "asyncio.Lock",
+          "lineNumber": 41
+        },
+        {
+          "caller": "index",
+          "callee": "len",
+          "lineNumber": 51
+        },
+        {
+          "caller": "index",
+          "callee": "len",
+          "lineNumber": 51
+        },
+        {
+          "caller": "index",
+          "callee": "LexicalStoreError",
+          "lineNumber": 52
+        },
+        {
+          "caller": "_sync_index",
+          "callee": "enumerate",
+          "lineNumber": 58
+        },
+        {
+          "caller": "_sync_index",
+          "callee": "zip",
+          "lineNumber": 58
+        },
+        {
+          "caller": "_sync_index",
+          "callee": "self._ids.append",
+          "lineNumber": 59
+        },
+        {
+          "caller": "_sync_index",
+          "callee": "self._texts.append",
+          "lineNumber": 60
+        },
+        {
+          "caller": "_sync_index",
+          "callee": "self._payloads.append",
+          "lineNumber": 61
+        },
+        {
+          "caller": "_sync_index",
+          "callee": "self._tokenized_corpus.append",
+          "lineNumber": 62
+        },
+        {
+          "caller": "_sync_index",
+          "callee": "self._tokenize",
+          "lineNumber": 62
+        },
+        {
+          "caller": "index",
+          "callee": "asyncio.to_thread",
+          "lineNumber": 66
+        },
+        {
+          "caller": "index",
+          "callee": "logger.debug",
+          "lineNumber": 68
+        },
+        {
+          "caller": "index",
+          "callee": "len",
+          "lineNumber": 68
+        },
+        {
+          "caller": "search",
+          "callee": "asyncio.to_thread",
+          "lineNumber": 81
+        },
+        {
+          "caller": "_sync_search",
+          "callee": "self._tokenize",
+          "lineNumber": 89
+        },
+        {
+          "caller": "_sync_search",
+          "callee": "self._bm25.get_scores",
+          "lineNumber": 90
+        },
+        {
+          "caller": "_sync_search",
+          "callee": "sorted",
+          "lineNumber": 93
+        },
+        {
+          "caller": "_sync_search",
+          "callee": "enumerate",
+          "lineNumber": 94
+        },
+        {
+          "caller": "_sync_search",
+          "callee": "self._matches_filter",
+          "lineNumber": 105
+        },
+        {
+          "caller": "_sync_search",
+          "callee": "results.append",
+          "lineNumber": 108
+        },
+        {
+          "caller": "_sync_search",
+          "callee": "SearchResult",
+          "lineNumber": 109
+        },
+        {
+          "caller": "_sync_search",
+          "callee": "payload.get",
+          "lineNumber": 110
+        },
+        {
+          "caller": "_sync_search",
+          "callee": "float",
+          "lineNumber": 113
+        },
+        {
+          "caller": "_sync_search",
+          "callee": "len",
+          "lineNumber": 120
+        },
+        {
+          "caller": "_sync_search",
+          "callee": "LexicalStoreError",
+          "lineNumber": 125
+        },
+        {
+          "caller": "search",
+          "callee": "asyncio.to_thread",
+          "lineNumber": 127
+        },
+        {
+          "caller": "_sync_delete",
+          "callee": "set",
+          "lineNumber": 131
+        },
+        {
+          "caller": "_sync_delete",
+          "callee": "enumerate",
+          "lineNumber": 133
+        },
+        {
+          "caller": "delete",
+          "callee": "asyncio.to_thread",
+          "lineNumber": 142
+        },
+        {
+          "caller": "delete",
+          "callee": "logger.debug",
+          "lineNumber": 144
+        },
+        {
+          "caller": "delete",
+          "callee": "len",
+          "lineNumber": 144
+        },
+        {
+          "caller": "count",
+          "callee": "len",
+          "lineNumber": 147
+        },
+        {
+          "caller": "_rebuild_sync",
+          "callee": "BM25Okapi",
+          "lineNumber": 159
+        },
+        {
+          "caller": "_rebuild_sync",
+          "callee": "LexicalStoreError",
+          "lineNumber": 168
+        },
+        {
+          "caller": "_tokenize",
+          "callee": "text.lower().split",
+          "lineNumber": 175
+        },
+        {
+          "caller": "_tokenize",
+          "callee": "text.lower",
+          "lineNumber": 175
+        },
+        {
+          "caller": "_matches_filter",
+          "callee": "all",
+          "lineNumber": 180
+        },
+        {
+          "caller": "_matches_filter",
+          "callee": "payload.get",
+          "lineNumber": 180
+        },
+        {
+          "caller": "_matches_filter",
+          "callee": "filters.items",
+          "lineNumber": 180
+        }
+      ],
+      "metrics": {
+        "importCount": 4,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "zero-hallucination-rag/retrieval/lexical_store/factory.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 28,
+      "nonEmptyLines": 20,
+      "functions": [
+        {
+          "name": "create_lexical_store",
+          "startLine": 14,
+          "endLine": 28,
+          "params": [
+            "config"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "create_lexical_store",
+          "line": 14,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "create_lexical_store",
+          "callee": "BM25LexicalStore",
+          "lineNumber": 26
+        },
+        {
+          "caller": "create_lexical_store",
+          "callee": "ValueError",
+          "lineNumber": 28
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "zero-hallucination-rag/retrieval/pipeline.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 193,
+      "nonEmptyLines": 166,
+      "classes": [
+        {
+          "name": "RetrievalPipeline",
+          "startLine": 31,
+          "endLine": 193,
+          "methods": [
+            "__init__",
+            "retrieve",
+            "_search_backends",
+            "_apply_threshold"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "RetrievalPipeline",
+          "line": 31,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "retrieve",
+          "callee": "time.perf_counter",
+          "lineNumber": 96
+        },
+        {
+          "caller": "retrieve",
+          "callee": "self._query_processor.process",
+          "lineNumber": 98
+        },
+        {
+          "caller": "retrieve",
+          "callee": "time.perf_counter",
+          "lineNumber": 102
+        },
+        {
+          "caller": "retrieve",
+          "callee": "time.perf_counter",
+          "lineNumber": 105
+        },
+        {
+          "caller": "retrieve",
+          "callee": "self._embedder.embed_single",
+          "lineNumber": 106
+        },
+        {
+          "caller": "retrieve",
+          "callee": "time.perf_counter",
+          "lineNumber": 107
+        },
+        {
+          "caller": "retrieve",
+          "callee": "RetrievalQuery",
+          "lineNumber": 109
+        },
+        {
+          "caller": "retrieve",
+          "callee": "self._search_backends",
+          "lineNumber": 118
+        },
+        {
+          "caller": "retrieve",
+          "callee": "time.perf_counter",
+          "lineNumber": 121
+        },
+        {
+          "caller": "retrieve",
+          "callee": "self._fuser.fuse",
+          "lineNumber": 122
+        },
+        {
+          "caller": "retrieve",
+          "callee": "time.perf_counter",
+          "lineNumber": 123
+        },
+        {
+          "caller": "retrieve",
+          "callee": "len",
+          "lineNumber": 125
+        },
+        {
+          "caller": "retrieve",
+          "callee": "time.perf_counter",
+          "lineNumber": 129
+        },
+        {
+          "caller": "retrieve",
+          "callee": "self._reranker.rerank",
+          "lineNumber": 130
+        },
+        {
+          "caller": "retrieve",
+          "callee": "time.perf_counter",
+          "lineNumber": 135
+        },
+        {
+          "caller": "retrieve",
+          "callee": "self._apply_threshold",
+          "lineNumber": 138
+        },
+        {
+          "caller": "retrieve",
+          "callee": "logger.info",
+          "lineNumber": 140
+        },
+        {
+          "caller": "retrieve",
+          "callee": "len",
+          "lineNumber": 143
+        },
+        {
+          "caller": "retrieve",
+          "callee": "RetrievalResponse",
+          "lineNumber": 147
+        },
+        {
+          "caller": "_search_backends",
+          "callee": "time.perf_counter",
+          "lineNumber": 163
+        },
+        {
+          "caller": "_search_backends",
+          "callee": "self._vector_store.search",
+          "lineNumber": 166
+        },
+        {
+          "caller": "_search_backends",
+          "callee": "time.perf_counter",
+          "lineNumber": 173
+        },
+        {
+          "caller": "_search_backends",
+          "callee": "time.perf_counter",
+          "lineNumber": 176
+        },
+        {
+          "caller": "_search_backends",
+          "callee": "self._lexical_store.search",
+          "lineNumber": 177
+        },
+        {
+          "caller": "_search_backends",
+          "callee": "time.perf_counter",
+          "lineNumber": 184
+        }
+      ],
+      "metrics": {
+        "importCount": 5,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "zero-hallucination-rag/retrieval/query/__init__.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 8,
+      "nonEmptyLines": 6,
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "zero-hallucination-rag/retrieval/query/processor.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 67,
+      "nonEmptyLines": 52,
+      "classes": [
+        {
+          "name": "DefaultQueryProcessor",
+          "startLine": 15,
+          "endLine": 67,
+          "methods": [
+            "__init__",
+            "process"
+          ],
+          "properties": [
+            "_STOPWORDS"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "DefaultQueryProcessor",
+          "line": 15,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "process",
+          "callee": "raw_query.strip",
+          "lineNumber": 56
+        },
+        {
+          "caller": "process",
+          "callee": "self._MULTI_SPACE.sub",
+          "lineNumber": 57
+        },
+        {
+          "caller": "process",
+          "callee": "text.lower",
+          "lineNumber": 60
+        },
+        {
+          "caller": "process",
+          "callee": "text.split",
+          "lineNumber": 63
+        },
+        {
+          "caller": "process",
+          "callee": "\" \".join",
+          "lineNumber": 65
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "zero-hallucination-rag/retrieval/query/transformer.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 29,
+      "nonEmptyLines": 21,
+      "classes": [
+        {
+          "name": "DefaultQueryTransformer",
+          "startLine": 14,
+          "endLine": 29,
+          "methods": [
+            "for_vector",
+            "for_lexical"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "DefaultQueryTransformer",
+          "line": 14,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "zero-hallucination-rag/retrieval/vector_store/base.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 9,
+      "nonEmptyLines": 6,
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "zero-hallucination-rag/tests/integration/test_retrieval_pipeline.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 130,
+      "nonEmptyLines": 107,
+      "functions": [
+        {
+          "name": "test_retrieval_pipeline_hybrid_search",
+          "startLine": 55,
+          "endLine": 130,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "DummyEmbedder",
+          "startLine": 14,
+          "endLine": 27,
+          "methods": [
+            "__init__",
+            "embed",
+            "embed_single",
+            "dimension"
+          ],
+          "properties": []
+        },
+        {
+          "name": "MockVectorStore",
+          "startLine": 30,
+          "endLine": 51,
+          "methods": [
+            "__init__",
+            "initialize",
+            "upsert",
+            "search",
+            "delete",
+            "count",
+            "close"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "DummyEmbedder",
+          "line": 14,
+          "isDefault": false
+        },
+        {
+          "name": "MockVectorStore",
+          "line": 30,
+          "isDefault": false
+        },
+        {
+          "name": "test_retrieval_pipeline_hybrid_search",
+          "line": 54,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "count",
+          "callee": "len",
+          "lineNumber": 48
+        },
+        {
+          "caller": "test_retrieval_pipeline_hybrid_search",
+          "callee": "RetrievalConfig",
+          "lineNumber": 58
+        },
+        {
+          "caller": "test_retrieval_pipeline_hybrid_search",
+          "callee": "SearchResult",
+          "lineNumber": 66
+        },
+        {
+          "caller": "test_retrieval_pipeline_hybrid_search",
+          "callee": "SearchResult",
+          "lineNumber": 72
+        },
+        {
+          "caller": "test_retrieval_pipeline_hybrid_search",
+          "callee": "MockVectorStore",
+          "lineNumber": 79
+        },
+        {
+          "caller": "test_retrieval_pipeline_hybrid_search",
+          "callee": "LexicalStoreConfig",
+          "lineNumber": 82
+        },
+        {
+          "caller": "test_retrieval_pipeline_hybrid_search",
+          "callee": "BM25LexicalStore",
+          "lineNumber": 83
+        },
+        {
+          "caller": "test_retrieval_pipeline_hybrid_search",
+          "callee": "lexical_store.index",
+          "lineNumber": 85
+        },
+        {
+          "caller": "test_retrieval_pipeline_hybrid_search",
+          "callee": "DummyEmbedder",
+          "lineNumber": 102
+        },
+        {
+          "caller": "test_retrieval_pipeline_hybrid_search",
+          "callee": "ReciprocalRankFusion",
+          "lineNumber": 103
+        },
+        {
+          "caller": "test_retrieval_pipeline_hybrid_search",
+          "callee": "FusionConfig",
+          "lineNumber": 103
+        },
+        {
+          "caller": "test_retrieval_pipeline_hybrid_search",
+          "callee": "DefaultQueryProcessor",
+          "lineNumber": 104
+        },
+        {
+          "caller": "test_retrieval_pipeline_hybrid_search",
+          "callee": "RetrievalPipeline",
+          "lineNumber": 107
+        },
+        {
+          "caller": "test_retrieval_pipeline_hybrid_search",
+          "callee": "pipeline.retrieve",
+          "lineNumber": 118
+        },
+        {
+          "caller": "test_retrieval_pipeline_hybrid_search",
+          "callee": "len",
+          "lineNumber": 122
+        }
+      ],
+      "metrics": {
+        "importCount": 7,
+        "exportCount": 3,
+        "functionCount": 1,
+        "classCount": 2
+      }
+    },
+    {
+      "path": "zero-hallucination-rag/tests/unit/test_retrieval.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 181,
+      "nonEmptyLines": 147,
+      "functions": [
+        {
+          "name": "test_bm25_lexical_store",
+          "startLine": 17,
+          "endLine": 74,
+          "params": []
+        },
+        {
+          "name": "test_reciprocal_rank_fusion",
+          "startLine": 77,
+          "endLine": 102,
+          "params": []
+        },
+        {
+          "name": "test_weighted_score_fusion",
+          "startLine": 105,
+          "endLine": 127,
+          "params": []
+        },
+        {
+          "name": "test_cross_encoder_reranker",
+          "startLine": 131,
+          "endLine": 154,
+          "params": [
+            "mock_cross_encoder_cls"
+          ]
+        },
+        {
+          "name": "test_default_query_processor",
+          "startLine": 157,
+          "endLine": 172,
+          "params": []
+        },
+        {
+          "name": "test_default_query_transformer",
+          "startLine": 175,
+          "endLine": 181,
+          "params": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "test_bm25_lexical_store",
+          "line": 16,
+          "isDefault": false
+        },
+        {
+          "name": "test_reciprocal_rank_fusion",
+          "line": 77,
+          "isDefault": false
+        },
+        {
+          "name": "test_weighted_score_fusion",
+          "line": 105,
+          "isDefault": false
+        },
+        {
+          "name": "test_cross_encoder_reranker",
+          "line": 130,
+          "isDefault": false
+        },
+        {
+          "name": "test_default_query_processor",
+          "line": 157,
+          "isDefault": false
+        },
+        {
+          "name": "test_default_query_transformer",
+          "line": 175,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "test_bm25_lexical_store",
+          "callee": "LexicalStoreConfig",
+          "lineNumber": 19
+        },
+        {
+          "caller": "test_bm25_lexical_store",
+          "callee": "BM25LexicalStore",
+          "lineNumber": 20
+        },
+        {
+          "caller": "test_bm25_lexical_store",
+          "callee": "store.search",
+          "lineNumber": 23
+        },
+        {
+          "caller": "test_bm25_lexical_store",
+          "callee": "store.index",
+          "lineNumber": 45
+        },
+        {
+          "caller": "test_bm25_lexical_store",
+          "callee": "store.count",
+          "lineNumber": 46
+        },
+        {
+          "caller": "test_bm25_lexical_store",
+          "callee": "store.search",
+          "lineNumber": 49
+        },
+        {
+          "caller": "test_bm25_lexical_store",
+          "callee": "len",
+          "lineNumber": 50
+        },
+        {
+          "caller": "test_bm25_lexical_store",
+          "callee": "store.search",
+          "lineNumber": 56
+        },
+        {
+          "caller": "test_bm25_lexical_store",
+          "callee": "len",
+          "lineNumber": 60
+        },
+        {
+          "caller": "test_bm25_lexical_store",
+          "callee": "store.search",
+          "lineNumber": 62
+        },
+        {
+          "caller": "test_bm25_lexical_store",
+          "callee": "len",
+          "lineNumber": 66
+        },
+        {
+          "caller": "test_bm25_lexical_store",
+          "callee": "store.delete",
+          "lineNumber": 69
+        },
+        {
+          "caller": "test_bm25_lexical_store",
+          "callee": "store.count",
+          "lineNumber": 70
+        },
+        {
+          "caller": "test_bm25_lexical_store",
+          "callee": "store.search",
+          "lineNumber": 72
+        },
+        {
+          "caller": "test_bm25_lexical_store",
+          "callee": "len",
+          "lineNumber": 73
+        },
+        {
+          "caller": "test_reciprocal_rank_fusion",
+          "callee": "FusionConfig",
+          "lineNumber": 79
+        },
+        {
+          "caller": "test_reciprocal_rank_fusion",
+          "callee": "ReciprocalRankFusion",
+          "lineNumber": 80
+        },
+        {
+          "caller": "test_reciprocal_rank_fusion",
+          "callee": "SearchResult",
+          "lineNumber": 84
+        },
+        {
+          "caller": "test_reciprocal_rank_fusion",
+          "callee": "SearchResult",
+          "lineNumber": 85
+        },
+        {
+          "caller": "test_reciprocal_rank_fusion",
+          "callee": "SearchResult",
+          "lineNumber": 88
+        },
+        {
+          "caller": "test_reciprocal_rank_fusion",
+          "callee": "SearchResult",
+          "lineNumber": 89
+        },
+        {
+          "caller": "test_reciprocal_rank_fusion",
+          "callee": "fuser.fuse",
+          "lineNumber": 92
+        },
+        {
+          "caller": "test_reciprocal_rank_fusion",
+          "callee": "len",
+          "lineNumber": 98
+        },
+        {
+          "caller": "test_weighted_score_fusion",
+          "callee": "FusionConfig",
+          "lineNumber": 107
+        },
+        {
+          "caller": "test_weighted_score_fusion",
+          "callee": "WeightedScoreFusion",
+          "lineNumber": 108
+        },
+        {
+          "caller": "test_weighted_score_fusion",
+          "callee": "SearchResult",
+          "lineNumber": 111
+        },
+        {
+          "caller": "test_weighted_score_fusion",
+          "callee": "SearchResult",
+          "lineNumber": 112
+        },
+        {
+          "caller": "test_weighted_score_fusion",
+          "callee": "SearchResult",
+          "lineNumber": 115
+        },
+        {
+          "caller": "test_weighted_score_fusion",
+          "callee": "SearchResult",
+          "lineNumber": 116
+        },
+        {
+          "caller": "test_weighted_score_fusion",
+          "callee": "fuser.fuse",
+          "lineNumber": 119
+        },
+        {
+          "caller": "test_weighted_score_fusion",
+          "callee": "len",
+          "lineNumber": 123
+        },
+        {
+          "caller": "test_weighted_score_fusion",
+          "callee": "pytest.approx",
+          "lineNumber": 125
+        },
+        {
+          "caller": "test_weighted_score_fusion",
+          "callee": "pytest.approx",
+          "lineNumber": 127
+        },
+        {
+          "caller": "test_cross_encoder_reranker",
+          "callee": "MagicMock",
+          "lineNumber": 133
+        },
+        {
+          "caller": "test_cross_encoder_reranker",
+          "callee": "CrossEncoderReranker",
+          "lineNumber": 138
+        },
+        {
+          "caller": "test_cross_encoder_reranker",
+          "callee": "SearchResult",
+          "lineNumber": 141
+        },
+        {
+          "caller": "test_cross_encoder_reranker",
+          "callee": "SearchResult",
+          "lineNumber": 142
+        },
+        {
+          "caller": "test_cross_encoder_reranker",
+          "callee": "SearchResult",
+          "lineNumber": 143
+        },
+        {
+          "caller": "test_cross_encoder_reranker",
+          "callee": "reranker.rerank",
+          "lineNumber": 146
+        },
+        {
+          "caller": "test_cross_encoder_reranker",
+          "callee": "len",
+          "lineNumber": 148
+        },
+        {
+          "caller": "test_default_query_processor",
+          "callee": "DefaultQueryProcessor",
+          "lineNumber": 159
+        },
+        {
+          "caller": "test_default_query_processor",
+          "callee": "processor.process",
+          "lineNumber": 162
+        },
+        {
+          "caller": "test_default_query_processor",
+          "callee": "DefaultQueryProcessor",
+          "lineNumber": 170
+        },
+        {
+          "caller": "test_default_query_processor",
+          "callee": "processor_no_stop.process",
+          "lineNumber": 171
+        },
+        {
+          "caller": "test_default_query_transformer",
+          "callee": "DefaultQueryTransformer",
+          "lineNumber": 177
+        },
+        {
+          "caller": "test_default_query_transformer",
+          "callee": "RetrievalQuery",
+          "lineNumber": 178
+        },
+        {
+          "caller": "test_default_query_transformer",
+          "callee": "transformer.for_vector",
+          "lineNumber": 180
+        },
+        {
+          "caller": "test_default_query_transformer",
+          "callee": "transformer.for_lexical",
+          "lineNumber": 181
+        }
+      ],
+      "metrics": {
+        "importCount": 8,
+        "exportCount": 6,
+        "functionCount": 6,
+        "classCount": 0
+      }
+    }
+  ]
+}

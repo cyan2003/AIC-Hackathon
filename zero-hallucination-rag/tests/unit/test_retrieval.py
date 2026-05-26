@@ -89,7 +89,7 @@ def test_reciprocal_rank_fusion():
         SearchResult(document_id="docC", chunk_id="chunkC1", text="Text C", score=5.0, source="lexical"),
     ]
     
-    fused = fuser.fuse([vector_results, lexical_results])
+    fused = fuser.fuse({"vector": vector_results, "lexical": lexical_results})
     
     # RRF score calculation:
     # chunkB1: ranks 2 (vector) and 1 (lexical) -> 1/(60+2) + 1/(60+1) = 1/62 + 1/61 = 0.016129 + 0.016393 = 0.032522
@@ -116,7 +116,7 @@ def test_weighted_score_fusion():
         SearchResult(document_id="docA", chunk_id="chunkA1", text="Text A", score=5.0, source="lexical"),
     ]  # Normalizes to 1.0 (B) and 0.0 (A)
     
-    fused = fuser.fuse([vector_results, lexical_results])
+    fused = fuser.fuse({"vector": vector_results, "lexical": lexical_results})
     
     # chunkA1 normalized score: vector=1.0, lexical=0.0 -> Weighted = 1.0*0.7 + 0.0*0.3 = 0.7
     # chunkB1 normalized score: vector=0.0, lexical=1.0 -> Weighted = 0.0*0.7 + 1.0*0.3 = 0.3

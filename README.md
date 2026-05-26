@@ -45,11 +45,15 @@ The system separates files into two distinct paths:
 
 ## Setup Instructions
 
+For a comprehensive, step-by-step setup and demo guide, see [RUN_GUIDE.md](file:///c:/Users/Damien/OneDrive/Desktop/AIC-Hackathon/RUN_GUIDE.md).
+
 ### 1. Create and Activate Virtual Environment
 ```bash
+# From project root:
 python -m venv .venv
+
 # On Windows:
-.venv\Scripts\activate
+.\zero-hallucination-rag\.venv\Scripts\activate
 ```
 
 ### 2. Install Libraries
@@ -59,19 +63,38 @@ pip install -r requirements.txt
 ```
 
 ### 3. Configure Environment
-Copy `.env.example` to `.env` inside the `zero-hallucination-rag/` directory and configure the environment variables:
+Verify that your `.env` file exists in the `zero-hallucination-rag/` directory and has the required `CHUTES_API_KEY` defined:
 ```bash
-cp .env.example .env
+# E.g., make sure it is configured inside zero-hallucination-rag/.env
 ```
 
-### 4. Run Application
+### 4. Run Qdrant Vector Store
+Start Qdrant via Docker (required for vector search):
+```bash
+docker run -p 6333:6333 -p 6334:6334 qdrant/qdrant
+```
+
+### 5. Run Application Backend
 Run the FastAPI web backend:
 ```bash
 uvicorn api.main:app --reload
 ```
-You can access the interactive API docs at `http://localhost:8000/docs`.
+Access the Swagger API documentation at `http://localhost:8000/docs`.
 
-### 5. Run the Test Suite
+### 6. Run Streamlit UI
+Start the premium recruitment frontend in a new terminal window:
+```bash
+streamlit run ui/app.py
+```
+Access the dashboard at `http://localhost:8501`.
+
+### 7. Run the Codebase Visualizer
+Launch the interactive codebase knowledge graph visualizer from the project root directory:
+```bash
+npx understand-anything serve
+```
+
+### 8. Run the Test Suite
 To verify the system end-to-end and run the 39 tests:
 ```bash
 python -m pytest tests/
