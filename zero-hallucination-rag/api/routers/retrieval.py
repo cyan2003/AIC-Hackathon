@@ -170,11 +170,42 @@ async def match_resume_to_jds(
                 )
             )
 
+        # -- 9. LLM Agent Assessment (graceful degradation) ---------------
+        assessment = None
+        try:
+            from agent.assessor import CandidateAssessor
+
+            assessor = CandidateAssessor(settings.agent)
+            jd_dicts = [
+                {
+                    "job_title": r.job_title,
+                    "score": r.score,
+                    "text": r.metadata.get("text", ""),
+                    "matched_sections": [
+                        {"section": s.section, "text": s.text}
+                        for s in r.matched_sections
+                    ],
+                    "metadata": r.metadata,
+                }
+                for r in results
+            ]
+
+            t0 = time.perf_counter()
+            assessment = await assessor.assess(
+                resume_text=cleaned_text,
+                resume_metadata=resume_metadata,
+                match_results=jd_dicts,
+            )
+            timings["assessment"] = time.perf_counter() - t0
+        except Exception as exc:
+            logger.warning("LLM assessment failed (returning results without it)", error=str(exc))
+
         return MatchResponse(
             results=results,
             total_candidates=total_candidates,
             timings=timings,
             resume_metadata=resume_metadata,
+            assessment=assessment,
         )
 
     except HTTPException:

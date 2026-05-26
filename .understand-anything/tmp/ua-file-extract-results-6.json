@@ -1,0 +1,364 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 14,
+  "filesSkipped": [],
+  "results": [
+    {
+      "path": ".gitattributes",
+      "language": "unknown",
+      "fileCategory": "code",
+      "totalLines": 2,
+      "nonEmptyLines": 2,
+      "metrics": {}
+    },
+    {
+      "path": ".understand-anything/.understandignore",
+      "language": "unknown",
+      "fileCategory": "code",
+      "totalLines": 30,
+      "nonEmptyLines": 24,
+      "metrics": {}
+    },
+    {
+      "path": "bash.exe.stackdump",
+      "language": "stackdump",
+      "fileCategory": "code",
+      "totalLines": 28,
+      "nonEmptyLines": 28,
+      "metrics": {}
+    },
+    {
+      "path": "PLAN.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 224,
+      "nonEmptyLines": 196,
+      "sections": [
+        {
+          "heading": "Implementation Plan: Phase 1 Zero-Hallucination RAG Pipeline for 10M+ Documents",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "Requirements Restatement",
+          "level": 2,
+          "line": 3
+        },
+        {
+          "heading": "Implementation Phases",
+          "level": 2,
+          "line": 11
+        },
+        {
+          "heading": "Phase 1: Project Structure & Dependencies DONE",
+          "level": 3,
+          "line": 13
+        },
+        {
+          "heading": "Phase 2: Ingestion Module Implementation (Scaffold) DONE",
+          "level": 3,
+          "line": 19
+        },
+        {
+          "heading": "Phase 3: Hybrid Retrieval Module Implementation (Scaffold) DONE",
+          "level": 3,
+          "line": 25
+        },
+        {
+          "heading": "Phase 4: API Layer (Scaffold) DONE",
+          "level": 3,
+          "line": 31
+        },
+        {
+          "heading": "Phase 5: Configuration & Utilities DONE",
+          "level": 3,
+          "line": 36
+        },
+        {
+          "heading": "Detailed Folder Structure",
+          "level": 2,
+          "line": 42
+        },
+        {
+          "heading": "Core Dependencies (for requirements.txt)",
+          "level": 2,
+          "line": 132
+        },
+        {
+          "heading": "Risks and Mitigation Strategies",
+          "level": 2,
+          "line": 176
+        },
+        {
+          "heading": "Technical Risks",
+          "level": 3,
+          "line": 178
+        },
+        {
+          "heading": "Operational Risks",
+          "level": 3,
+          "line": 191
+        },
+        {
+          "heading": "Dependencies Between Components",
+          "level": 2,
+          "line": 201
+        },
+        {
+          "heading": "Estimated Complexity: HIGH",
+          "level": 2,
+          "line": 208
+        },
+        {
+          "heading": "Next Steps Upon Approval",
+          "level": 2,
+          "line": 217
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 16
+      }
+    },
+    {
+      "path": "README.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 109,
+      "nonEmptyLines": 93,
+      "sections": [
+        {
+          "heading": "Intelligent Recruiter Agent 6️⃣7️⃣😭",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "Overview",
+          "level": 2,
+          "line": 3
+        },
+        {
+          "heading": "Team",
+          "level": 2,
+          "line": 6
+        },
+        {
+          "heading": "Tech Stack",
+          "level": 2,
+          "line": 12
+        },
+        {
+          "heading": "Architecture",
+          "level": 2,
+          "line": 22
+        },
+        {
+          "heading": "Setup Instructions",
+          "level": 2,
+          "line": 46
+        },
+        {
+          "heading": "1. Create and Activate Virtual Environment",
+          "level": 3,
+          "line": 48
+        },
+        {
+          "heading": "2. Install Libraries",
+          "level": 3,
+          "line": 55
+        },
+        {
+          "heading": "3. Configure Environment",
+          "level": 3,
+          "line": 61
+        },
+        {
+          "heading": "4. Run Application",
+          "level": 3,
+          "line": 67
+        },
+        {
+          "heading": "5. Run the Test Suite",
+          "level": 3,
+          "line": 74
+        },
+        {
+          "heading": "How It Works",
+          "level": 2,
+          "line": 80
+        },
+        {
+          "heading": "Project Structure",
+          "level": 2,
+          "line": 87
+        },
+        {
+          "heading": "References",
+          "level": 2,
+          "line": 101
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 14
+      }
+    },
+    {
+      "path": "zero-hallucination-rag/__init__.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 1,
+      "nonEmptyLines": 0,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "zero-hallucination-rag/api/__init__.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 3,
+      "nonEmptyLines": 3,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "zero-hallucination-rag/api/dependencies/__init__.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 3,
+      "nonEmptyLines": 3,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "zero-hallucination-rag/scripts/__init__.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 1,
+      "nonEmptyLines": 0,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "zero-hallucination-rag/tests/__init__.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 1,
+      "nonEmptyLines": 0,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "zero-hallucination-rag/tests/ingestion/__init__.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 1,
+      "nonEmptyLines": 0,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "zero-hallucination-rag/tests/retrieval/__init__.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 1,
+      "nonEmptyLines": 0,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "zero-hallucination-rag/ui/app.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 63,
+      "nonEmptyLines": 50,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "zero-hallucination-rag/utils/monitoring.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 117,
+      "nonEmptyLines": 92,
+      "functions": [
+        {
+          "name": "track_duration",
+          "startLine": 111,
+          "endLine": 117,
+          "params": [
+            "histogram"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "track_duration",
+          "line": 110,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "track_duration",
+          "callee": "time.perf_counter",
+          "lineNumber": 113
+        },
+        {
+          "caller": "track_duration",
+          "callee": "histogram.observe",
+          "lineNumber": 117
+        },
+        {
+          "caller": "track_duration",
+          "callee": "time.perf_counter",
+          "lineNumber": 117
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    }
+  ]
+}

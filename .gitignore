@@ -5,7 +5,7 @@ logs/
 
 # Development Environment
 .venv/
-zero-hallucination-rag/.venv
+zero-hallucination-rag/.venv/
 node_modules/
 venv/
 .env/
@@ -23,3 +23,5 @@ logs/
 
 # Sensitive Files
 .env
+.understand-anything/intermediate/
+.understand-anything/diff-overlay.json

@@ -1,0 +1,3516 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 19,
+  "filesSkipped": [],
+  "results": [
+    {
+      "path": "zero-hallucination-rag/core/constants.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 176,
+      "nonEmptyLines": 148,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "zero-hallucination-rag/ingestion/__init__.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 36,
+      "nonEmptyLines": 34,
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "zero-hallucination-rag/ingestion/interfaces.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 207,
+      "nonEmptyLines": 157,
+      "classes": [
+        {
+          "name": "RawDocument",
+          "startLine": 24,
+          "endLine": 46,
+          "methods": [],
+          "properties": [
+            "source",
+            "content",
+            "mime_type",
+            "document_type",
+            "metadata"
+          ]
+        },
+        {
+          "name": "ProcessedChunk",
+          "startLine": 50,
+          "endLine": 72,
+          "methods": [],
+          "properties": [
+            "chunk_id",
+            "document_id",
+            "text",
+            "chunk_index",
+            "metadata"
+          ]
+        },
+        {
+          "name": "EmbeddedChunk",
+          "startLine": 76,
+          "endLine": 89,
+          "methods": [],
+          "properties": [
+            "chunk",
+            "embedding"
+          ]
+        },
+        {
+          "name": "DocumentValidator",
+          "startLine": 97,
+          "endLine": 108,
+          "methods": [
+            "validate",
+            "validation_errors"
+          ],
+          "properties": []
+        },
+        {
+          "name": "DocumentCleaner",
+          "startLine": 111,
+          "endLine": 117,
+          "methods": [
+            "clean"
+          ],
+          "properties": []
+        },
+        {
+          "name": "DocumentChunker",
+          "startLine": 120,
+          "endLine": 132,
+          "methods": [
+            "chunk"
+          ],
+          "properties": []
+        },
+        {
+          "name": "MetadataExtractor",
+          "startLine": 135,
+          "endLine": 141,
+          "methods": [
+            "extract"
+          ],
+          "properties": []
+        },
+        {
+          "name": "Embedder",
+          "startLine": 144,
+          "endLine": 161,
+          "methods": [
+            "embed",
+            "embed_single",
+            "dimension"
+          ],
+          "properties": []
+        },
+        {
+          "name": "DocumentStore",
+          "startLine": 164,
+          "endLine": 181,
+          "methods": [
+            "store",
+            "get",
+            "delete",
+            "exists"
+          ],
+          "properties": []
+        },
+        {
+          "name": "MetadataStore",
+          "startLine": 184,
+          "endLine": 207,
+          "methods": [
+            "store",
+            "get",
+            "delete",
+            "search"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "RawDocument",
+          "line": 23,
+          "isDefault": false
+        },
+        {
+          "name": "ProcessedChunk",
+          "line": 49,
+          "isDefault": false
+        },
+        {
+          "name": "EmbeddedChunk",
+          "line": 75,
+          "isDefault": false
+        },
+        {
+          "name": "DocumentValidator",
+          "line": 97,
+          "isDefault": false
+        },
+        {
+          "name": "DocumentCleaner",
+          "line": 111,
+          "isDefault": false
+        },
+        {
+          "name": "DocumentChunker",
+          "line": 120,
+          "isDefault": false
+        },
+        {
+          "name": "MetadataExtractor",
+          "line": 135,
+          "isDefault": false
+        },
+        {
+          "name": "Embedder",
+          "line": 144,
+          "isDefault": false
+        },
+        {
+          "name": "DocumentStore",
+          "line": 164,
+          "isDefault": false
+        },
+        {
+          "name": "MetadataStore",
+          "line": 184,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 10,
+        "functionCount": 0,
+        "classCount": 10
+      }
+    },
+    {
+      "path": "zero-hallucination-rag/ingestion/pipeline.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 243,
+      "nonEmptyLines": 207,
+      "classes": [
+        {
+          "name": "IngestionResult",
+          "startLine": 44,
+          "endLine": 52,
+          "methods": [],
+          "properties": [
+            "document_id",
+            "source",
+            "success",
+            "chunks_created",
+            "error",
+            "metadata"
+          ]
+        },
+        {
+          "name": "BatchIngestionResult",
+          "startLine": 56,
+          "endLine": 62,
+          "methods": [],
+          "properties": [
+            "total",
+            "succeeded",
+            "failed",
+            "results"
+          ]
+        },
+        {
+          "name": "IngestionPipeline",
+          "startLine": 70,
+          "endLine": 243,
+          "methods": [
+            "__init__",
+            "ingest",
+            "ingest_batch",
+            "_embed_chunks"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "IngestionResult",
+          "line": 43,
+          "isDefault": false
+        },
+        {
+          "name": "BatchIngestionResult",
+          "line": 55,
+          "isDefault": false
+        },
+        {
+          "name": "IngestionPipeline",
+          "line": 70,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "ingest",
+          "callee": "generate_document_id",
+          "lineNumber": 134
+        },
+        {
+          "caller": "ingest",
+          "callee": "isinstance",
+          "lineNumber": 135
+        },
+        {
+          "caller": "ingest",
+          "callee": "document.content.decode",
+          "lineNumber": 135
+        },
+        {
+          "caller": "ingest",
+          "callee": "self._validator.validate",
+          "lineNumber": 140
+        },
+        {
+          "caller": "ingest",
+          "callee": "self._validator.validation_errors",
+          "lineNumber": 141
+        },
+        {
+          "caller": "ingest",
+          "callee": "DocumentValidationError",
+          "lineNumber": 142
+        },
+        {
+          "caller": "ingest",
+          "callee": "'; '.join",
+          "lineNumber": 143
+        },
+        {
+          "caller": "ingest",
+          "callee": "self._metadata_extractor.extract",
+          "lineNumber": 147
+        },
+        {
+          "caller": "ingest",
+          "callee": "metadata.update",
+          "lineNumber": 148
+        },
+        {
+          "caller": "ingest",
+          "callee": "isinstance",
+          "lineNumber": 153
+        },
+        {
+          "caller": "ingest",
+          "callee": "document.content.decode",
+          "lineNumber": 154
+        },
+        {
+          "caller": "ingest",
+          "callee": "self._cleaner.clean",
+          "lineNumber": 156
+        },
+        {
+          "caller": "ingest",
+          "callee": "self._chunker.chunk",
+          "lineNumber": 159
+        },
+        {
+          "caller": "ingest",
+          "callee": "self._embed_chunks",
+          "lineNumber": 164
+        },
+        {
+          "caller": "ingest",
+          "callee": "self._document_store.store",
+          "lineNumber": 168
+        },
+        {
+          "caller": "ingest",
+          "callee": "self._metadata_store.store",
+          "lineNumber": 170
+        },
+        {
+          "caller": "ingest",
+          "callee": "logger.info",
+          "lineNumber": 172
+        },
+        {
+          "caller": "ingest",
+          "callee": "len",
+          "lineNumber": 176
+        },
+        {
+          "caller": "ingest",
+          "callee": "IngestionResult",
+          "lineNumber": 178
+        },
+        {
+          "caller": "ingest",
+          "callee": "len",
+          "lineNumber": 182
+        },
+        {
+          "caller": "ingest",
+          "callee": "logger.error",
+          "lineNumber": 189
+        },
+        {
+          "caller": "ingest",
+          "callee": "str",
+          "lineNumber": 192
+        },
+        {
+          "caller": "ingest",
+          "callee": "IngestionResult",
+          "lineNumber": 194
+        },
+        {
+          "caller": "ingest",
+          "callee": "str",
+          "lineNumber": 198
+        },
+        {
+          "caller": "ingest_batch",
+          "callee": "BatchIngestionResult",
+          "lineNumber": 210
+        },
+        {
+          "caller": "ingest_batch",
+          "callee": "len",
+          "lineNumber": 210
+        },
+        {
+          "caller": "ingest_batch",
+          "callee": "self.ingest",
+          "lineNumber": 212
+        },
+        {
+          "caller": "ingest_batch",
+          "callee": "result.results.append",
+          "lineNumber": 213
+        },
+        {
+          "caller": "ingest_batch",
+          "callee": "logger.info",
+          "lineNumber": 219
+        },
+        {
+          "caller": "_embed_chunks",
+          "callee": "batched",
+          "lineNumber": 232
+        },
+        {
+          "caller": "_embed_chunks",
+          "callee": "self._embedder.embed",
+          "lineNumber": 235
+        },
+        {
+          "caller": "_embed_chunks",
+          "callee": "EmbeddingError",
+          "lineNumber": 237
+        },
+        {
+          "caller": "_embed_chunks",
+          "callee": "zip",
+          "lineNumber": 241
+        },
+        {
+          "caller": "_embed_chunks",
+          "callee": "embedded.append",
+          "lineNumber": 242
+        },
+        {
+          "caller": "_embed_chunks",
+          "callee": "EmbeddedChunk",
+          "lineNumber": 242
+        }
+      ],
+      "metrics": {
+        "importCount": 5,
+        "exportCount": 3,
+        "functionCount": 0,
+        "classCount": 3
+      }
+    },
+    {
+      "path": "zero-hallucination-rag/ingestion/processors/__init__.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 43,
+      "nonEmptyLines": 40,
+      "metrics": {
+        "importCount": 7,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "zero-hallucination-rag/ingestion/processors/chunker.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 252,
+      "nonEmptyLines": 208,
+      "functions": [
+        {
+          "name": "create_chunker",
+          "startLine": 208,
+          "endLine": 227,
+          "params": [
+            "config"
+          ]
+        },
+        {
+          "name": "create_chunker_for_document_type",
+          "startLine": 230,
+          "endLine": 251,
+          "params": [
+            "config",
+            "document_type"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "FixedSizeChunker",
+          "startLine": 19,
+          "endLine": 62,
+          "methods": [
+            "__init__",
+            "chunk"
+          ],
+          "properties": []
+        },
+        {
+          "name": "SentenceChunker",
+          "startLine": 65,
+          "endLine": 140,
+          "methods": [
+            "__init__",
+            "chunk"
+          ],
+          "properties": []
+        },
+        {
+          "name": "ParagraphChunker",
+          "startLine": 143,
+          "endLine": 200,
+          "methods": [
+            "__init__",
+            "chunk"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "FixedSizeChunker",
+          "line": 19,
+          "isDefault": false
+        },
+        {
+          "name": "SentenceChunker",
+          "line": 65,
+          "isDefault": false
+        },
+        {
+          "name": "ParagraphChunker",
+          "line": 143,
+          "isDefault": false
+        },
+        {
+          "name": "create_chunker",
+          "line": 208,
+          "isDefault": false
+        },
+        {
+          "name": "create_chunker_for_document_type",
+          "line": 230,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "chunk",
+          "callee": "len",
+          "lineNumber": 44
+        },
+        {
+          "caller": "chunk",
+          "callee": "len",
+          "lineNumber": 48
+        },
+        {
+          "caller": "chunk",
+          "callee": "chunk_text.strip",
+          "lineNumber": 48
+        },
+        {
+          "caller": "chunk",
+          "callee": "chunks.append",
+          "lineNumber": 49
+        },
+        {
+          "caller": "chunk",
+          "callee": "ProcessedChunk",
+          "lineNumber": 50
+        },
+        {
+          "caller": "chunk",
+          "callee": "generate_chunk_id",
+          "lineNumber": 51
+        },
+        {
+          "caller": "chunk",
+          "callee": "chunk_text.strip",
+          "lineNumber": 53
+        },
+        {
+          "caller": "chunk",
+          "callee": "self._SENTENCE_SPLIT.split",
+          "lineNumber": 87
+        },
+        {
+          "caller": "chunk",
+          "callee": "sentence.strip",
+          "lineNumber": 94
+        },
+        {
+          "caller": "chunk",
+          "callee": "len",
+          "lineNumber": 98
+        },
+        {
+          "caller": "chunk",
+          "callee": "\" \".join",
+          "lineNumber": 99
+        },
+        {
+          "caller": "chunk",
+          "callee": "len",
+          "lineNumber": 100
+        },
+        {
+          "caller": "chunk",
+          "callee": "chunks.append",
+          "lineNumber": 101
+        },
+        {
+          "caller": "chunk",
+          "callee": "ProcessedChunk",
+          "lineNumber": 102
+        },
+        {
+          "caller": "chunk",
+          "callee": "generate_chunk_id",
+          "lineNumber": 103
+        },
+        {
+          "caller": "chunk",
+          "callee": "len",
+          "lineNumber": 114
+        },
+        {
+          "caller": "chunk",
+          "callee": "range",
+          "lineNumber": 115
+        },
+        {
+          "caller": "chunk",
+          "callee": "len",
+          "lineNumber": 115
+        },
+        {
+          "caller": "chunk",
+          "callee": "len",
+          "lineNumber": 116
+        },
+        {
+          "caller": "chunk",
+          "callee": "sum",
+          "lineNumber": 121
+        },
+        {
+          "caller": "chunk",
+          "callee": "len",
+          "lineNumber": 121
+        },
+        {
+          "caller": "chunk",
+          "callee": "current_sentences.append",
+          "lineNumber": 123
+        },
+        {
+          "caller": "chunk",
+          "callee": "len",
+          "lineNumber": 124
+        },
+        {
+          "caller": "chunk",
+          "callee": "\" \".join",
+          "lineNumber": 128
+        },
+        {
+          "caller": "chunk",
+          "callee": "len",
+          "lineNumber": 129
+        },
+        {
+          "caller": "chunk",
+          "callee": "chunks.append",
+          "lineNumber": 130
+        },
+        {
+          "caller": "chunk",
+          "callee": "ProcessedChunk",
+          "lineNumber": 131
+        },
+        {
+          "caller": "chunk",
+          "callee": "generate_chunk_id",
+          "lineNumber": 132
+        },
+        {
+          "caller": "chunk",
+          "callee": "p.strip",
+          "lineNumber": 161
+        },
+        {
+          "caller": "chunk",
+          "callee": "text.split",
+          "lineNumber": 161
+        },
+        {
+          "caller": "chunk",
+          "callee": "p.strip",
+          "lineNumber": 161
+        },
+        {
+          "caller": "chunk",
+          "callee": "len",
+          "lineNumber": 168
+        },
+        {
+          "caller": "chunk",
+          "callee": "\"\\n\\n\".join",
+          "lineNumber": 169
+        },
+        {
+          "caller": "chunk",
+          "callee": "len",
+          "lineNumber": 170
+        },
+        {
+          "caller": "chunk",
+          "callee": "chunks.append",
+          "lineNumber": 171
+        },
+        {
+          "caller": "chunk",
+          "callee": "ProcessedChunk",
+          "lineNumber": 172
+        },
+        {
+          "caller": "chunk",
+          "callee": "generate_chunk_id",
+          "lineNumber": 173
+        },
+        {
+          "caller": "chunk",
+          "callee": "buffer.append",
+          "lineNumber": 184
+        },
+        {
+          "caller": "chunk",
+          "callee": "len",
+          "lineNumber": 185
+        },
+        {
+          "caller": "chunk",
+          "callee": "\"\\n\\n\".join",
+          "lineNumber": 188
+        },
+        {
+          "caller": "chunk",
+          "callee": "len",
+          "lineNumber": 189
+        },
+        {
+          "caller": "chunk",
+          "callee": "chunks.append",
+          "lineNumber": 190
+        },
+        {
+          "caller": "chunk",
+          "callee": "ProcessedChunk",
+          "lineNumber": 191
+        },
+        {
+          "caller": "chunk",
+          "callee": "generate_chunk_id",
+          "lineNumber": 192
+        },
+        {
+          "caller": "create_chunker",
+          "callee": "_registry.get",
+          "lineNumber": 224
+        },
+        {
+          "caller": "create_chunker",
+          "callee": "ValueError",
+          "lineNumber": 226
+        },
+        {
+          "caller": "create_chunker",
+          "callee": "cls",
+          "lineNumber": 227
+        },
+        {
+          "caller": "create_chunker_for_document_type",
+          "callee": "JDSectionChunker",
+          "lineNumber": 250
+        },
+        {
+          "caller": "create_chunker_for_document_type",
+          "callee": "ResumeSectionChunker",
+          "lineNumber": 251
+        }
+      ],
+      "metrics": {
+        "importCount": 3,
+        "exportCount": 5,
+        "functionCount": 2,
+        "classCount": 3
+      }
+    },
+    {
+      "path": "zero-hallucination-rag/ingestion/processors/cleaner.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 82,
+      "nonEmptyLines": 64,
+      "classes": [
+        {
+          "name": "DefaultTextCleaner",
+          "startLine": 17,
+          "endLine": 82,
+          "methods": [
+            "__init__",
+            "clean"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "DefaultTextCleaner",
+          "line": 17,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "clean",
+          "callee": "unicodedata.normalize",
+          "lineNumber": 59
+        },
+        {
+          "caller": "clean",
+          "callee": "self._HTML_TAG.sub",
+          "lineNumber": 62
+        },
+        {
+          "caller": "clean",
+          "callee": "self._URL_PATTERN.sub",
+          "lineNumber": 65
+        },
+        {
+          "caller": "clean",
+          "callee": "text.lower",
+          "lineNumber": 68
+        },
+        {
+          "caller": "clean",
+          "callee": "self._MULTI_WHITESPACE.sub",
+          "lineNumber": 71
+        },
+        {
+          "caller": "clean",
+          "callee": "self._MULTI_NEWLINE.sub",
+          "lineNumber": 74
+        },
+        {
+          "caller": "clean",
+          "callee": "text.split",
+          "lineNumber": 78
+        },
+        {
+          "caller": "clean",
+          "callee": "len",
+          "lineNumber": 79
+        },
+        {
+          "caller": "clean",
+          "callee": "l.strip",
+          "lineNumber": 79
+        },
+        {
+          "caller": "clean",
+          "callee": "\"\\n\".join",
+          "lineNumber": 80
+        },
+        {
+          "caller": "clean",
+          "callee": "text.strip",
+          "lineNumber": 82
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "zero-hallucination-rag/ingestion/processors/jd_metadata_extractor.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 191,
+      "nonEmptyLines": 154,
+      "functions": [
+        {
+          "name": "_extract_job_title",
+          "startLine": 63,
+          "endLine": 80,
+          "params": [
+            "text"
+          ]
+        },
+        {
+          "name": "_extract_required_skills",
+          "startLine": 83,
+          "endLine": 104,
+          "params": [
+            "text"
+          ]
+        },
+        {
+          "name": "_extract_experience_years",
+          "startLine": 107,
+          "endLine": 113,
+          "params": [
+            "text"
+          ]
+        },
+        {
+          "name": "_extract_education_level",
+          "startLine": 116,
+          "endLine": 122,
+          "params": [
+            "text"
+          ]
+        },
+        {
+          "name": "_detect_industry",
+          "startLine": 125,
+          "endLine": 136,
+          "params": [
+            "text"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "JDMetadataExtractor",
+          "startLine": 144,
+          "endLine": 191,
+          "methods": [
+            "extract"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "_extract_job_title",
+          "line": 63,
+          "isDefault": false
+        },
+        {
+          "name": "_extract_required_skills",
+          "line": 83,
+          "isDefault": false
+        },
+        {
+          "name": "_extract_experience_years",
+          "line": 107,
+          "isDefault": false
+        },
+        {
+          "name": "_extract_education_level",
+          "line": 116,
+          "isDefault": false
+        },
+        {
+          "name": "_detect_industry",
+          "line": 125,
+          "isDefault": false
+        },
+        {
+          "name": "JDMetadataExtractor",
+          "line": 144,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "_extract_job_title",
+          "callee": "l.strip",
+          "lineNumber": 68
+        },
+        {
+          "caller": "_extract_job_title",
+          "callee": "text.split",
+          "lineNumber": 68
+        },
+        {
+          "caller": "_extract_job_title",
+          "callee": "l.strip",
+          "lineNumber": 68
+        },
+        {
+          "caller": "_extract_job_title",
+          "callee": "len",
+          "lineNumber": 71
+        },
+        {
+          "caller": "_extract_job_title",
+          "callee": "any",
+          "lineNumber": 74
+        },
+        {
+          "caller": "_extract_job_title",
+          "callee": "line.lower",
+          "lineNumber": 74
+        },
+        {
+          "caller": "_extract_job_title",
+          "callee": "sum",
+          "lineNumber": 77
+        },
+        {
+          "caller": "_extract_job_title",
+          "callee": "c.isalpha",
+          "lineNumber": 77
+        },
+        {
+          "caller": "_extract_job_title",
+          "callee": "c.isspace",
+          "lineNumber": 77
+        },
+        {
+          "caller": "_extract_job_title",
+          "callee": "max",
+          "lineNumber": 77
+        },
+        {
+          "caller": "_extract_job_title",
+          "callee": "len",
+          "lineNumber": 77
+        },
+        {
+          "caller": "_extract_job_title",
+          "callee": "len",
+          "lineNumber": 78
+        },
+        {
+          "caller": "_extract_required_skills",
+          "callee": "_REQUIREMENTS_HEADER.search",
+          "lineNumber": 87
+        },
+        {
+          "caller": "_extract_required_skills",
+          "callee": "match.end",
+          "lineNumber": 91
+        },
+        {
+          "caller": "_extract_required_skills",
+          "callee": "re.search",
+          "lineNumber": 93
+        },
+        {
+          "caller": "_extract_required_skills",
+          "callee": "next_header.start",
+          "lineNumber": 94
+        },
+        {
+          "caller": "_extract_required_skills",
+          "callee": "min",
+          "lineNumber": 94
+        },
+        {
+          "caller": "_extract_required_skills",
+          "callee": "len",
+          "lineNumber": 94
+        },
+        {
+          "caller": "_extract_required_skills",
+          "callee": "re.split",
+          "lineNumber": 98
+        },
+        {
+          "caller": "_extract_required_skills",
+          "callee": "item.strip().strip(\"-–—*\").strip",
+          "lineNumber": 101
+        },
+        {
+          "caller": "_extract_required_skills",
+          "callee": "item.strip().strip",
+          "lineNumber": 101
+        },
+        {
+          "caller": "_extract_required_skills",
+          "callee": "item.strip",
+          "lineNumber": 101
+        },
+        {
+          "caller": "_extract_required_skills",
+          "callee": "len",
+          "lineNumber": 102
+        },
+        {
+          "caller": "_extract_required_skills",
+          "callee": "skills.append",
+          "lineNumber": 103
+        },
+        {
+          "caller": "_extract_experience_years",
+          "callee": "_YEARS_EXP_PATTERN.findall",
+          "lineNumber": 109
+        },
+        {
+          "caller": "_extract_experience_years",
+          "callee": "min",
+          "lineNumber": 112
+        },
+        {
+          "caller": "_extract_experience_years",
+          "callee": "int",
+          "lineNumber": 112
+        },
+        {
+          "caller": "_extract_education_level",
+          "callee": "_DEGREE_PATTERNS.items",
+          "lineNumber": 119
+        },
+        {
+          "caller": "_extract_education_level",
+          "callee": "pattern.search",
+          "lineNumber": 120
+        },
+        {
+          "caller": "_detect_industry",
+          "callee": "text.lower",
+          "lineNumber": 127
+        },
+        {
+          "caller": "_detect_industry",
+          "callee": "_INDUSTRY_KEYWORDS.items",
+          "lineNumber": 129
+        },
+        {
+          "caller": "_detect_industry",
+          "callee": "sum",
+          "lineNumber": 130
+        },
+        {
+          "caller": "_detect_industry",
+          "callee": "kw.lower",
+          "lineNumber": 130
+        },
+        {
+          "caller": "_detect_industry",
+          "callee": "max",
+          "lineNumber": 135
+        },
+        {
+          "caller": "extract",
+          "callee": "isinstance",
+          "lineNumber": 155
+        },
+        {
+          "caller": "extract",
+          "callee": "document.content.decode",
+          "lineNumber": 156
+        },
+        {
+          "caller": "extract",
+          "callee": "Path(document.source).suffix.lower",
+          "lineNumber": 162
+        },
+        {
+          "caller": "extract",
+          "callee": "Path",
+          "lineNumber": 162
+        },
+        {
+          "caller": "extract",
+          "callee": "datetime.now(timezone.utc).isoformat",
+          "lineNumber": 163
+        },
+        {
+          "caller": "extract",
+          "callee": "datetime.now",
+          "lineNumber": 163
+        },
+        {
+          "caller": "extract",
+          "callee": "_extract_job_title",
+          "lineNumber": 167
+        },
+        {
+          "caller": "extract",
+          "callee": "_extract_required_skills",
+          "lineNumber": 172
+        },
+        {
+          "caller": "extract",
+          "callee": "_extract_experience_years",
+          "lineNumber": 177
+        },
+        {
+          "caller": "extract",
+          "callee": "_extract_education_level",
+          "lineNumber": 182
+        },
+        {
+          "caller": "extract",
+          "callee": "_detect_industry",
+          "lineNumber": 187
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 6,
+        "functionCount": 5,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "zero-hallucination-rag/ingestion/processors/metadata_extractor.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 70,
+      "nonEmptyLines": 58,
+      "classes": [
+        {
+          "name": "DefaultMetadataExtractor",
+          "startLine": 20,
+          "endLine": 70,
+          "methods": [
+            "extract"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "DefaultMetadataExtractor",
+          "line": 20,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "extract",
+          "callee": "isinstance",
+          "lineNumber": 39
+        },
+        {
+          "caller": "extract",
+          "callee": "document.content.decode",
+          "lineNumber": 40
+        },
+        {
+          "caller": "extract",
+          "callee": "isinstance",
+          "lineNumber": 45
+        },
+        {
+          "caller": "extract",
+          "callee": "document.content.encode",
+          "lineNumber": 46
+        },
+        {
+          "caller": "extract",
+          "callee": "hashlib.sha256(content_bytes).hexdigest",
+          "lineNumber": 52
+        },
+        {
+          "caller": "extract",
+          "callee": "hashlib.sha256",
+          "lineNumber": 52
+        },
+        {
+          "caller": "extract",
+          "callee": "len",
+          "lineNumber": 53
+        },
+        {
+          "caller": "extract",
+          "callee": "len",
+          "lineNumber": 54
+        },
+        {
+          "caller": "extract",
+          "callee": "text.split",
+          "lineNumber": 54
+        },
+        {
+          "caller": "extract",
+          "callee": "text.count",
+          "lineNumber": 55
+        },
+        {
+          "caller": "extract",
+          "callee": "datetime.now(timezone.utc).isoformat",
+          "lineNumber": 56
+        },
+        {
+          "caller": "extract",
+          "callee": "datetime.now",
+          "lineNumber": 56
+        },
+        {
+          "caller": "extract",
+          "callee": "Path",
+          "lineNumber": 60
+        },
+        {
+          "caller": "extract",
+          "callee": "source_path.suffix.lower",
+          "lineNumber": 62
+        },
+        {
+          "caller": "extract",
+          "callee": "os.path.isfile",
+          "lineNumber": 63
+        },
+        {
+          "caller": "extract",
+          "callee": "os.stat",
+          "lineNumber": 64
+        },
+        {
+          "caller": "extract",
+          "callee": "datetime.fromtimestamp(\n                stat.st_mtime, tz=timezone.utc\n            ).isoformat",
+          "lineNumber": 66
+        },
+        {
+          "caller": "extract",
+          "callee": "datetime.fromtimestamp",
+          "lineNumber": 66
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "zero-hallucination-rag/ingestion/processors/resume_metadata_extractor.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 300,
+      "nonEmptyLines": 243,
+      "functions": [
+        {
+          "name": "_extract_candidate_name",
+          "startLine": 72,
+          "endLine": 95,
+          "params": [
+            "text"
+          ]
+        },
+        {
+          "name": "_extract_skills_from_section",
+          "startLine": 98,
+          "endLine": 120,
+          "params": [
+            "text"
+          ]
+        },
+        {
+          "name": "_extract_experience_years",
+          "startLine": 123,
+          "endLine": 128,
+          "params": [
+            "text"
+          ]
+        },
+        {
+          "name": "_extract_education_level",
+          "startLine": 131,
+          "endLine": 136,
+          "params": [
+            "text"
+          ]
+        },
+        {
+          "name": "_extract_job_title",
+          "startLine": 139,
+          "endLine": 154,
+          "params": [
+            "text"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "LLMClient",
+          "startLine": 27,
+          "endLine": 37,
+          "methods": [
+            "complete"
+          ],
+          "properties": []
+        },
+        {
+          "name": "ResumeMetadataExtractor",
+          "startLine": 162,
+          "endLine": 219,
+          "methods": [
+            "extract"
+          ],
+          "properties": []
+        },
+        {
+          "name": "LLMResumeMetadataExtractor",
+          "startLine": 222,
+          "endLine": 300,
+          "methods": [
+            "__init__",
+            "extract"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "LLMClient",
+          "line": 26,
+          "isDefault": false
+        },
+        {
+          "name": "_extract_candidate_name",
+          "line": 72,
+          "isDefault": false
+        },
+        {
+          "name": "_extract_skills_from_section",
+          "line": 98,
+          "isDefault": false
+        },
+        {
+          "name": "_extract_experience_years",
+          "line": 123,
+          "isDefault": false
+        },
+        {
+          "name": "_extract_education_level",
+          "line": 131,
+          "isDefault": false
+        },
+        {
+          "name": "_extract_job_title",
+          "line": 139,
+          "isDefault": false
+        },
+        {
+          "name": "ResumeMetadataExtractor",
+          "line": 162,
+          "isDefault": false
+        },
+        {
+          "name": "LLMResumeMetadataExtractor",
+          "line": 222,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "_extract_candidate_name",
+          "callee": "text.split",
+          "lineNumber": 77
+        },
+        {
+          "caller": "_extract_candidate_name",
+          "callee": "line.strip",
+          "lineNumber": 78
+        },
+        {
+          "caller": "_extract_candidate_name",
+          "callee": "len",
+          "lineNumber": 79
+        },
+        {
+          "caller": "_extract_candidate_name",
+          "callee": "_EMAIL_PATTERN.search",
+          "lineNumber": 82
+        },
+        {
+          "caller": "_extract_candidate_name",
+          "callee": "_PHONE_PATTERN.search",
+          "lineNumber": 84
+        },
+        {
+          "caller": "_extract_candidate_name",
+          "callee": "line.startswith",
+          "lineNumber": 86
+        },
+        {
+          "caller": "_extract_candidate_name",
+          "callee": "len",
+          "lineNumber": 89
+        },
+        {
+          "caller": "_extract_candidate_name",
+          "callee": "sum",
+          "lineNumber": 92
+        },
+        {
+          "caller": "_extract_candidate_name",
+          "callee": "c.isalpha",
+          "lineNumber": 92
+        },
+        {
+          "caller": "_extract_candidate_name",
+          "callee": "c.isspace",
+          "lineNumber": 92
+        },
+        {
+          "caller": "_extract_candidate_name",
+          "callee": "max",
+          "lineNumber": 92
+        },
+        {
+          "caller": "_extract_candidate_name",
+          "callee": "len",
+          "lineNumber": 92
+        },
+        {
+          "caller": "_extract_skills_from_section",
+          "callee": "_SKILLS_HEADER.search",
+          "lineNumber": 102
+        },
+        {
+          "caller": "_extract_skills_from_section",
+          "callee": "match.end",
+          "lineNumber": 107
+        },
+        {
+          "caller": "_extract_skills_from_section",
+          "callee": "re.search",
+          "lineNumber": 109
+        },
+        {
+          "caller": "_extract_skills_from_section",
+          "callee": "next_header.start",
+          "lineNumber": 110
+        },
+        {
+          "caller": "_extract_skills_from_section",
+          "callee": "len",
+          "lineNumber": 110
+        },
+        {
+          "caller": "_extract_skills_from_section",
+          "callee": "re.split",
+          "lineNumber": 114
+        },
+        {
+          "caller": "_extract_skills_from_section",
+          "callee": "item.strip().strip(\"-–—•*\").strip",
+          "lineNumber": 117
+        },
+        {
+          "caller": "_extract_skills_from_section",
+          "callee": "item.strip().strip",
+          "lineNumber": 117
+        },
+        {
+          "caller": "_extract_skills_from_section",
+          "callee": "item.strip",
+          "lineNumber": 117
+        },
+        {
+          "caller": "_extract_skills_from_section",
+          "callee": "len",
+          "lineNumber": 118
+        },
+        {
+          "caller": "_extract_skills_from_section",
+          "callee": "skills.append",
+          "lineNumber": 119
+        },
+        {
+          "caller": "_extract_experience_years",
+          "callee": "_YEARS_EXP_PATTERN.findall",
+          "lineNumber": 125
+        },
+        {
+          "caller": "_extract_experience_years",
+          "callee": "max",
+          "lineNumber": 127
+        },
+        {
+          "caller": "_extract_experience_years",
+          "callee": "int",
+          "lineNumber": 127
+        },
+        {
+          "caller": "_extract_education_level",
+          "callee": "_DEGREE_PATTERNS.items",
+          "lineNumber": 133
+        },
+        {
+          "caller": "_extract_education_level",
+          "callee": "pattern.search",
+          "lineNumber": 134
+        },
+        {
+          "caller": "_extract_job_title",
+          "callee": "l.strip",
+          "lineNumber": 144
+        },
+        {
+          "caller": "_extract_job_title",
+          "callee": "text.split",
+          "lineNumber": 144
+        },
+        {
+          "caller": "_extract_job_title",
+          "callee": "l.strip",
+          "lineNumber": 144
+        },
+        {
+          "caller": "_extract_job_title",
+          "callee": "len",
+          "lineNumber": 147
+        },
+        {
+          "caller": "_extract_job_title",
+          "callee": "_EMAIL_PATTERN.search",
+          "lineNumber": 147
+        },
+        {
+          "caller": "_extract_job_title",
+          "callee": "sum",
+          "lineNumber": 149
+        },
+        {
+          "caller": "_extract_job_title",
+          "callee": "c.isalpha",
+          "lineNumber": 149
+        },
+        {
+          "caller": "_extract_job_title",
+          "callee": "c.isspace",
+          "lineNumber": 149
+        },
+        {
+          "caller": "_extract_job_title",
+          "callee": "max",
+          "lineNumber": 149
+        },
+        {
+          "caller": "_extract_job_title",
+          "callee": "len",
+          "lineNumber": 150
+        },
+        {
+          "caller": "extract",
+          "callee": "isinstance",
+          "lineNumber": 173
+        },
+        {
+          "caller": "extract",
+          "callee": "document.content.decode",
+          "lineNumber": 174
+        },
+        {
+          "caller": "extract",
+          "callee": "Path(document.source).suffix.lower",
+          "lineNumber": 180
+        },
+        {
+          "caller": "extract",
+          "callee": "Path",
+          "lineNumber": 180
+        },
+        {
+          "caller": "extract",
+          "callee": "datetime.now(timezone.utc).isoformat",
+          "lineNumber": 181
+        },
+        {
+          "caller": "extract",
+          "callee": "datetime.now",
+          "lineNumber": 181
+        },
+        {
+          "caller": "extract",
+          "callee": "_extract_candidate_name",
+          "lineNumber": 185
+        },
+        {
+          "caller": "extract",
+          "callee": "_EMAIL_PATTERN.search",
+          "lineNumber": 190
+        },
+        {
+          "caller": "extract",
+          "callee": "email_match.group",
+          "lineNumber": 192
+        },
+        {
+          "caller": "extract",
+          "callee": "_PHONE_PATTERN.search",
+          "lineNumber": 195
+        },
+        {
+          "caller": "extract",
+          "callee": "phone_match.group",
+          "lineNumber": 197
+        },
+        {
+          "caller": "extract",
+          "callee": "_extract_skills_from_section",
+          "lineNumber": 200
+        },
+        {
+          "caller": "extract",
+          "callee": "_extract_experience_years",
+          "lineNumber": 205
+        },
+        {
+          "caller": "extract",
+          "callee": "_extract_education_level",
+          "lineNumber": 210
+        },
+        {
+          "caller": "extract",
+          "callee": "_extract_job_title",
+          "lineNumber": 215
+        },
+        {
+          "caller": "__init__",
+          "callee": "ResumeMetadataExtractor",
+          "lineNumber": 255
+        },
+        {
+          "caller": "extract",
+          "callee": "isinstance",
+          "lineNumber": 260
+        },
+        {
+          "caller": "extract",
+          "callee": "document.content.decode",
+          "lineNumber": 261
+        },
+        {
+          "caller": "extract",
+          "callee": "self._fallback.extract",
+          "lineNumber": 265
+        },
+        {
+          "caller": "extract",
+          "callee": "self._llm.complete",
+          "lineNumber": 272
+        },
+        {
+          "caller": "extract",
+          "callee": "json.loads",
+          "lineNumber": 278
+        },
+        {
+          "caller": "extract",
+          "callee": "llm_data.get",
+          "lineNumber": 281
+        },
+        {
+          "caller": "extract",
+          "callee": "llm_data.get",
+          "lineNumber": 283
+        },
+        {
+          "caller": "extract",
+          "callee": "llm_data.get",
+          "lineNumber": 285
+        },
+        {
+          "caller": "extract",
+          "callee": "llm_data.get",
+          "lineNumber": 287
+        },
+        {
+          "caller": "extract",
+          "callee": "llm_data.get",
+          "lineNumber": 289
+        },
+        {
+          "caller": "extract",
+          "callee": "llm_data.get",
+          "lineNumber": 291
+        },
+        {
+          "caller": "extract",
+          "callee": "logger.warning",
+          "lineNumber": 295
+        },
+        {
+          "caller": "extract",
+          "callee": "str",
+          "lineNumber": 297
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 8,
+        "functionCount": 5,
+        "classCount": 3
+      }
+    },
+    {
+      "path": "zero-hallucination-rag/ingestion/processors/section_chunker.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 248,
+      "nonEmptyLines": 214,
+      "functions": [
+        {
+          "name": "_build_header_pattern",
+          "startLine": 26,
+          "endLine": 46,
+          "params": [
+            "headers"
+          ]
+        },
+        {
+          "name": "_split_by_sections",
+          "startLine": 49,
+          "endLine": 181,
+          "params": [
+            "text",
+            "header_pattern",
+            "min_chunk_size",
+            "max_chunk_size",
+            "document_id",
+            "metadata"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "ResumeSectionChunker",
+          "startLine": 189,
+          "endLine": 217,
+          "methods": [
+            "__init__",
+            "chunk"
+          ],
+          "properties": []
+        },
+        {
+          "name": "JDSectionChunker",
+          "startLine": 220,
+          "endLine": 248,
+          "methods": [
+            "__init__",
+            "chunk"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "_build_header_pattern",
+          "line": 26,
+          "isDefault": false
+        },
+        {
+          "name": "_split_by_sections",
+          "line": 49,
+          "isDefault": false
+        },
+        {
+          "name": "ResumeSectionChunker",
+          "line": 189,
+          "isDefault": false
+        },
+        {
+          "name": "JDSectionChunker",
+          "line": 220,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "_build_header_pattern",
+          "callee": "re.escape",
+          "lineNumber": 35
+        },
+        {
+          "caller": "_build_header_pattern",
+          "callee": "sorted",
+          "lineNumber": 35
+        },
+        {
+          "caller": "_build_header_pattern",
+          "callee": "\"|\".join",
+          "lineNumber": 36
+        },
+        {
+          "caller": "_build_header_pattern",
+          "callee": "re.compile",
+          "lineNumber": 46
+        },
+        {
+          "caller": "_split_by_sections",
+          "callee": "list",
+          "lineNumber": 68
+        },
+        {
+          "caller": "_split_by_sections",
+          "callee": "header_pattern.finditer",
+          "lineNumber": 68
+        },
+        {
+          "caller": "_split_by_sections",
+          "callee": "text.strip",
+          "lineNumber": 72
+        },
+        {
+          "caller": "_split_by_sections",
+          "callee": "len",
+          "lineNumber": 73
+        },
+        {
+          "caller": "_split_by_sections",
+          "callee": "chunks.append",
+          "lineNumber": 74
+        },
+        {
+          "caller": "_split_by_sections",
+          "callee": "ProcessedChunk",
+          "lineNumber": 75
+        },
+        {
+          "caller": "_split_by_sections",
+          "callee": "generate_chunk_id",
+          "lineNumber": 76
+        },
+        {
+          "caller": "_split_by_sections",
+          "callee": "text[: matches[0].start()].strip",
+          "lineNumber": 90
+        },
+        {
+          "caller": "_split_by_sections",
+          "callee": "matches[0].start",
+          "lineNumber": 90
+        },
+        {
+          "caller": "_split_by_sections",
+          "callee": "len",
+          "lineNumber": 92
+        },
+        {
+          "caller": "_split_by_sections",
+          "callee": "chunks.append",
+          "lineNumber": 93
+        },
+        {
+          "caller": "_split_by_sections",
+          "callee": "ProcessedChunk",
+          "lineNumber": 94
+        },
+        {
+          "caller": "_split_by_sections",
+          "callee": "generate_chunk_id",
+          "lineNumber": 95
+        },
+        {
+          "caller": "_split_by_sections",
+          "callee": "enumerate",
+          "lineNumber": 109
+        },
+        {
+          "caller": "_split_by_sections",
+          "callee": "match.group(\"header\").strip().lower",
+          "lineNumber": 110
+        },
+        {
+          "caller": "_split_by_sections",
+          "callee": "match.group(\"header\").strip",
+          "lineNumber": 110
+        },
+        {
+          "caller": "_split_by_sections",
+          "callee": "match.group",
+          "lineNumber": 110
+        },
+        {
+          "caller": "_split_by_sections",
+          "callee": "match.end",
+          "lineNumber": 111
+        },
+        {
+          "caller": "_split_by_sections",
+          "callee": "matches[i + 1].start",
+          "lineNumber": 112
+        },
+        {
+          "caller": "_split_by_sections",
+          "callee": "len",
+          "lineNumber": 112
+        },
+        {
+          "caller": "_split_by_sections",
+          "callee": "len",
+          "lineNumber": 112
+        },
+        {
+          "caller": "_split_by_sections",
+          "callee": "text[section_start:section_end].strip",
+          "lineNumber": 113
+        },
+        {
+          "caller": "_split_by_sections",
+          "callee": "len",
+          "lineNumber": 115
+        },
+        {
+          "caller": "_split_by_sections",
+          "callee": "len",
+          "lineNumber": 119
+        },
+        {
+          "caller": "_split_by_sections",
+          "callee": "chunks.append",
+          "lineNumber": 120
+        },
+        {
+          "caller": "_split_by_sections",
+          "callee": "ProcessedChunk",
+          "lineNumber": 121
+        },
+        {
+          "caller": "_split_by_sections",
+          "callee": "generate_chunk_id",
+          "lineNumber": 122
+        },
+        {
+          "caller": "_split_by_sections",
+          "callee": "p.strip",
+          "lineNumber": 136
+        },
+        {
+          "caller": "_split_by_sections",
+          "callee": "section_text.split",
+          "lineNumber": 136
+        },
+        {
+          "caller": "_split_by_sections",
+          "callee": "p.strip",
+          "lineNumber": 136
+        },
+        {
+          "caller": "_split_by_sections",
+          "callee": "len",
+          "lineNumber": 141
+        },
+        {
+          "caller": "_split_by_sections",
+          "callee": "\"\\n\\n\".join",
+          "lineNumber": 142
+        },
+        {
+          "caller": "_split_by_sections",
+          "callee": "chunks.append",
+          "lineNumber": 143
+        },
+        {
+          "caller": "_split_by_sections",
+          "callee": "ProcessedChunk",
+          "lineNumber": 144
+        },
+        {
+          "caller": "_split_by_sections",
+          "callee": "generate_chunk_id",
+          "lineNumber": 145
+        },
+        {
+          "caller": "_split_by_sections",
+          "callee": "buffer.append",
+          "lineNumber": 160
+        },
+        {
+          "caller": "_split_by_sections",
+          "callee": "len",
+          "lineNumber": 161
+        },
+        {
+          "caller": "_split_by_sections",
+          "callee": "\"\\n\\n\".join",
+          "lineNumber": 164
+        },
+        {
+          "caller": "_split_by_sections",
+          "callee": "len",
+          "lineNumber": 165
+        },
+        {
+          "caller": "_split_by_sections",
+          "callee": "chunks.append",
+          "lineNumber": 166
+        },
+        {
+          "caller": "_split_by_sections",
+          "callee": "ProcessedChunk",
+          "lineNumber": 167
+        },
+        {
+          "caller": "_split_by_sections",
+          "callee": "generate_chunk_id",
+          "lineNumber": 168
+        },
+        {
+          "caller": "__init__",
+          "callee": "_build_header_pattern",
+          "lineNumber": 201
+        },
+        {
+          "caller": "chunk",
+          "callee": "_split_by_sections",
+          "lineNumber": 210
+        },
+        {
+          "caller": "__init__",
+          "callee": "_build_header_pattern",
+          "lineNumber": 232
+        },
+        {
+          "caller": "chunk",
+          "callee": "_split_by_sections",
+          "lineNumber": 241
+        }
+      ],
+      "metrics": {
+        "importCount": 4,
+        "exportCount": 4,
+        "functionCount": 2,
+        "classCount": 2
+      }
+    },
+    {
+      "path": "zero-hallucination-rag/ingestion/processors/validator.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 78,
+      "nonEmptyLines": 63,
+      "classes": [
+        {
+          "name": "DefaultDocumentValidator",
+          "startLine": 19,
+          "endLine": 78,
+          "methods": [
+            "__init__",
+            "validate",
+            "validation_errors"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "DefaultDocumentValidator",
+          "line": 19,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "__init__",
+          "callee": "int",
+          "lineNumber": 37
+        },
+        {
+          "caller": "__init__",
+          "callee": "set",
+          "lineNumber": 38
+        },
+        {
+          "caller": "__init__",
+          "callee": "frozenset",
+          "lineNumber": 39
+        },
+        {
+          "caller": "validate",
+          "callee": "len",
+          "lineNumber": 42
+        },
+        {
+          "caller": "validate",
+          "callee": "self.validation_errors",
+          "lineNumber": 42
+        },
+        {
+          "caller": "validation_errors",
+          "callee": "errors.append",
+          "lineNumber": 49
+        },
+        {
+          "caller": "validation_errors",
+          "callee": "len",
+          "lineNumber": 53
+        },
+        {
+          "caller": "validation_errors",
+          "callee": "isinstance",
+          "lineNumber": 54
+        },
+        {
+          "caller": "validation_errors",
+          "callee": "len",
+          "lineNumber": 55
+        },
+        {
+          "caller": "validation_errors",
+          "callee": "document.content.encode",
+          "lineNumber": 55
+        },
+        {
+          "caller": "validation_errors",
+          "callee": "errors.append",
+          "lineNumber": 58
+        },
+        {
+          "caller": "validation_errors",
+          "callee": "errors.append",
+          "lineNumber": 65
+        },
+        {
+          "caller": "validation_errors",
+          "callee": "sorted",
+          "lineNumber": 67
+        },
+        {
+          "caller": "validation_errors",
+          "callee": "file_extension",
+          "lineNumber": 71
+        },
+        {
+          "caller": "validation_errors",
+          "callee": "errors.append",
+          "lineNumber": 73
+        },
+        {
+          "caller": "validation_errors",
+          "callee": "sorted",
+          "lineNumber": 75
+        }
+      ],
+      "metrics": {
+        "importCount": 4,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "zero-hallucination-rag/ingestion/storage/__init__.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 8,
+      "nonEmptyLines": 6,
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "zero-hallucination-rag/ingestion/storage/document_store.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 52,
+      "nonEmptyLines": 38,
+      "classes": [
+        {
+          "name": "InMemoryDocumentStore",
+          "startLine": 20,
+          "endLine": 52,
+          "methods": [
+            "__init__",
+            "store",
+            "get",
+            "delete",
+            "exists",
+            "count"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "InMemoryDocumentStore",
+          "line": 20,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "store",
+          "callee": "logger.debug",
+          "lineNumber": 34
+        },
+        {
+          "caller": "get",
+          "callee": "self._store.get",
+          "lineNumber": 37
+        },
+        {
+          "caller": "delete",
+          "callee": "logger.debug",
+          "lineNumber": 42
+        },
+        {
+          "caller": "count",
+          "callee": "len",
+          "lineNumber": 52
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "zero-hallucination-rag/ingestion/storage/metadata_store.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 63,
+      "nonEmptyLines": 47,
+      "classes": [
+        {
+          "name": "InMemoryMetadataStore",
+          "startLine": 18,
+          "endLine": 63,
+          "methods": [
+            "__init__",
+            "store",
+            "get",
+            "delete",
+            "search",
+            "count"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "InMemoryMetadataStore",
+          "line": 18,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "store",
+          "callee": "logger.debug",
+          "lineNumber": 31
+        },
+        {
+          "caller": "get",
+          "callee": "self._store.get",
+          "lineNumber": 34
+        },
+        {
+          "caller": "search",
+          "callee": "self._store.items",
+          "lineNumber": 55
+        },
+        {
+          "caller": "search",
+          "callee": "all",
+          "lineNumber": 56
+        },
+        {
+          "caller": "search",
+          "callee": "meta.get",
+          "lineNumber": 56
+        },
+        {
+          "caller": "search",
+          "callee": "filters.items",
+          "lineNumber": 56
+        },
+        {
+          "caller": "search",
+          "callee": "results.append",
+          "lineNumber": 57
+        },
+        {
+          "caller": "count",
+          "callee": "len",
+          "lineNumber": 63
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "zero-hallucination-rag/tests/integration/test_ingestion_pipeline.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 156,
+      "nonEmptyLines": 129,
+      "functions": [
+        {
+          "name": "test_ingestion_pipeline_single_resume",
+          "startLine": 33,
+          "endLine": 102,
+          "params": []
+        },
+        {
+          "name": "test_ingestion_pipeline_batch",
+          "startLine": 106,
+          "endLine": 155,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "DummyEmbedder",
+          "startLine": 16,
+          "endLine": 29,
+          "methods": [
+            "__init__",
+            "embed",
+            "embed_single",
+            "dimension"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "DummyEmbedder",
+          "line": 16,
+          "isDefault": false
+        },
+        {
+          "name": "test_ingestion_pipeline_single_resume",
+          "line": 32,
+          "isDefault": false
+        },
+        {
+          "name": "test_ingestion_pipeline_batch",
+          "line": 105,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "test_ingestion_pipeline_single_resume",
+          "callee": "IngestionConfig",
+          "lineNumber": 35
+        },
+        {
+          "caller": "test_ingestion_pipeline_single_resume",
+          "callee": "DefaultDocumentValidator",
+          "lineNumber": 41
+        },
+        {
+          "caller": "test_ingestion_pipeline_single_resume",
+          "callee": "DefaultTextCleaner",
+          "lineNumber": 42
+        },
+        {
+          "caller": "test_ingestion_pipeline_single_resume",
+          "callee": "ChunkingConfig",
+          "lineNumber": 44
+        },
+        {
+          "caller": "test_ingestion_pipeline_single_resume",
+          "callee": "create_chunker",
+          "lineNumber": 50
+        },
+        {
+          "caller": "test_ingestion_pipeline_single_resume",
+          "callee": "ResumeMetadataExtractor",
+          "lineNumber": 52
+        },
+        {
+          "caller": "test_ingestion_pipeline_single_resume",
+          "callee": "DummyEmbedder",
+          "lineNumber": 53
+        },
+        {
+          "caller": "test_ingestion_pipeline_single_resume",
+          "callee": "InMemoryDocumentStore",
+          "lineNumber": 55
+        },
+        {
+          "caller": "test_ingestion_pipeline_single_resume",
+          "callee": "InMemoryMetadataStore",
+          "lineNumber": 56
+        },
+        {
+          "caller": "test_ingestion_pipeline_single_resume",
+          "callee": "IngestionPipeline",
+          "lineNumber": 59
+        },
+        {
+          "caller": "test_ingestion_pipeline_single_resume",
+          "callee": "RawDocument",
+          "lineNumber": 77
+        },
+        {
+          "caller": "test_ingestion_pipeline_single_resume",
+          "callee": "pipeline.ingest",
+          "lineNumber": 84
+        },
+        {
+          "caller": "test_ingestion_pipeline_single_resume",
+          "callee": "doc_store.exists",
+          "lineNumber": 92
+        },
+        {
+          "caller": "test_ingestion_pipeline_single_resume",
+          "callee": "doc_store.get",
+          "lineNumber": 94
+        },
+        {
+          "caller": "test_ingestion_pipeline_single_resume",
+          "callee": "meta_store.get",
+          "lineNumber": 98
+        },
+        {
+          "caller": "test_ingestion_pipeline_batch",
+          "callee": "IngestionConfig",
+          "lineNumber": 108
+        },
+        {
+          "caller": "test_ingestion_pipeline_batch",
+          "callee": "DefaultDocumentValidator",
+          "lineNumber": 113
+        },
+        {
+          "caller": "test_ingestion_pipeline_batch",
+          "callee": "DefaultTextCleaner",
+          "lineNumber": 114
+        },
+        {
+          "caller": "test_ingestion_pipeline_batch",
+          "callee": "create_chunker",
+          "lineNumber": 115
+        },
+        {
+          "caller": "test_ingestion_pipeline_batch",
+          "callee": "ChunkingConfig",
+          "lineNumber": 115
+        },
+        {
+          "caller": "test_ingestion_pipeline_batch",
+          "callee": "ResumeMetadataExtractor",
+          "lineNumber": 116
+        },
+        {
+          "caller": "test_ingestion_pipeline_batch",
+          "callee": "DummyEmbedder",
+          "lineNumber": 117
+        },
+        {
+          "caller": "test_ingestion_pipeline_batch",
+          "callee": "InMemoryDocumentStore",
+          "lineNumber": 118
+        },
+        {
+          "caller": "test_ingestion_pipeline_batch",
+          "callee": "InMemoryMetadataStore",
+          "lineNumber": 119
+        },
+        {
+          "caller": "test_ingestion_pipeline_batch",
+          "callee": "IngestionPipeline",
+          "lineNumber": 121
+        },
+        {
+          "caller": "test_ingestion_pipeline_batch",
+          "callee": "RawDocument",
+          "lineNumber": 133
+        },
+        {
+          "caller": "test_ingestion_pipeline_batch",
+          "callee": "pipeline.ingest_batch",
+          "lineNumber": 140
+        },
+        {
+          "caller": "test_ingestion_pipeline_batch",
+          "callee": "RawDocument",
+          "lineNumber": 148
+        },
+        {
+          "caller": "test_ingestion_pipeline_batch",
+          "callee": "pytest.raises",
+          "lineNumber": 154
+        },
+        {
+          "caller": "test_ingestion_pipeline_batch",
+          "callee": "pipeline.ingest",
+          "lineNumber": 155
+        }
+      ],
+      "metrics": {
+        "importCount": 9,
+        "exportCount": 3,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "zero-hallucination-rag/tests/system/test_system_flow.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 226,
+      "nonEmptyLines": 200,
+      "functions": [
+        {
+          "name": "test_end_to_end_system_matching_flow",
+          "startLine": 65,
+          "endLine": 226,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "SemanticKeywordEmbedder",
+          "startLine": 32,
+          "endLine": 61,
+          "methods": [
+            "__init__",
+            "_get_vector",
+            "embed",
+            "embed_single",
+            "dimension"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "SemanticKeywordEmbedder",
+          "line": 32,
+          "isDefault": false
+        },
+        {
+          "name": "test_end_to_end_system_matching_flow",
+          "line": 64,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "_get_vector",
+          "callee": "text.lower",
+          "lineNumber": 42
+        },
+        {
+          "caller": "embed",
+          "callee": "self._get_vector",
+          "lineNumber": 54
+        },
+        {
+          "caller": "embed_single",
+          "callee": "self._get_vector",
+          "lineNumber": 57
+        },
+        {
+          "caller": "test_end_to_end_system_matching_flow",
+          "callee": "get_settings",
+          "lineNumber": 73
+        },
+        {
+          "caller": "test_end_to_end_system_matching_flow",
+          "callee": "QdrantClient",
+          "lineNumber": 76
+        },
+        {
+          "caller": "test_end_to_end_system_matching_flow",
+          "callee": "QdrantVectorStore",
+          "lineNumber": 78
+        },
+        {
+          "caller": "test_end_to_end_system_matching_flow",
+          "callee": "vector_store.initialize",
+          "lineNumber": 83
+        },
+        {
+          "caller": "test_end_to_end_system_matching_flow",
+          "callee": "InMemoryDocumentStore",
+          "lineNumber": 86
+        },
+        {
+          "caller": "test_end_to_end_system_matching_flow",
+          "callee": "InMemoryMetadataStore",
+          "lineNumber": 87
+        },
+        {
+          "caller": "test_end_to_end_system_matching_flow",
+          "callee": "BM25LexicalStore",
+          "lineNumber": 89
+        },
+        {
+          "caller": "test_end_to_end_system_matching_flow",
+          "callee": "LexicalStoreConfig",
+          "lineNumber": 90
+        },
+        {
+          "caller": "test_end_to_end_system_matching_flow",
+          "callee": "SemanticKeywordEmbedder",
+          "lineNumber": 93
+        },
+        {
+          "caller": "test_end_to_end_system_matching_flow",
+          "callee": "IngestionPipeline",
+          "lineNumber": 97
+        },
+        {
+          "caller": "test_end_to_end_system_matching_flow",
+          "callee": "DefaultDocumentValidator",
+          "lineNumber": 99
+        },
+        {
+          "caller": "test_end_to_end_system_matching_flow",
+          "callee": "DefaultTextCleaner",
+          "lineNumber": 100
+        },
+        {
+          "caller": "test_end_to_end_system_matching_flow",
+          "callee": "create_chunker",
+          "lineNumber": 101
+        },
+        {
+          "caller": "test_end_to_end_system_matching_flow",
+          "callee": "ChunkingConfig",
+          "lineNumber": 101
+        },
+        {
+          "caller": "test_end_to_end_system_matching_flow",
+          "callee": "JDMetadataExtractor",
+          "lineNumber": 102
+        },
+        {
+          "caller": "test_end_to_end_system_matching_flow",
+          "callee": "RawDocument",
+          "lineNumber": 110
+        },
+        {
+          "caller": "test_end_to_end_system_matching_flow",
+          "callee": "RawDocument",
+          "lineNumber": 122
+        },
+        {
+          "caller": "test_end_to_end_system_matching_flow",
+          "callee": "RawDocument",
+          "lineNumber": 134
+        },
+        {
+          "caller": "test_end_to_end_system_matching_flow",
+          "callee": "jd_pipeline.ingest",
+          "lineNumber": 150
+        },
+        {
+          "caller": "test_end_to_end_system_matching_flow",
+          "callee": "jd_pipeline._chunker.chunk",
+          "lineNumber": 155
+        },
+        {
+          "caller": "test_end_to_end_system_matching_flow",
+          "callee": "str",
+          "lineNumber": 159
+        },
+        {
+          "caller": "test_end_to_end_system_matching_flow",
+          "callee": "uuid.uuid5",
+          "lineNumber": 159
+        },
+        {
+          "caller": "test_end_to_end_system_matching_flow",
+          "callee": "embedder.embed",
+          "lineNumber": 160
+        },
+        {
+          "caller": "test_end_to_end_system_matching_flow",
+          "callee": "zip",
+          "lineNumber": 162
+        },
+        {
+          "caller": "test_end_to_end_system_matching_flow",
+          "callee": "vector_store.upsert_jds",
+          "lineNumber": 166
+        },
+        {
+          "caller": "test_end_to_end_system_matching_flow",
+          "callee": "lexical_store.index",
+          "lineNumber": 167
+        },
+        {
+          "caller": "test_end_to_end_system_matching_flow",
+          "callee": "IngestionPipeline",
+          "lineNumber": 170
+        },
+        {
+          "caller": "test_end_to_end_system_matching_flow",
+          "callee": "DefaultDocumentValidator",
+          "lineNumber": 172
+        },
+        {
+          "caller": "test_end_to_end_system_matching_flow",
+          "callee": "DefaultTextCleaner",
+          "lineNumber": 173
+        },
+        {
+          "caller": "test_end_to_end_system_matching_flow",
+          "callee": "create_chunker",
+          "lineNumber": 174
+        },
+        {
+          "caller": "test_end_to_end_system_matching_flow",
+          "callee": "ChunkingConfig",
+          "lineNumber": 174
+        },
+        {
+          "caller": "test_end_to_end_system_matching_flow",
+          "callee": "ResumeMetadataExtractor",
+          "lineNumber": 175
+        },
+        {
+          "caller": "test_end_to_end_system_matching_flow",
+          "callee": "RawDocument",
+          "lineNumber": 181
+        },
+        {
+          "caller": "test_end_to_end_system_matching_flow",
+          "callee": "resume_pipeline.ingest",
+          "lineNumber": 194
+        },
+        {
+          "caller": "test_end_to_end_system_matching_flow",
+          "callee": "RetrievalPipeline",
+          "lineNumber": 198
+        },
+        {
+          "caller": "test_end_to_end_system_matching_flow",
+          "callee": "ReciprocalRankFusion",
+          "lineNumber": 203
+        },
+        {
+          "caller": "test_end_to_end_system_matching_flow",
+          "callee": "FusionConfig",
+          "lineNumber": 203
+        },
+        {
+          "caller": "test_end_to_end_system_matching_flow",
+          "callee": "DefaultQueryProcessor",
+          "lineNumber": 204
+        },
+        {
+          "caller": "test_end_to_end_system_matching_flow",
+          "callee": "retrieval_pipeline.retrieve",
+          "lineNumber": 209
+        },
+        {
+          "caller": "test_end_to_end_system_matching_flow",
+          "callee": "len",
+          "lineNumber": 215
+        },
+        {
+          "caller": "test_end_to_end_system_matching_flow",
+          "callee": "meta_store.get",
+          "lineNumber": 221
+        },
+        {
+          "caller": "test_end_to_end_system_matching_flow",
+          "callee": "vector_store.close",
+          "lineNumber": 226
+        }
+      ],
+      "metrics": {
+        "importCount": 15,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "zero-hallucination-rag/tests/unit/test_processors.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 310,
+      "nonEmptyLines": 265,
+      "functions": [
+        {
+          "name": "test_default_text_cleaner",
+          "startLine": 25,
+          "endLine": 48,
+          "params": []
+        },
+        {
+          "name": "test_default_document_validator",
+          "startLine": 51,
+          "endLine": 94,
+          "params": []
+        },
+        {
+          "name": "test_fixed_size_chunker",
+          "startLine": 97,
+          "endLine": 113,
+          "params": []
+        },
+        {
+          "name": "test_sentence_chunker",
+          "startLine": 116,
+          "endLine": 130,
+          "params": []
+        },
+        {
+          "name": "test_paragraph_chunker",
+          "startLine": 133,
+          "endLine": 159,
+          "params": []
+        },
+        {
+          "name": "test_resume_section_chunker",
+          "startLine": 163,
+          "endLine": 188,
+          "params": []
+        },
+        {
+          "name": "test_jd_section_chunker",
+          "startLine": 191,
+          "endLine": 212,
+          "params": []
+        },
+        {
+          "name": "test_resume_metadata_extractor",
+          "startLine": 215,
+          "endLine": 241,
+          "params": []
+        },
+        {
+          "name": "test_jd_metadata_extractor",
+          "startLine": 244,
+          "endLine": 262,
+          "params": []
+        },
+        {
+          "name": "test_llm_resume_metadata_extractor",
+          "startLine": 274,
+          "endLine": 293,
+          "params": []
+        },
+        {
+          "name": "test_llm_resume_metadata_extractor_fallback",
+          "startLine": 296,
+          "endLine": 310,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "MockLLMClient",
+          "startLine": 265,
+          "endLine": 271,
+          "methods": [
+            "__init__",
+            "complete"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "test_default_text_cleaner",
+          "line": 25,
+          "isDefault": false
+        },
+        {
+          "name": "test_default_document_validator",
+          "line": 51,
+          "isDefault": false
+        },
+        {
+          "name": "test_fixed_size_chunker",
+          "line": 97,
+          "isDefault": false
+        },
+        {
+          "name": "test_sentence_chunker",
+          "line": 116,
+          "isDefault": false
+        },
+        {
+          "name": "test_paragraph_chunker",
+          "line": 133,
+          "isDefault": false
+        },
+        {
+          "name": "test_resume_section_chunker",
+          "line": 163,
+          "isDefault": false
+        },
+        {
+          "name": "test_jd_section_chunker",
+          "line": 191,
+          "isDefault": false
+        },
+        {
+          "name": "test_resume_metadata_extractor",
+          "line": 215,
+          "isDefault": false
+        },
+        {
+          "name": "test_jd_metadata_extractor",
+          "line": 244,
+          "isDefault": false
+        },
+        {
+          "name": "MockLLMClient",
+          "line": 265,
+          "isDefault": false
+        },
+        {
+          "name": "test_llm_resume_metadata_extractor",
+          "line": 274,
+          "isDefault": false
+        },
+        {
+          "name": "test_llm_resume_metadata_extractor_fallback",
+          "line": 296,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "test_default_text_cleaner",
+          "callee": "DefaultTextCleaner",
+          "lineNumber": 27
+        },
+        {
+          "caller": "test_default_text_cleaner",
+          "callee": "cleaner.clean",
+          "lineNumber": 43
+        },
+        {
+          "caller": "test_default_document_validator",
+          "callee": "IngestionConfig",
+          "lineNumber": 53
+        },
+        {
+          "caller": "test_default_document_validator",
+          "callee": "DefaultDocumentValidator",
+          "lineNumber": 57
+        },
+        {
+          "caller": "test_default_document_validator",
+          "callee": "RawDocument",
+          "lineNumber": 60
+        },
+        {
+          "caller": "test_default_document_validator",
+          "callee": "validator.validate",
+          "lineNumber": 65
+        },
+        {
+          "caller": "test_default_document_validator",
+          "callee": "RawDocument",
+          "lineNumber": 68
+        },
+        {
+          "caller": "test_default_document_validator",
+          "callee": "validator.validate",
+          "lineNumber": 69
+        },
+        {
+          "caller": "test_default_document_validator",
+          "callee": "validator.validation_errors",
+          "lineNumber": 70
+        },
+        {
+          "caller": "test_default_document_validator",
+          "callee": "RawDocument",
+          "lineNumber": 73
+        },
+        {
+          "caller": "test_default_document_validator",
+          "callee": "validator.validate",
+          "lineNumber": 78
+        },
+        {
+          "caller": "test_default_document_validator",
+          "callee": "RawDocument",
+          "lineNumber": 81
+        },
+        {
+          "caller": "test_default_document_validator",
+          "callee": "validator.validate",
+          "lineNumber": 86
+        },
+        {
+          "caller": "test_default_document_validator",
+          "callee": "RawDocument",
+          "lineNumber": 89
+        },
+        {
+          "caller": "test_default_document_validator",
+          "callee": "validator.validate",
+          "lineNumber": 94
+        },
+        {
+          "caller": "test_fixed_size_chunker",
+          "callee": "ChunkingConfig",
+          "lineNumber": 99
+        },
+        {
+          "caller": "test_fixed_size_chunker",
+          "callee": "FixedSizeChunker",
+          "lineNumber": 105
+        },
+        {
+          "caller": "test_fixed_size_chunker",
+          "callee": "chunker.chunk",
+          "lineNumber": 107
+        },
+        {
+          "caller": "test_fixed_size_chunker",
+          "callee": "len",
+          "lineNumber": 109
+        },
+        {
+          "caller": "test_sentence_chunker",
+          "callee": "ChunkingConfig",
+          "lineNumber": 118
+        },
+        {
+          "caller": "test_sentence_chunker",
+          "callee": "SentenceChunker",
+          "lineNumber": 124
+        },
+        {
+          "caller": "test_sentence_chunker",
+          "callee": "chunker.chunk",
+          "lineNumber": 126
+        },
+        {
+          "caller": "test_sentence_chunker",
+          "callee": "len",
+          "lineNumber": 128
+        },
+        {
+          "caller": "test_sentence_chunker",
+          "callee": "any",
+          "lineNumber": 129
+        },
+        {
+          "caller": "test_sentence_chunker",
+          "callee": "all",
+          "lineNumber": 130
+        },
+        {
+          "caller": "test_paragraph_chunker",
+          "callee": "ChunkingConfig",
+          "lineNumber": 136
+        },
+        {
+          "caller": "test_paragraph_chunker",
+          "callee": "ParagraphChunker",
+          "lineNumber": 142
+        },
+        {
+          "caller": "test_paragraph_chunker",
+          "callee": "chunker_merge.chunk",
+          "lineNumber": 144
+        },
+        {
+          "caller": "test_paragraph_chunker",
+          "callee": "len",
+          "lineNumber": 146
+        },
+        {
+          "caller": "test_paragraph_chunker",
+          "callee": "ChunkingConfig",
+          "lineNumber": 151
+        },
+        {
+          "caller": "test_paragraph_chunker",
+          "callee": "ParagraphChunker",
+          "lineNumber": 157
+        },
+        {
+          "caller": "test_paragraph_chunker",
+          "callee": "chunker_split.chunk",
+          "lineNumber": 158
+        },
+        {
+          "caller": "test_paragraph_chunker",
+          "callee": "len",
+          "lineNumber": 159
+        },
+        {
+          "caller": "test_resume_section_chunker",
+          "callee": "ChunkingConfig",
+          "lineNumber": 165
+        },
+        {
+          "caller": "test_resume_section_chunker",
+          "callee": "ResumeSectionChunker",
+          "lineNumber": 170
+        },
+        {
+          "caller": "test_resume_section_chunker",
+          "callee": "chunker.chunk",
+          "lineNumber": 179
+        },
+        {
+          "caller": "test_resume_section_chunker",
+          "callee": "c.metadata.get",
+          "lineNumber": 185
+        },
+        {
+          "caller": "test_jd_section_chunker",
+          "callee": "ChunkingConfig",
+          "lineNumber": 193
+        },
+        {
+          "caller": "test_jd_section_chunker",
+          "callee": "JDSectionChunker",
+          "lineNumber": 198
+        },
+        {
+          "caller": "test_jd_section_chunker",
+          "callee": "chunker.chunk",
+          "lineNumber": 208
+        },
+        {
+          "caller": "test_jd_section_chunker",
+          "callee": "c.metadata.get",
+          "lineNumber": 210
+        },
+        {
+          "caller": "test_resume_metadata_extractor",
+          "callee": "ResumeMetadataExtractor",
+          "lineNumber": 217
+        },
+        {
+          "caller": "test_resume_metadata_extractor",
+          "callee": "RawDocument",
+          "lineNumber": 230
+        },
+        {
+          "caller": "test_resume_metadata_extractor",
+          "callee": "extractor.extract",
+          "lineNumber": 231
+        },
+        {
+          "caller": "test_jd_metadata_extractor",
+          "callee": "JDMetadataExtractor",
+          "lineNumber": 246
+        },
+        {
+          "caller": "test_jd_metadata_extractor",
+          "callee": "RawDocument",
+          "lineNumber": 255
+        },
+        {
+          "caller": "test_jd_metadata_extractor",
+          "callee": "extractor.extract",
+          "lineNumber": 256
+        },
+        {
+          "caller": "test_jd_metadata_extractor",
+          "callee": "any",
+          "lineNumber": 262
+        },
+        {
+          "caller": "test_llm_resume_metadata_extractor",
+          "callee": "MockLLMClient",
+          "lineNumber": 281
+        },
+        {
+          "caller": "test_llm_resume_metadata_extractor",
+          "callee": "LLMResumeMetadataExtractor",
+          "lineNumber": 282
+        },
+        {
+          "caller": "test_llm_resume_metadata_extractor",
+          "callee": "RawDocument",
+          "lineNumber": 285
+        },
+        {
+          "caller": "test_llm_resume_metadata_extractor",
+          "callee": "extractor.extract",
+          "lineNumber": 286
+        },
+        {
+          "caller": "complete",
+          "callee": "Exception",
+          "lineNumber": 300
+        },
+        {
+          "caller": "test_llm_resume_metadata_extractor_fallback",
+          "callee": "LLMResumeMetadataExtractor",
+          "lineNumber": 302
+        },
+        {
+          "caller": "test_llm_resume_metadata_extractor_fallback",
+          "callee": "BadLLMClient",
+          "lineNumber": 302
+        },
+        {
+          "caller": "test_llm_resume_metadata_extractor_fallback",
+          "callee": "RawDocument",
+          "lineNumber": 304
+        },
+        {
+          "caller": "test_llm_resume_metadata_extractor_fallback",
+          "callee": "extractor.extract",
+          "lineNumber": 305
+        }
+      ],
+      "metrics": {
+        "importCount": 8,
+        "exportCount": 12,
+        "functionCount": 11,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "zero-hallucination-rag/utils/helpers.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 77,
+      "nonEmptyLines": 56,
+      "functions": [
+        {
+          "name": "generate_document_id",
+          "startLine": 15,
+          "endLine": 23,
+          "params": [
+            "content",
+            "source"
+          ]
+        },
+        {
+          "name": "generate_chunk_id",
+          "startLine": 26,
+          "endLine": 28,
+          "params": [
+            "document_id",
+            "chunk_index"
+          ]
+        },
+        {
+          "name": "generate_uuid",
+          "startLine": 31,
+          "endLine": 33,
+          "params": []
+        },
+        {
+          "name": "batched",
+          "startLine": 36,
+          "endLine": 50,
+          "params": [
+            "iterable",
+            "n"
+          ]
+        },
+        {
+          "name": "file_extension",
+          "startLine": 53,
+          "endLine": 55,
+          "params": [
+            "path"
+          ]
+        },
+        {
+          "name": "truncate_text",
+          "startLine": 58,
+          "endLine": 62,
+          "params": [
+            "text",
+            "max_length"
+          ]
+        },
+        {
+          "name": "flatten",
+          "startLine": 65,
+          "endLine": 67,
+          "params": [
+            "nested"
+          ]
+        },
+        {
+          "name": "safe_get",
+          "startLine": 70,
+          "endLine": 77,
+          "params": [
+            "d",
+            "default"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "generate_document_id",
+          "line": 15,
+          "isDefault": false
+        },
+        {
+          "name": "generate_chunk_id",
+          "line": 26,
+          "isDefault": false
+        },
+        {
+          "name": "generate_uuid",
+          "line": 31,
+          "isDefault": false
+        },
+        {
+          "name": "batched",
+          "line": 36,
+          "isDefault": false
+        },
+        {
+          "name": "file_extension",
+          "line": 53,
+          "isDefault": false
+        },
+        {
+          "name": "truncate_text",
+          "line": 58,
+          "isDefault": false
+        },
+        {
+          "name": "flatten",
+          "line": 65,
+          "isDefault": false
+        },
+        {
+          "name": "safe_get",
+          "line": 70,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "generate_document_id",
+          "callee": "hashlib.sha256(f\"{source}:{content}\".encode(\"utf-8\")).hexdigest",
+          "lineNumber": 22
+        },
+        {
+          "caller": "generate_document_id",
+          "callee": "hashlib.sha256",
+          "lineNumber": 22
+        },
+        {
+          "caller": "generate_document_id",
+          "callee": "f\"{source}:{content}\".encode",
+          "lineNumber": 22
+        },
+        {
+          "caller": "generate_uuid",
+          "callee": "str",
+          "lineNumber": 33
+        },
+        {
+          "caller": "generate_uuid",
+          "callee": "uuid.uuid4",
+          "lineNumber": 33
+        },
+        {
+          "caller": "batched",
+          "callee": "batch.append",
+          "lineNumber": 45
+        },
+        {
+          "caller": "batched",
+          "callee": "len",
+          "lineNumber": 46
+        },
+        {
+          "caller": "file_extension",
+          "callee": "Path(path).suffix.lower",
+          "lineNumber": 55
+        },
+        {
+          "caller": "file_extension",
+          "callee": "Path",
+          "lineNumber": 55
+        },
+        {
+          "caller": "truncate_text",
+          "callee": "len",
+          "lineNumber": 60
+        },
+        {
+          "caller": "safe_get",
+          "callee": "isinstance",
+          "lineNumber": 74
+        },
+        {
+          "caller": "safe_get",
+          "callee": "current.get",
+          "lineNumber": 76
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 8,
+        "functionCount": 8,
+        "classCount": 0
+      }
+    }
+  ]
+}

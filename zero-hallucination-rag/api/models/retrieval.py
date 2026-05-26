@@ -8,6 +8,8 @@ from typing import Any, Optional
 
 from pydantic import BaseModel, Field
 
+from agent.schemas import CandidateAssessment
+
 
 class MatchFilters(BaseModel):
     """Optional filters to narrow job matching results."""
@@ -84,4 +86,8 @@ class MatchResponse(BaseModel):
     resume_metadata: dict[str, Any] = Field(
         default_factory=dict,
         description="Metadata extracted from the uploaded resume",
+    )
+    assessment: Optional[CandidateAssessment] = Field(
+        None,
+        description="LLM-generated candidate assessment with citations",
     )
