@@ -119,7 +119,7 @@ class RetrievalPipeline:
 
         # 4. Fuse
         t0 = time.perf_counter()
-        fused = self._fuser.fuse([vector_results, lexical_results])
+        fused = self._fuser.fuse({"vector": vector_results, "lexical": lexical_results})
         timings["fusion"] = time.perf_counter() - t0
 
         total_candidates = len(fused)
@@ -127,7 +127,7 @@ class RetrievalPipeline:
         # 5. Re-rank (optional)
         if self._reranker and self._config.enable_reranking:
             t0 = time.perf_counter()
-            fused = self._reranker.rerank(
+            fused = await self._reranker.rerank(
                 processed_text,
                 fused,
                 top_k=self._config.fusion.reranker_top_k,

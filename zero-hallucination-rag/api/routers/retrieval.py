@@ -130,7 +130,7 @@ async def match_resume_to_jds(
         # -- 6. Fuse results (RRF) ----------------------------------------
         t0 = time.perf_counter()
         fuser = ReciprocalRankFusion(settings.retrieval.fusion)
-        fused = fuser.fuse([jd_results, lexical_results])
+        fused = fuser.fuse({"vector": jd_results, "lexical": lexical_results})
         total_candidates = len(fused)
         timings["fusion"] = time.perf_counter() - t0
 
@@ -140,7 +140,7 @@ async def match_resume_to_jds(
             reranker = CrossEncoderReranker(
                 model_name=settings.retrieval.fusion.reranker_model,
             )
-            fused = reranker.rerank(
+            fused = await reranker.rerank(
                 cleaned_text[:500],
                 fused,
                 top_k=top_k,

@@ -139,7 +139,7 @@ def test_match_endpoint(mock_reranker_cls, mock_bm25_cls, mock_qdrant_cls, mock_
     
     # 4. Mock CrossEncoderReranker
     mock_reranker = MagicMock()
-    mock_reranker.rerank.side_effect = lambda query, results, top_k: results[:top_k]
+    mock_reranker.rerank = AsyncMock(side_effect=lambda query, results, top_k: results[:top_k])
     mock_reranker_cls.return_value = mock_reranker
     
     response = client.post(

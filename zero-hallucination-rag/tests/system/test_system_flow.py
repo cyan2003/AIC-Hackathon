@@ -2,7 +2,7 @@
 System-level flow tests for the Zero-Hallucination RAG pipeline.
 """
 import pytest
-from qdrant_client import QdrantClient
+from qdrant_client import AsyncQdrantClient
 from core.config import (
     get_settings,
     IngestionConfig,
@@ -73,7 +73,7 @@ async def test_end_to_end_system_matching_flow():
     settings = get_settings()
     
     # 1. Setup real in-memory Qdrant client
-    memory_qdrant_client = QdrantClient(location=":memory:")
+    memory_qdrant_client = AsyncQdrantClient(location=":memory:")
     
     vector_store = QdrantVectorStore(
         settings.retrieval.vector_store,
