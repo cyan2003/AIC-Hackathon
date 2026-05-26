@@ -1,11 +1,23 @@
 import streamlit as st
 import httpx
 import os
-from streamlit_extras.metric_cards import style_metric_cards
 import pandas as pd
 import altair as alt
+import psutil
+import asyncio
+import time
+from streamlit_extras.metric_cards import style_metric_cards
 
-# Tailwind-like utility CSS
+# ---------------------------------------------------------------------------
+# Page configuration
+# ---------------------------------------------------------------------------
+st.set_page_config(
+    page_title="Zero‑Hallucination Recruiter AI",
+    page_icon="🤖",
+    layout="wide",
+)
+
+# Global CSS for utility classes (Tailwind‑like)
 st.markdown(
     """
     <style>
@@ -27,102 +39,162 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-
-# 1. Page Configuration
-st.set_page_config(
-    page_title="Zero-Hallucination Recruiter AI",
-    page_icon="🤡",
-    layout="wide"
+# ---------------------------------------------------------------------------
+# Sidebar – job description and execution trigger
+# ---------------------------------------------------------------------------
+st.sidebar.header("Job Specification")
+job_description = st.sidebar.text_area(
+    "Paste Job Description Here",
+    height=250,
+    placeholder="Looking for a Python Developer with experience in RAG...",
 )
+run_btn = st.sidebar.button("Run Recruiter Agent", type="primary")
 
-st.title("🤡 AI Recruitment Agent")
-st.subheader("Zero-Hallucination Resume Screening & Hybrid Retrieval")
+# ---------------------------------------------------------------------------
+# Tab navigation
+# ---------------------------------------------------------------------------
+tab_match, tab_ingest, tab_telemetry = st.tabs([
+    "🎯 Match Dashboard",
+    "📂 Ingestion Center",
+    "📊 System Telemetry",
+])
 
-# 2. Sidebar Layout for Inputs
-with st.sidebar:
-    st.header("Upload Center")
-    uploaded_files = st.file_uploader(
-        "Upload Candidate Resumes (PDF)", 
-        type=["pdf"], 
-        accept_multiple_files=True
-    )
-    
-    st.header("Job Specification")
-    job_description = st.text_area(
-        "Paste Job Description Here", 
-        height=250, 
-        placeholder="Looking for a Python Developer with experience in RAG..."
-    )
-    
-    process_btn = st.button("Run Recruiter Agent", type="primary")
+# ---------------------------------------------------------------------------
+# Helper: mock async streaming log generator
+# ---------------------------------------------------------------------------
+async def mock_stream(status_container: st.status):
+    nodes = [
+        "Node: rewrite_query",
+        "Node: hybrid_retrieve (Qdrant + BM25)",
+        "Node: rerank_cross_encoder",
+        "Node: hallucination_guardrail",
+    ]
+    for node in nodes:
+        status_container.write(f"🔄 {node} …")
+        await asyncio.sleep(0.8)  # simulate work
+    status_container.update(label="Analysis Complete!", state="complete", expanded=False)
 
-# 3. Main Dashboard View (Bento Grid)
-st.markdown('<div class="grid grid-cols-3">', unsafe_allow_html=True)
-
-# Card 1 – Resumes Processed
-st.markdown(
-    f'''<div class="bg-card rounded shadow p-4 text-center card" tabindex="0">
-        <h3 class="text-lg font-medium">Resumes Processed</h3>
-        <p class="text-2xl font-bold">{len(uploaded_files) if uploaded_files else 0}</p>
-    </div>''',
-    unsafe_allow_html=True,
-)
-
-# Card 2 – Top Matches Found
-st.markdown(
-    '''<div class="bg-card rounded shadow p-4 text-center card" tabindex="0">
-        <h3 class="text-lg font-medium">Top Matches Found</h3>
-        <p class="text-2xl font-bold">0</p>
-    </div>''',
-    unsafe_allow_html=True,
-)
-
-# Card 3 – VDB Retrieval Latency
-st.markdown(
-    '''<div class="bg-card rounded shadow p-4 text-center card" tabindex="0">
-        <h3 class="text-lg font-medium">VDB Retrieval Latency</h3>
-        <p class="text-2xl font-bold">0.0ms</p>
-    </div>''',
-    unsafe_allow_html=True,
-)
-
-st.markdown('</div>', unsafe_allow_html=True)
-
-style_metric_cards(background_color="#1E1E1E" if st.get_option("theme.base") == "dark" else "#F0F2F6")
-
-st.divider()
-
-# 4. Agent Execution & Communication with FastAPI Backend
-if process_btn:
-    if not uploaded_files or not job_description:
-        st.warning("Please upload at least one resume and provide a job description.")
-    else:
+# ---------------------------------------------------------------------------
+# Tab 1 – Match Dashboard
+# ---------------------------------------------------------------------------
+with tab_match:
+    st.subheader("Match Dashboard")
+    if run_btn:
+        # Real‑time streaming block
         with st.status("Agent analyzing profiles...", expanded=True) as status:
-            st.write("🔄 Extracting metadata from documents...")
-            # Here you will use httpx to request your FastAPI endpoints later
-            
-            st.write("🔍 Running Hybrid Retrieval (Vector + BM25)...")
-            
-            st.write("🛡️ Verifying citations for zero-hallucination compliance...")
-            
-            status.update(label="Analysis Complete!", state="complete", expanded=False)
-            
+            # Run mock stream in the event loop
+            asyncio.run(mock_stream(status))
         st.success("Analysis ready! Review the matched candidates below.")
-        # ---- Results Section ----
-        with st.expander("📊 Results", expanded=True):
-            # Placeholder DataFrame – replace with real results later
-            df = pd.DataFrame({
-                "candidate_id": ["C001", "C002", "C003"],
-                "score": [0.92, 0.85, 0.78],
-                "match_details": ["Excellent fit", "Good fit", "Fair fit"]
-            })
-            st.subheader("Candidate Rankings")
-            st.dataframe(df)
 
-            # Bar chart of scores with accessible color scheme
-            chart = alt.Chart(df).mark_bar().encode(
-                x=alt.X('candidate_id:N', title='Candidate ID'),
-                y=alt.Y('score:Q', title='Match Score'),
-                tooltip=['candidate_id', 'score', 'match_details']
-            ).properties(height=200).configure_scale(rangeStep=30).configure_mark(color='#4f46e5')
-            st.altair_chart(chart, use_container_width=True)
+        # Placeholder results – replace with real API call when backend is ready
+        candidates = pd.DataFrame({
+            "candidate_id": ["C001", "C002", "C003"],
+            "overall_score": [0.92, 0.85, 0.78],
+            "technical_fit": [0.94, 0.80, 0.75],
+            "experience_match": [0.88, 0.86, 0.77],
+        })
+
+        for _, row in candidates.iterrows():
+            with st.expander(f"Candidate {row['candidate_id']} – Score {row['overall_score']:.0%}"):
+                # Metric cards
+                col1, col2, col3 = st.columns(3)
+                col1.metric("Overall", f"{row['overall_score']:.0%}")
+                col2.metric("Technical Fit", f"{row['technical_fit']:.0%}")
+                col3.metric("Experience", f"{row['experience_match']:.0%}")
+
+                # Verification expander
+                with st.expander("Verify Core Claims (Zero‑Hallucination Evidence)"):
+                    # Mock evidence block – in a real app this would be populated from backend
+                    st.write(
+                        "**Claim:** Candidate demonstrates experience with vector databases."
+                    )
+                    st.write("**Source Chunk:** `...vector search implementation...`")
+                    st.write("**Confidence:** 0.96")
+                    st.write("---")
+                    st.write(
+                        "**Claim:** Proven track record of building RAG pipelines."
+                    )
+                    st.write("**Source Chunk:** `...RAG pipeline architecture...`")
+                    st.write("**Confidence:** 0.93")
+    else:
+        st.info("Configure a job description and click **Run Recruiter Agent** to see matches.")
+
+# ---------------------------------------------------------------------------
+# Tab 2 – Ingestion Center
+# ---------------------------------------------------------------------------
+with tab_ingest:
+    st.subheader("Ingestion Center")
+    uploaded_files = st.file_uploader(
+        "Upload Candidate Resumes (PDF)",
+        type=["pdf"],
+        accept_multiple_files=True,
+    )
+
+    if uploaded_files:
+        # 1. Mock data placeholders
+        total_files = len(uploaded_files)
+        avg_latency_ms = 12.3  
+        success_rate = 0.98  
+
+        # 2. Use Native Streamlit Columns instead of standard HTML divs
+        col1, col2, col3 = st.columns(3)
+
+        with col1:
+            st.metric(label="Files Ingested", value=total_files)
+
+        with col2:
+            st.metric(label="Avg Latency", value=f"{avg_latency_ms:.1f} ms/kB")
+
+        with col3:
+            st.metric(label="Success Rate", value=f"{success_rate:.0%}")
+
+        # 3. Apply your premium custom styling automatically to the native metric blocks
+        from streamlit_extras.metric_cards import style_metric_cards
+        
+        # This automatically assigns clean borders, proper text contrast, and rounded corners
+        style_metric_cards(
+            background_color="#1E293B",  # Slate background matching your dark theme base
+            border_left_color="#3B82F6",  # Clean accent indicator line
+            border_color="#334155"
+        )
+
+        st.markdown("### Pipeline Progress")
+
+        # Mock pipeline progress table
+        pipeline_df = pd.DataFrame(
+            {
+                "File": [os.path.basename(f.name) for f in uploaded_files],
+                "Cleaned": ["🟢"] * total_files,
+                "Chunked": ["🟢"] * total_files,
+                "Embedded": ["🟢"] * total_files,
+                "Indexed": ["🟢"] * total_files,
+            }
+        )
+        st.subheader("Pipeline Progress")
+        st.dataframe(pipeline_df)
+    else:
+        st.info("Upload PDF resumes to see ingestion metrics.")
+
+# ---------------------------------------------------------------------------
+# Tab 3 – System Telemetry
+# ---------------------------------------------------------------------------
+with tab_telemetry:
+    st.subheader("System Telemetry")
+    col_vec, col_bm25, col_perf = st.columns(3)
+    # Placeholder latency metrics – replace with real calls when backend is active
+    col_vec.metric("Vector DB Latency", "23 ms")
+    col_bm25.metric("BM25 Latency", "11 ms")
+    # Local performance using psutil
+    cpu_percent = psutil.cpu_percent(interval=0.1)
+    mem = psutil.virtual_memory()
+    col_perf.metric("CPU Usage", f"{cpu_percent}%")
+    col_perf.metric("Memory", f"{mem.percent}%")
+
+    # Placeholder iframe for observability dashboard (Arize Phoenix)
+    st.subheader("Observability Dashboard")
+    st.components.v1.iframe("http://localhost:6006", height=500, scrolling=True)
+
+# Apply consistent styling to metric cards
+style_metric_cards(
+    background_color="#1E1E1E" if st.get_option("theme.base") == "dark" else "#F0F2F6"
+)
