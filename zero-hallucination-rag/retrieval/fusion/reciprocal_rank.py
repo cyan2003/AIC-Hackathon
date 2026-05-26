@@ -12,7 +12,6 @@ outperforms Condorcet and individual Rank Learning Methods" (2009).
 from __future__ import annotations
 
 from collections import defaultdict
-from typing import Sequence
 
 from core.config import FusionConfig
 from retrieval.interfaces import ResultFuser, SearchResult
@@ -39,24 +38,41 @@ class ReciprocalRankFusion(ResultFuser):
 
     def fuse(
         self,
-        result_lists: Sequence[list[SearchResult]],
+        results_map: dict[str, list[SearchResult]],
     ) -> list[SearchResult]:
+        """
+        Fuses results using RRF.
+        
+        Parameters
+        ----------
+        results_map:
+            A dictionary mapping the backend name to its results.
+            Example: {"vector": qdrant_results, "lexical": bm25_results}
+        """
         scores: dict[str, float] = defaultdict(float)
         best_result: dict[str, SearchResult] = {}
+        sources_tracker: dict[str, set[str]] = defaultdict(set)
 
-        for rlist in result_lists:
+        for backend_name, rlist in results_map.items():
             for rank, result in enumerate(rlist, start=1):
                 key = result.chunk_id
+                
+                # 1. Accumulate RRF Score
                 scores[key] += 1.0 / (self._k + rank)
+                
+                # 2. Track all backends that found this chunk
+                sources_tracker[key].add(result.source)
 
-                # Keep the result instance with the highest original score.
-                if key not in best_result or result.score > best_result[key].score:
+                # 3. Store the first encountered result instance to preserve metadata
+                if key not in best_result:
                     best_result[key] = result
 
         # Build fused list sorted by RRF score descending.
         fused: list[SearchResult] = []
         for key, rrf_score in sorted(scores.items(), key=lambda x: x[1], reverse=True):
             result = best_result[key]
+            combined_sources = "+".join(sorted(sources_tracker[key]))
+            
             fused.append(
                 SearchResult(
                     document_id=result.document_id,
@@ -64,7 +80,7 @@ class ReciprocalRankFusion(ResultFuser):
                     text=result.text,
                     score=rrf_score,
                     metadata=result.metadata,
-                    source=f"rrf({result.source})",
+                    source=f"rrf({combined_sources})",
                 )
             )
 
