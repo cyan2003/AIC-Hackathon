@@ -1,3 +1,1 @@
-"""
-API dependencies sub-package – authentication, rate limiting, etc.
-"""
+# API dependencies sub-package: authentication, rate limiting, etc.
