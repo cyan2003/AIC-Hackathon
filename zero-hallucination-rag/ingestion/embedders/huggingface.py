@@ -77,9 +77,8 @@ class HuggingFaceEmbedder(BaseEmbedder):
 
     # -- Public API --------------------------------------------------------
 
-    def embed(self, texts: Sequence[str]) -> list[list[float]]:
-        """Generate embeddings for a batch of texts."""
-        self._load_model()
+    def _run_raw_embed(self, texts: Sequence[str]) -> list[list[float]]:
+        """Runs the raw sentence transformer embedding encoding."""
         try:
             embeddings = self._model.encode(
                 list(texts),
@@ -90,6 +89,40 @@ class HuggingFaceEmbedder(BaseEmbedder):
             return embeddings.tolist()
         except Exception as exc:
             raise EmbeddingError(f"Embedding generation failed: {exc}") from exc
+
+    def embed(self, texts: Sequence[str]) -> list[list[float]]:
+        """Generate embeddings for a batch of texts, utilizing the SQLite cache if enabled."""
+        from core.config import get_settings
+        settings = get_settings()
+        cache_enabled = getattr(settings, "cache", None) and settings.cache.enable_embedding_cache
+
+        if not cache_enabled:
+            self._load_model()
+            return self._run_raw_embed(texts)
+
+        from core.cache import get_cache_instance
+        cache = get_cache_instance()
+
+        results: list[Optional[list[float]]] = [None] * len(texts)
+        miss_indices: list[int] = []
+        miss_texts: list[str] = []
+
+        for i, text in enumerate(texts):
+            cached_vec = cache.get_embedding(text)
+            if cached_vec is not None:
+                results[i] = cached_vec
+            else:
+                miss_indices.append(i)
+                miss_texts.append(text)
+
+        if miss_texts:
+            self._load_model()
+            miss_embeddings = self._run_raw_embed(miss_texts)
+            for idx, text, emb in zip(miss_indices, miss_texts, miss_embeddings):
+                cache.set_embedding(text, emb)
+                results[idx] = emb
+
+        return results  # type: ignore
 
     def embed_single(self, text: str) -> list[float]:
         """Generate an embedding for a single text string."""

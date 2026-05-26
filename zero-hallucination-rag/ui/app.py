@@ -140,6 +140,43 @@ with st.sidebar:
     st.header("🔍 Match Controls")
     top_k = st.slider("Top-K Matches", min_value=1, max_value=20, value=5)
 
+    st.markdown("### 🎯 Advanced Filters")
+    enable_filters = st.checkbox("Enable Metadata Filtering", value=False)
+    
+    filters_dict = {}
+    if enable_filters:
+        filter_ind = st.selectbox(
+            "Filter by Industry",
+            options=["", "Technology", "Finance", "Healthcare", "Education", "Retail", "Manufacturing", "Consulting", "Marketing"],
+            index=0
+        )
+        if filter_ind:
+            filters_dict["industry"] = filter_ind.lower()
+            
+        filter_exp = st.number_input(
+            "Max Experience Required (Years)",
+            min_value=0,
+            max_value=30,
+            value=5,
+            step=1
+        )
+        filters_dict["experience_years_max"] = filter_exp
+        
+        filter_edu = st.selectbox(
+            "Candidate Degree Level",
+            options=["", "Associate", "Bachelor", "Master", "PhD"],
+            index=0
+        )
+        if filter_edu:
+            filters_dict["education_level"] = filter_edu.lower()
+            
+        filter_skills = st.text_input(
+            "Candidate Skills (comma separated)",
+            placeholder="e.g. Python, Docker, SQL"
+        )
+        if filter_skills:
+            filters_dict["skills"] = [s.strip() for s in filter_skills.split(",") if s.strip()]
+
     process_btn = st.button("🚀 Run Recruiter Agent", type="primary", use_container_width=True)
 
 # ---------------------------------------------------------------------------
@@ -176,14 +213,17 @@ async def ingest_file(client: httpx.AsyncClient, endpoint: str, file, trust_rati
     return response.json()
 
 
-async def match_resume(client: httpx.AsyncClient, file, top_k: int) -> dict:
+async def match_resume(client: httpx.AsyncClient, file, top_k: int, filters: dict = None) -> dict:
     """Send a resume file to the /match endpoint."""
     content = file.read()
     file.seek(0)
+    data = {"top_k": str(top_k)}
+    if filters:
+        data["filters"] = json.dumps(filters)
     response = await client.post(
         "/match",
         files={"file": (file.name, content, "application/octet-stream")},
-        data={"top_k": str(top_k)},
+        data=data,
         timeout=180.0,
     )
     response.raise_for_status()
@@ -257,7 +297,7 @@ with tab_match:
                             st.write("🤖 Generating LLM Assessment...")
 
                             try:
-                                result = await match_resume(client, resume_file, top_k)
+                                result = await match_resume(client, resume_file, top_k, filters=filters_dict if enable_filters else None)
                                 resume_status.update(label="✅ Analysis Complete!", state="complete", expanded=False)
                             except Exception as e:
                                 resume_status.update(label="❌ Analysis Failed", state="error")
@@ -279,6 +319,9 @@ with tab_match:
                         if is_fallback:
                             st.error("⚠️ **Hallucination Guardrail Triggered:** Insufficient confidence in retrieved context.")
                             st.info("The match scores or trust ratings for the indexed job descriptions were below the minimum confidence threshold. Bypassed LLM assessor to guarantee zero hallucination.")
+
+                        if result.get("llm_cache_hit"):
+                            st.success("⚡ **Cache Hit**: LLM assessment retrieved from persistent SQLite cache (0 tokens consumed, response returned instantly).")
 
                         # Timings bar
                         if timings:

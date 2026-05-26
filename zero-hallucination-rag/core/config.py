@@ -185,6 +185,16 @@ class AgentConfig(BaseSettings):
     timeout: float = 120.0
 
 
+class CacheConfig(BaseSettings):
+    """Configuration for caching of LLM and embedding results."""
+
+    model_config = SettingsConfigDict(env_prefix="CACHE_")
+
+    enable_llm_cache: bool = True
+    enable_embedding_cache: bool = True
+    db_path: str = "data/cache.db"
+
+
 # ---------------------------------------------------------------------------
 # Root settings
 # ---------------------------------------------------------------------------
@@ -216,6 +226,7 @@ class Settings(BaseSettings):
     ingestion: IngestionConfig = Field(default_factory=IngestionConfig)
     retrieval: RetrievalConfig = Field(default_factory=RetrievalConfig)
     agent: AgentConfig = Field(default_factory=AgentConfig)
+    cache: CacheConfig = Field(default_factory=CacheConfig)
 
 
 def get_settings() -> Settings:

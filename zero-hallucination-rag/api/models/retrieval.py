@@ -92,3 +92,7 @@ class MatchResponse(BaseModel):
         None,
         description="LLM-generated candidate assessment with citations",
     )
+    llm_cache_hit: bool = Field(
+        False,
+        description="Whether the LLM candidate assessment was served from the cache",
+    )

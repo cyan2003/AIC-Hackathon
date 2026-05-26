@@ -37,6 +37,7 @@ async def match_resume_to_jds(
     file: Optional[UploadFile] = File(None),
     resume_text: Optional[str] = Form(None),
     top_k: int = Form(10),
+    filters: Optional[str] = Form(None),
 ):
     """
     Match a resume against indexed job descriptions.
@@ -48,6 +49,17 @@ async def match_resume_to_jds(
     4. Results are fused (RRF) and re-ranked
     5. Top-k matches returned with relevant sections
     """
+    filters_dict = {}
+    if filters:
+        try:
+            import json
+            filters_dict = json.loads(filters)
+        except Exception as exc:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail=f"Invalid JSON format for 'filters' parameter: {exc}",
+            )
+
     timings: dict[str, float] = {}
 
     # -- 1. Get resume text -----------------------------------------------
@@ -115,6 +127,7 @@ async def match_resume_to_jds(
         jd_results = await vector_store.search_jds(
             resume_embedding,
             top_k=top_k * 3,  # Over-fetch for fusion
+            filters=filters_dict,
         )
         timings["vector_search"] = time.perf_counter() - t0
 
@@ -124,6 +137,7 @@ async def match_resume_to_jds(
         lexical_results = await lexical_store.search(
             cleaned_text[:500],  # Use first 500 chars as keyword query
             top_k=top_k * 3,
+            filters=filters_dict,
         )
         timings["lexical_search"] = time.perf_counter() - t0
 
@@ -267,12 +281,17 @@ async def match_resume_to_jds(
         except Exception as exc:
             logger.warning("LLM assessment failed (returning results without it)", error=str(exc))
 
+        cache_hit = False
+        if assessment and getattr(assessment, "cache_hit", None) is not None:
+            cache_hit = assessment.cache_hit
+
         return MatchResponse(
             results=results,
             total_candidates=total_candidates,
             timings=timings,
             resume_metadata=resume_metadata,
             assessment=assessment,
+            llm_cache_hit=cache_hit,
         )
 
     except HTTPException:
