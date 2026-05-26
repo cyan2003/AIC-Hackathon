@@ -9,6 +9,7 @@ Elasticsearch or Lucene-backed alternative.
 
 from __future__ import annotations
 
+import asyncio
 from typing import Any, Optional, Sequence
 
 from core.config import LexicalStoreConfig
@@ -37,6 +38,7 @@ class BM25LexicalStore(LexicalStore):
         self._tokenized_corpus: list[list[str]] = []
         self._bm25 = None  # Rebuilt on index changes
         self._dirty = True
+        self._lock = asyncio.Lock() # Ensure thread safety during rebuilds
 
     # -- Index management -------------------------------------------------
 
@@ -51,13 +53,18 @@ class BM25LexicalStore(LexicalStore):
                 f"Index size would exceed maximum ({self._config.max_index_size:,})"
             )
 
-        for i, (doc_id, text) in enumerate(zip(ids, texts)):
-            self._ids.append(doc_id)
-            self._texts.append(text)
-            self._payloads.append(payloads[i] if payloads else {})
-            self._tokenized_corpus.append(self._tokenize(text))
+        # Offload CPU-bound tokenization to a background thread
+        def _sync_index():
+            for i, (doc_id, text) in enumerate(zip(ids, texts)):
+                self._ids.append(doc_id)
+                self._texts.append(text)
+                self._payloads.append(payloads[i] if payloads else {})
+                self._tokenized_corpus.append(self._tokenize(text))
+            self._dirty = True
 
-        self._dirty = True
+        async with self._lock:
+            await asyncio.to_thread(_sync_index)
+            
         logger.debug("Indexed documents", count=len(ids))
 
     async def search(
@@ -67,54 +74,73 @@ class BM25LexicalStore(LexicalStore):
         top_k: int = 10,
         filters: Optional[dict[str, Any]] = None,
     ) -> list[SearchResult]:
-        self._rebuild_if_dirty()
+        
+        async with self._lock:
+            # Rebuild index in a thread if necessary
+            if self._dirty:
+                await asyncio.to_thread(self._rebuild_sync)
+
         if self._bm25 is None or not self._ids:
             return []
 
-        try:
-            tokenized_query = self._tokenize(query)
-            scores = self._bm25.get_scores(tokenized_query)
+        # Offload the scoring and filtering process
+        def _sync_search() -> list[SearchResult]:
+            try:
+                tokenized_query = self._tokenize(query)
+                scores = self._bm25.get_scores(tokenized_query)
 
-            # Pair scores with indices and sort descending.
-            scored_indices = sorted(
-                enumerate(scores), key=lambda x: x[1], reverse=True
-            )
-
-            results: list[SearchResult] = []
-            for idx, score in scored_indices[:top_k]:
-                if score <= 0:
-                    continue
-                payload = self._payloads[idx]
-
-                # Apply metadata filters if provided.
-                if filters and not self._matches_filter(payload, filters):
-                    continue
-
-                results.append(
-                    SearchResult(
-                        document_id=payload.get("document_id", ""),
-                        chunk_id=self._ids[idx],
-                        text=self._texts[idx],
-                        score=float(score),
-                        metadata=payload,
-                        source="lexical",
-                    )
+                # Pair scores with indices and sort descending.
+                scored_indices = sorted(
+                    enumerate(scores), key=lambda x: x[1], reverse=True
                 )
 
-            return results
-        except Exception as exc:
-            raise LexicalStoreError(f"BM25 search failed: {exc}") from exc
+                results: list[SearchResult] = []
+                for idx, score in scored_indices:
+                    if score <= 0:
+                        continue
+                        
+                    payload = self._payloads[idx]
+
+                    # Apply metadata filters BEFORE counting towards top_k
+                    if filters and not self._matches_filter(payload, filters):
+                        continue
+
+                    results.append(
+                        SearchResult(
+                            document_id=payload.get("document_id", ""),
+                            chunk_id=self._ids[idx],
+                            text=self._texts[idx],
+                            score=float(score),
+                            metadata=payload,
+                            source="lexical",
+                        )
+                    )
+                    
+                    # Stop once we have accumulated exactly top_k valid matches
+                    if len(results) >= top_k:
+                        break
+
+                return results
+            except Exception as exc:
+                raise LexicalStoreError(f"BM25 search failed: {exc}") from exc
+
+        return await asyncio.to_thread(_sync_search)
 
     async def delete(self, ids: Sequence[str]) -> None:
-        id_set = set(ids)
-        indices_to_keep = [
-            i for i, doc_id in enumerate(self._ids) if doc_id not in id_set
-        ]
-        self._ids = [self._ids[i] for i in indices_to_keep]
-        self._texts = [self._texts[i] for i in indices_to_keep]
-        self._payloads = [self._payloads[i] for i in indices_to_keep]
-        self._tokenized_corpus = [self._tokenized_corpus[i] for i in indices_to_keep]
-        self._dirty = True
+        def _sync_delete():
+            id_set = set(ids)
+            indices_to_keep = [
+                i for i, doc_id in enumerate(self._ids) if doc_id not in id_set
+            ]
+            self._ids = [self._ids[i] for i in indices_to_keep]
+            self._texts = [self._texts[i] for i in indices_to_keep]
+            self._payloads = [self._payloads[i] for i in indices_to_keep]
+            self._tokenized_corpus = [self._tokenized_corpus[i] for i in indices_to_keep]
+            self._dirty = True
+
+        async with self._lock:
+            await asyncio.to_thread(_sync_delete)
+            
         logger.debug("Deleted from BM25 index", count=len(ids))
 
     async def count(self) -> int:
@@ -122,8 +148,8 @@ class BM25LexicalStore(LexicalStore):
 
     # -- Internals --------------------------------------------------------
 
-    def _rebuild_if_dirty(self) -> None:
-        """Re-build the BM25 model when the corpus has changed."""
+    def _rebuild_sync(self) -> None:
+        """Synchronous rebuild logic to be run in a thread."""
         if not self._dirty:
             return
         try:

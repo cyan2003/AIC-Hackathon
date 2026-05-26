@@ -48,14 +48,14 @@ class QdrantVectorStore(VectorStore):
     # -- Lifecycle --------------------------------------------------------
 
     def _get_client(self):
-        """Lazy-initialise the Qdrant client."""
+        """Lazy-initialise the async Qdrant client."""
         if self._client is not None:
             return self._client
 
         try:
-            from qdrant_client import QdrantClient
+            from qdrant_client import AsyncQdrantClient
 
-            self._client = QdrantClient(
+            self._client = AsyncQdrantClient(
                 host=self._config.host,
                 port=self._config.port,
                 grpc_port=self._config.grpc_port,
@@ -64,7 +64,7 @@ class QdrantVectorStore(VectorStore):
                 timeout=self._config.timeout,
             )
             logger.info(
-                "Connected to Qdrant",
+                "Connected to Qdrant (Async)",
                 host=self._config.host,
                 port=self._config.port,
             )
@@ -91,15 +91,17 @@ class QdrantVectorStore(VectorStore):
         try:
             from qdrant_client.models import Distance, HnswConfigDiff, VectorParams
 
-            collections = client.get_collections().collections
-            existing = {c.name for c in collections}
+            # Await the async network call
+            collections_response = await client.get_collections()
+            existing = {c.name for c in collections_response.collections}
 
             for coll_name in (
                 self._config.resume_collection or RESUME_COLLECTION_NAME,
                 self._config.jd_collection or JD_COLLECTION_NAME,
             ):
                 if coll_name not in existing:
-                    client.create_collection(
+                    # Await collection creation
+                    await client.create_collection(
                         collection_name=coll_name,
                         vectors_config=VectorParams(
                             size=self._dimension,
@@ -127,7 +129,7 @@ class QdrantVectorStore(VectorStore):
 
     async def close(self) -> None:
         if self._client:
-            self._client.close()
+            await self._client.close()
             self._client = None
             logger.info("Qdrant client closed")
 
@@ -162,7 +164,8 @@ class QdrantVectorStore(VectorStore):
                 )
                 for i, (idx, vec) in enumerate(zip(ids, vectors))
             ]
-            client.upsert(collection_name=coll, points=points)
+            # Await the upsert operation
+            await client.upsert(collection_name=coll, points=points)
             logger.debug("Upserted vectors", count=len(points), collection=coll)
         except Exception as exc:
             raise VectorStoreError(f"Qdrant upsert failed: {exc}") from exc
@@ -187,8 +190,9 @@ class QdrantVectorStore(VectorStore):
         client = self._get_client()
         coll = self._resolve_collection(collection)
         try:
+            # Await the search/query operations
             if hasattr(client, "query_points"):
-                response = client.query_points(
+                response = await client.query_points(
                     collection_name=coll,
                     query=vector,
                     limit=top_k,
@@ -196,7 +200,7 @@ class QdrantVectorStore(VectorStore):
                 )
                 hits = response.points
             else:
-                hits = client.search(
+                hits = await client.search(
                     collection_name=coll,
                     query_vector=vector,
                     limit=top_k,
@@ -230,7 +234,8 @@ class QdrantVectorStore(VectorStore):
         try:
             from qdrant_client.models import PointIdsList
 
-            client.delete(
+            # Await the delete operation
+            await client.delete(
                 collection_name=coll,
                 points_selector=PointIdsList(points=list(ids)),
             )
@@ -242,7 +247,8 @@ class QdrantVectorStore(VectorStore):
         client = self._get_client()
         coll = self._resolve_collection(collection)
         try:
-            info = client.get_collection(coll)
+            # Await the get_collection operation
+            info = await client.get_collection(coll)
             return info.points_count or 0
         except Exception as exc:
             raise VectorStoreError(f"Qdrant count failed: {exc}") from exc
