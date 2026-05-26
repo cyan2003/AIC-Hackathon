@@ -7,7 +7,8 @@ POST /ingest/jd    — Upload and ingest a job description (PDF/DOCX)
 
 from __future__ import annotations
 
-from fastapi import APIRouter, HTTPException, UploadFile, File, status
+from typing import Optional
+from fastapi import APIRouter, HTTPException, UploadFile, File, Form, status
 
 from api.models.ingestion import (
     IngestionErrorResponse,
@@ -112,6 +113,18 @@ async def _extract_text(content: bytes, mime_type: str) -> str:
     )
 
 
+def _validate_iso_date(date_str: str) -> str:
+    try:
+        from datetime import datetime
+        datetime.fromisoformat(date_str.replace("Z", "+00:00"))
+        return date_str
+    except Exception as exc:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"Invalid ISO 8601 datetime format for 'created_at': {exc}",
+        )
+
+
 # ---------------------------------------------------------------------------
 # Endpoints
 # ---------------------------------------------------------------------------
@@ -124,7 +137,11 @@ async def _extract_text(content: bytes, mime_type: str) -> str:
     summary="Ingest a resume",
     description="Upload a PDF or DOCX resume to be chunked, embedded, and indexed.",
 )
-async def ingest_resume(file: UploadFile = File(...)):
+async def ingest_resume(
+    file: UploadFile = File(...),
+    trust_rating: float = Form(1.0),
+    created_at: Optional[str] = Form(None),
+):
     """
     Ingest a single resume document.
 
@@ -136,6 +153,9 @@ async def ingest_resume(file: UploadFile = File(...)):
     """
     content, filename, mime_type = await _read_upload(file)
     text = await _extract_text(content, mime_type)
+
+    if created_at:
+        _validate_iso_date(created_at)
 
     try:
         from core.config import DocumentType, get_settings
@@ -155,6 +175,8 @@ async def ingest_resume(file: UploadFile = File(...)):
             content=text,
             mime_type=mime_type,
             document_type=DocumentType.RESUME,
+            trust_rating=trust_rating,
+            created_at=created_at,
         )
 
         # Build pipeline components
@@ -164,6 +186,8 @@ async def ingest_resume(file: UploadFile = File(...)):
         extractor = ResumeMetadataExtractor()
         embedder = create_embedder(settings.ingestion.embedding)
 
+        from api.dependencies.database import get_vector_store, get_lexical_store
+
         pipeline = IngestionPipeline(
             config=settings.ingestion,
             validator=validator,
@@ -171,6 +195,8 @@ async def ingest_resume(file: UploadFile = File(...)):
             chunker=chunker,
             metadata_extractor=extractor,
             embedder=embedder,
+            vector_store=get_vector_store(),
+            lexical_store=get_lexical_store(),
         )
 
         result = await pipeline.ingest(document)
@@ -205,7 +231,11 @@ async def ingest_resume(file: UploadFile = File(...)):
     summary="Ingest a job description",
     description="Upload a PDF or DOCX job description to be chunked, embedded, and indexed.",
 )
-async def ingest_jd(file: UploadFile = File(...)):
+async def ingest_jd(
+    file: UploadFile = File(...),
+    trust_rating: float = Form(1.0),
+    created_at: Optional[str] = Form(None),
+):
     """
     Ingest a single job description document.
 
@@ -217,6 +247,9 @@ async def ingest_jd(file: UploadFile = File(...)):
     """
     content, filename, mime_type = await _read_upload(file)
     text = await _extract_text(content, mime_type)
+
+    if created_at:
+        _validate_iso_date(created_at)
 
     try:
         from core.config import DocumentType, get_settings
@@ -235,6 +268,8 @@ async def ingest_jd(file: UploadFile = File(...)):
             content=text,
             mime_type=mime_type,
             document_type=DocumentType.JOB_DESCRIPTION,
+            trust_rating=trust_rating,
+            created_at=created_at,
         )
 
         validator = DefaultDocumentValidator(settings.ingestion)
@@ -243,6 +278,8 @@ async def ingest_jd(file: UploadFile = File(...)):
         extractor = JDMetadataExtractor()
         embedder = create_embedder(settings.ingestion.embedding)
 
+        from api.dependencies.database import get_vector_store, get_lexical_store
+
         pipeline = IngestionPipeline(
             config=settings.ingestion,
             validator=validator,
@@ -250,6 +287,8 @@ async def ingest_jd(file: UploadFile = File(...)):
             chunker=chunker,
             metadata_extractor=extractor,
             embedder=embedder,
+            vector_store=get_vector_store(),
+            lexical_store=get_lexical_store(),
         )
 
         result = await pipeline.ingest(document)

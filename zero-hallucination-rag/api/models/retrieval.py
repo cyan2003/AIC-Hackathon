@@ -59,6 +59,7 @@ class MatchResult(BaseModel):
     document_id: str = Field(..., description="JD document identifier")
     job_title: Optional[str] = Field(None, description="Extracted job title")
     score: float = Field(..., description="Overall relevance score")
+    confidence_score: Optional[float] = Field(None, description="Source confidence score (weighted similarity, freshness, trust)")
     matched_sections: list[MatchedSection] = Field(
         default_factory=list,
         description="Relevant sections from the JD",

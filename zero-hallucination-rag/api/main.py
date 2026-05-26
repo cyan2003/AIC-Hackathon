@@ -42,12 +42,9 @@ async def lifespan(app: FastAPI):
 
     # Initialize Qdrant collections (best-effort; won't crash if Qdrant is down)
     try:
-        from retrieval.vector_store.qdrant import QdrantVectorStore
+        from api.dependencies.database import get_vector_store
 
-        vector_store = QdrantVectorStore(
-            settings.retrieval.vector_store,
-            embedding_dimension=settings.ingestion.embedding.dimension,
-        )
+        vector_store = get_vector_store()
         await vector_store.initialize()
         logger.info("Vector store collections initialized")
     except Exception as exc:
@@ -57,6 +54,18 @@ async def lifespan(app: FastAPI):
         )
 
     yield
+
+    # Clean up connections on shutdown
+    try:
+        from api.dependencies.database import get_vector_store
+        vector_store = get_vector_store()
+        await vector_store.close()
+        logger.info("Vector store connection closed")
+    except Exception as exc:
+        logger.warning(
+            "Error closing vector store connection on shutdown",
+            error=str(exc),
+        )
 
     logger.info("Shutting down Zero-Hallucination RAG Pipeline")
 

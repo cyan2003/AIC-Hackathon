@@ -161,6 +161,11 @@ class RetrievalConfig(BaseSettings):
 
     top_k: int = 10
     min_score_threshold: float = 0.0
+    min_confidence_threshold: float = 0.4
+    max_freshness_days: int = 180
+    weight_similarity: float = 0.6
+    weight_freshness: float = 0.2
+    weight_trust: float = 0.2
     enable_reranking: bool = True
     vector_store: VectorStoreConfig = Field(default_factory=VectorStoreConfig)
     lexical_store: LexicalStoreConfig = Field(default_factory=LexicalStoreConfig)

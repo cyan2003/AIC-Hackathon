@@ -186,8 +186,58 @@ class RetrievalPipeline:
         return vector_results, lexical_results
 
     def _apply_threshold(self, results: list[SearchResult]) -> list[SearchResult]:
-        """Remove results below the configured minimum score."""
-        threshold = self._config.min_score_threshold
-        if threshold <= 0:
-            return results
-        return [r for r in results if r.score >= threshold]
+        """
+        Calculate confidence scores and filter results below the configured 
+        minimum score and minimum confidence threshold.
+        """
+        from datetime import datetime, timezone
+        current_time = datetime.now(timezone.utc)
+
+        # 1. Apply min_score_threshold if configured
+        score_threshold = self._config.min_score_threshold
+        filtered_by_score = results
+        if score_threshold > 0:
+            filtered_by_score = [r for r in results if r.score >= score_threshold]
+
+        final_results = []
+        for r in filtered_by_score:
+            # Normalize base similarity score
+            normalized_score = max(0.0, min(1.0, r.score))
+
+            # Freshness score
+            created_at_str = r.metadata.get("created_at")
+            if created_at_str:
+                try:
+                    created_at = datetime.fromisoformat(created_at_str.replace("Z", "+00:00"))
+                    if created_at.tzinfo is None:
+                        created_at = created_at.replace(tzinfo=timezone.utc)
+                except Exception:
+                    created_at = current_time
+            else:
+                created_at = current_time
+
+            delta = current_time - created_at
+            days_since_creation = max(0.0, delta.total_seconds() / 86400.0)
+            max_days = self._config.max_freshness_days
+            freshness_score = max(0.0, 1.0 - (days_since_creation / max_days))
+
+            # Trust score
+            try:
+                trust_rating = float(r.metadata.get("trust_rating", 1.0))
+            except (ValueError, TypeError):
+                trust_rating = 1.0
+            trust_rating = max(0.0, min(1.0, trust_rating))
+
+            # Combined confidence score
+            w_sim = self._config.weight_similarity
+            w_fresh = self._config.weight_freshness
+            w_trust = self._config.weight_trust
+
+            confidence = (w_sim * normalized_score) + (w_fresh * freshness_score) + (w_trust * trust_rating)
+            r.confidence_score = float(round(confidence, 4))
+
+            # Filter by confidence threshold
+            if r.confidence_score >= self._config.min_confidence_threshold:
+                final_results.append(r)
+
+        return final_results
