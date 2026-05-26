@@ -8,6 +8,20 @@ import asyncio
 import time
 from streamlit_extras.metric_cards import style_metric_cards
 
+import phoenix as px
+from openinference.instrumentation.langchain import LangChainInstrumentor
+
+# 1. Direct OpenTelemetry to look at your local running Phoenix instance
+os.environ["PHOENIX_COLLECTOR_ENDPOINT"] = "http://localhost:6006"
+
+# 2. Automatically intercept and instrument LangChain / LangGraph calls
+# The second your teammate plugs their pipeline loops into your UI, 
+# it will auto-record every single node execution step!
+try:
+    LangChainInstrumentor().instrument(skip_dep_check=True)
+except Exception as e:
+    print(f"Telemetry warning: {e}")
+
 # ---------------------------------------------------------------------------
 # Page configuration
 # ---------------------------------------------------------------------------
@@ -179,20 +193,25 @@ with tab_ingest:
 # Tab 3 – System Telemetry
 # ---------------------------------------------------------------------------
 with tab_telemetry:
-    st.subheader("System Telemetry")
-    col_vec, col_bm25, col_perf = st.columns(3)
-    # Placeholder latency metrics – replace with real calls when backend is active
-    col_vec.metric("Vector DB Latency", "23 ms")
-    col_bm25.metric("BM25 Latency", "11 ms")
-    # Local performance using psutil
-    cpu_percent = psutil.cpu_percent(interval=0.1)
-    mem = psutil.virtual_memory()
-    col_perf.metric("CPU Usage", f"{cpu_percent}%")
-    col_perf.metric("Memory", f"{mem.percent}%")
-
-    # Placeholder iframe for observability dashboard (Arize Phoenix)
-    st.subheader("Observability Dashboard")
-    st.components.v1.iframe("http://localhost:6006", height=500, scrolling=True)
+    st.subheader("📊 System Telemetry & AI Observability")
+    
+    # Render basic machine parameters
+    import psutil
+    col1, col2 = st.columns(2)
+    col1.metric("Host CPU Overhead", f"{psutil.cpu_percent()}%")
+    col2.metric("System RAM Utilization", f"{psutil.virtual_memory().percent}%")
+    
+    st.divider()
+    
+    st.markdown("### 🔍 Live Agent Operational Graph (Arize Phoenix)")
+    st.caption("Inspect live node execution chains, prompt layers, and retrieval latency metrics below:")
+    
+    # Natively embed the local running Phoenix service inside your tab view!
+    st.components.v1.iframe(
+        src="http://localhost:6006", 
+        height=750, 
+        scrolling=True
+    )
 
 # Apply consistent styling to metric cards
 style_metric_cards(
