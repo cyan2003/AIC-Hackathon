@@ -2,7 +2,7 @@
 System-level flow tests for the Zero-Hallucination RAG pipeline.
 """
 import pytest
-from qdrant_client import QdrantClient
+from qdrant_client import AsyncQdrantClient
 from core.config import (
     get_settings,
     IngestionConfig,
@@ -73,7 +73,7 @@ async def test_end_to_end_system_matching_flow():
     settings = get_settings()
     
     # 1. Setup real in-memory Qdrant client
-    memory_qdrant_client = QdrantClient(location=":memory:")
+    memory_qdrant_client = AsyncQdrantClient(location=":memory:")
     
     vector_store = QdrantVectorStore(
         settings.retrieval.vector_store,
@@ -152,6 +152,8 @@ async def test_end_to_end_system_matching_flow():
         
         # Segment-level chunks index
         text = jd_doc.content
+        if isinstance(text, bytes):
+            text = text.decode("utf-8", errors="replace")
         chunks = jd_pipeline._chunker.chunk(text, document_id=ingest_res.document_id, metadata=ingest_res.metadata)
         chunk_texts = [c.text for c in chunks]
         chunk_ids = [c.chunk_id for c in chunks]
@@ -206,8 +208,11 @@ async def test_end_to_end_system_matching_flow():
     )
     
     # Query with resume text
+    query_text = resume_doc.content
+    if isinstance(query_text, bytes):
+        query_text = query_text.decode("utf-8", errors="replace")
     response = await retrieval_pipeline.retrieve(
-        query_text=resume_doc.content,
+        query_text=query_text,
         top_k=3,
     )
     

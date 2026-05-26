@@ -127,7 +127,7 @@ class RetrievalPipeline:
         # 5. Re-rank (optional)
         if self._reranker and self._config.enable_reranking:
             t0 = time.perf_counter()
-            fused = self._reranker.rerank(
+            fused = await self._reranker.rerank(
                 processed_text,
                 fused,
                 top_k=self._config.fusion.reranker_top_k,

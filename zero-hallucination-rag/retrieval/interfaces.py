@@ -196,7 +196,7 @@ class Reranker(ABC):
     """Cross-encoder or other re-ranking model interface."""
 
     @abstractmethod
-    def rerank(
+    async def rerank(
         self,
         query: str,
         results: list[SearchResult],

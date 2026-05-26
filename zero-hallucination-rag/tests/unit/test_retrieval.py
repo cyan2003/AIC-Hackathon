@@ -127,8 +127,9 @@ def test_weighted_score_fusion():
     assert fused[1].score == pytest.approx(0.3)
 
 
+@pytest.mark.asyncio
 @patch("sentence_transformers.CrossEncoder")
-def test_cross_encoder_reranker(mock_cross_encoder_cls):
+async def test_cross_encoder_reranker(mock_cross_encoder_cls):
     """Test CrossEncoderReranker with mock sentence-transformers model."""
     mock_instance = MagicMock()
     # Mock prediction scores
@@ -143,7 +144,7 @@ def test_cross_encoder_reranker(mock_cross_encoder_cls):
         SearchResult(document_id="doc3", chunk_id="c3", text="text3", score=0.3, source="rrf"),
     ]
     
-    reranked = reranker.rerank("query text", results, top_k=2)
+    reranked = await reranker.rerank("query text", results, top_k=2)
     
     assert len(reranked) == 2
     # doc2 gets score 0.9 (rank 1), doc3 gets score 0.5 (rank 2), doc1 gets score 0.1

@@ -12,6 +12,7 @@ outperforms Condorcet and individual Rank Learning Methods" (2009).
 from __future__ import annotations
 
 from collections import defaultdict
+from typing import Sequence
 
 from core.config import FusionConfig
 from retrieval.interfaces import ResultFuser, SearchResult
@@ -38,22 +39,21 @@ class ReciprocalRankFusion(ResultFuser):
 
     def fuse(
         self,
-        results_map: dict[str, list[SearchResult]],
+        result_lists: Sequence[list[SearchResult]],
     ) -> list[SearchResult]:
         """
         Fuses results using RRF.
         
         Parameters
         ----------
-        results_map:
-            A dictionary mapping the backend name to its results.
-            Example: {"vector": qdrant_results, "lexical": bm25_results}
+        result_lists:
+            A sequence of ranked result lists.
         """
         scores: dict[str, float] = defaultdict(float)
         best_result: dict[str, SearchResult] = {}
         sources_tracker: dict[str, set[str]] = defaultdict(set)
 
-        for backend_name, rlist in results_map.items():
+        for rlist in result_lists:
             for rank, result in enumerate(rlist, start=1):
                 key = result.chunk_id
                 
@@ -61,7 +61,7 @@ class ReciprocalRankFusion(ResultFuser):
                 scores[key] += 1.0 / (self._k + rank)
                 
                 # 2. Track all backends that found this chunk
-                sources_tracker[key].add(result.source)
+                sources_tracker[key].add(result.source or "unknown")
 
                 # 3. Store the first encountered result instance to preserve metadata
                 if key not in best_result:

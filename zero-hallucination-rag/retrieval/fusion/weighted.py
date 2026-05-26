@@ -9,6 +9,7 @@ computing a weighted sum. This requires that raw scores are meaningful
 from __future__ import annotations
 
 from collections import defaultdict
+from typing import Sequence
 
 from core.config import FusionConfig
 from retrieval.interfaces import ResultFuser, SearchResult
@@ -29,16 +30,15 @@ class WeightedScoreFusion(ResultFuser):
 
     def fuse(
         self,
-        results_map: dict[str, list[SearchResult]],
+        result_lists: Sequence[list[SearchResult]],
     ) -> list[SearchResult]:
         """
         Fuses results using a weighted linear combination.
         
         Parameters
         ----------
-        results_map:
-            A dictionary mapping the backend name to its results.
-            Example: {"vector": qdrant_results, "lexical": bm25_results}
+        result_lists:
+            A sequence of ranked result lists.
         """
         scores: dict[str, float] = defaultdict(float)
         best_result: dict[str, SearchResult] = {}
@@ -50,7 +50,10 @@ class WeightedScoreFusion(ResultFuser):
             "lexical": self._config.lexical_weight
         }
 
-        for backend_name, rlist in results_map.items():
+        for rlist in result_lists:
+            if not rlist:
+                continue
+            backend_name = rlist[0].source or "vector"
             # Default to a weight of 1.0 if a new backend is added later
             weight = weight_map.get(backend_name, 1.0) 
             normalised_list = self._normalise(rlist)
@@ -62,7 +65,7 @@ class WeightedScoreFusion(ResultFuser):
                 scores[key] += weight * result.score
                 
                 # 2. Track all backends that found this chunk
-                sources_tracker[key].add(result.source)
+                sources_tracker[key].add(result.source or backend_name)
 
                 # 3. Store the first encountered result instance to preserve metadata
                 if key not in best_result:

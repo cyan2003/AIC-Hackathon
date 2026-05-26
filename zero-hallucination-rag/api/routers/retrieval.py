@@ -140,7 +140,7 @@ async def match_resume_to_jds(
             reranker = CrossEncoderReranker(
                 model_name=settings.retrieval.fusion.reranker_model,
             )
-            fused = reranker.rerank(
+            fused = await reranker.rerank(
                 cleaned_text[:500],
                 fused,
                 top_k=top_k,
