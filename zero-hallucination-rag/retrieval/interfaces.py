@@ -42,6 +42,7 @@ class SearchResult:
     chunk_id: str
     text: str
     score: float = 0.0
+    confidence_score: float = 0.0
     metadata: dict[str, Any] = field(default_factory=dict)
     source: str = ""
 

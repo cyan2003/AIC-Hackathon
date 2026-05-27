@@ -176,5 +176,43 @@ class BM25LexicalStore(LexicalStore):
 
     @staticmethod
     def _matches_filter(payload: dict[str, Any], filters: dict[str, Any]) -> bool:
-        """Return ``True`` if all filter key-values match the payload."""
-        return all(payload.get(k) == v for k, v in filters.items())
+        """Return ``True`` if the payload satisfies all filters."""
+        # 1. Skills filter: JD's required_skills must overlap with candidate's skills if filtered
+        if "skills" in filters and filters["skills"]:
+            filter_skills = {s.lower() for s in filters["skills"]}
+            # required_skills is a list in JD metadata
+            jd_skills = {s.lower() for s in payload.get("required_skills", [])}
+            # Match if there's any overlap between candidate skills and required skills
+            if not filter_skills.intersection(jd_skills):
+                return False
+
+        # 2. Experience filter: JD's required experience must be <= candidate's max experience
+        if "experience_years_max" in filters and filters["experience_years_max"] is not None:
+            candidate_exp = filters["experience_years_max"]
+            jd_exp = payload.get("experience_years")
+            if jd_exp is not None and jd_exp > candidate_exp:
+                return False
+
+        # 3. Education filter: JD's required education must be <= candidate's education level
+        if "education_level" in filters and filters["education_level"]:
+            EDUCATION_ORDER = {"associate": 1, "bachelor": 2, "master": 3, "phd": 4}
+            candidate_edu = filters["education_level"].lower()
+            jd_edu = payload.get("education_level")
+            if jd_edu and candidate_edu in EDUCATION_ORDER and jd_edu.lower() in EDUCATION_ORDER:
+                if EDUCATION_ORDER[jd_edu.lower()] > EDUCATION_ORDER[candidate_edu]:
+                    return False
+
+        # 4. Industry filter: exact match (case-insensitive)
+        if "industry" in filters and filters["industry"]:
+            candidate_ind = filters["industry"].lower()
+            jd_ind = payload.get("industry")
+            if not jd_ind or jd_ind.lower() != candidate_ind:
+                return False
+
+        # 5. Fallback check for any other basic filters
+        for k, v in filters.items():
+            if k not in ["skills", "experience_years_max", "education_level", "industry"]:
+                if payload.get(k) != v:
+                    return False
+
+        return True

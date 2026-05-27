@@ -37,6 +37,7 @@ async def match_resume_to_jds(
     file: Optional[UploadFile] = File(None),
     resume_text: Optional[str] = Form(None),
     top_k: int = Form(10),
+    filters: Optional[str] = Form(None),
 ):
     """
     Match a resume against indexed job descriptions.
@@ -48,6 +49,17 @@ async def match_resume_to_jds(
     4. Results are fused (RRF) and re-ranked
     5. Top-k matches returned with relevant sections
     """
+    filters_dict = {}
+    if filters:
+        try:
+            import json
+            filters_dict = json.loads(filters)
+        except Exception as exc:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail=f"Invalid JSON format for 'filters' parameter: {exc}",
+            )
+
     timings: dict[str, float] = {}
 
     # -- 1. Get resume text -----------------------------------------------
@@ -107,23 +119,25 @@ async def match_resume_to_jds(
         timings["embedding"] = time.perf_counter() - t0
 
         # -- 4. Search the JD collection ----------------------------------
+        from api.dependencies.database import get_vector_store, get_lexical_store
+
+        # -- 4. Search the JD collection ----------------------------------
         t0 = time.perf_counter()
-        vector_store = QdrantVectorStore(
-            settings.retrieval.vector_store,
-            embedding_dimension=settings.ingestion.embedding.dimension,
-        )
+        vector_store = get_vector_store()
         jd_results = await vector_store.search_jds(
             resume_embedding,
             top_k=top_k * 3,  # Over-fetch for fusion
+            filters=filters_dict,
         )
         timings["vector_search"] = time.perf_counter() - t0
 
         # -- 5. BM25 lexical search (if index is populated) ---------------
         t0 = time.perf_counter()
-        lexical_store = BM25LexicalStore(settings.retrieval.lexical_store)
+        lexical_store = get_lexical_store()
         lexical_results = await lexical_store.search(
             cleaned_text[:500],  # Use first 500 chars as keyword query
             top_k=top_k * 3,
+            filters=filters_dict,
         )
         timings["lexical_search"] = time.perf_counter() - t0
 
@@ -147,6 +161,72 @@ async def match_resume_to_jds(
             )
             timings["reranking"] = time.perf_counter() - t0
 
+        # -- 7.5 Calculate Source Confidence Scores and Filter -----------
+        from datetime import datetime, timezone
+        current_time = datetime.now(timezone.utc)
+        
+        confidence_threshold = settings.retrieval.min_confidence_threshold
+        max_days = settings.retrieval.max_freshness_days
+
+        fused_with_confidence = []
+        for r in fused:
+            normalized_score = max(0.0, min(1.0, r.score))
+
+            created_at_str = r.metadata.get("created_at")
+            if created_at_str:
+                try:
+                    created_at = datetime.fromisoformat(created_at_str.replace("Z", "+00:00"))
+                    if created_at.tzinfo is None:
+                        created_at = created_at.replace(tzinfo=timezone.utc)
+                except Exception:
+                    created_at = current_time
+            else:
+                created_at = current_time
+
+            delta = current_time - created_at
+            days_since_creation = max(0.0, delta.total_seconds() / 86400.0)
+            freshness_score = max(0.0, 1.0 - (days_since_creation / max_days))
+
+            try:
+                trust_rating = float(r.metadata.get("trust_rating", 1.0))
+            except (ValueError, TypeError):
+                trust_rating = 1.0
+            trust_rating = max(0.0, min(1.0, trust_rating))
+
+            w_sim = settings.retrieval.weight_similarity
+            w_fresh = settings.retrieval.weight_freshness
+            w_trust = settings.retrieval.weight_trust
+
+            confidence = (w_sim * normalized_score) + (w_fresh * freshness_score) + (w_trust * trust_rating)
+            r.confidence_score = float(round(confidence, 4))
+
+            if r.confidence_score >= confidence_threshold:
+                fused_with_confidence.append(r)
+
+        fused = fused_with_confidence
+
+        # Determine max confidence score
+        max_confidence = max([r.confidence_score for r in fused]) if fused else 0.0
+
+        # If max confidence is less than the threshold, bypass LLM and return fallback
+        if max_confidence < confidence_threshold:
+            from agent.schemas import CandidateAssessment
+            assessment = CandidateAssessment(
+                overall_score=0.0,
+                recommendation="No Match",
+                summary="Insufficient evidence found: confidence score is below threshold.",
+                strengths=[],
+                gaps=[],
+                cited_evidence=[]
+            )
+            return MatchResponse(
+                results=[],
+                total_candidates=total_candidates,
+                timings=timings,
+                resume_metadata=resume_metadata,
+                assessment=assessment,
+            )
+
         # -- 8. Build response -------------------------------------------
         results: list[MatchResult] = []
         for r in fused[:top_k]:
@@ -165,6 +245,7 @@ async def match_resume_to_jds(
                     document_id=r.document_id,
                     job_title=r.metadata.get("job_title"),
                     score=r.score,
+                    confidence_score=r.confidence_score,
                     matched_sections=sections,
                     metadata=r.metadata,
                 )
@@ -200,12 +281,17 @@ async def match_resume_to_jds(
         except Exception as exc:
             logger.warning("LLM assessment failed (returning results without it)", error=str(exc))
 
+        cache_hit = False
+        if assessment and getattr(assessment, "cache_hit", None) is not None:
+            cache_hit = assessment.cache_hit
+
         return MatchResponse(
             results=results,
             total_candidates=total_candidates,
             timings=timings,
             resume_metadata=resume_metadata,
             assessment=assessment,
+            llm_cache_hit=cache_hit,
         )
 
     except HTTPException:

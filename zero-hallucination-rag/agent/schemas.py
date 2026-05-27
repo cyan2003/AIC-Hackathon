@@ -62,6 +62,10 @@ class CandidateAssessment(BaseModel):
         default_factory=list,
         description="Evidence from source documents supporting the assessment",
     )
+    cache_hit: Optional[bool] = Field(
+        None,
+        description="Internal cache hit indicator",
+    )
 
 
 def fallback_assessment(reason: str = "Assessment unavailable") -> CandidateAssessment:

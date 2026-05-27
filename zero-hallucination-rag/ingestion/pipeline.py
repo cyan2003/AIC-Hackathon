@@ -9,7 +9,10 @@ retry logic and observability hooks.
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Any, Optional, Sequence
+from typing import Any, Optional, Sequence, TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from retrieval.interfaces import VectorStore, LexicalStore
 
 from core.config import IngestionConfig
 from core.exceptions import (
@@ -101,6 +104,8 @@ class IngestionPipeline:
         embedder: Embedder,
         document_store: Optional[DocumentStore] = None,
         metadata_store: Optional[MetadataStore] = None,
+        vector_store: Optional[VectorStore] = None,
+        lexical_store: Optional[LexicalStore] = None,
     ) -> None:
         self._config = config
         self._validator = validator
@@ -110,6 +115,8 @@ class IngestionPipeline:
         self._embedder = embedder
         self._document_store = document_store
         self._metadata_store = metadata_store
+        self._vector_store = vector_store
+        self._lexical_store = lexical_store
 
     # -- Public API -------------------------------------------------------
 
@@ -146,6 +153,14 @@ class IngestionPipeline:
             # 2. Extract metadata
             metadata = self._metadata_extractor.extract(document)
             metadata.update(document.metadata)
+            
+            # Inject trust_rating and created_at
+            from datetime import datetime, timezone
+            metadata["trust_rating"] = getattr(document, "trust_rating", 1.0)
+            created_at_val = getattr(document, "created_at", None)
+            if not created_at_val:
+                created_at_val = datetime.now(timezone.utc).isoformat()
+            metadata["created_at"] = created_at_val
 
             # 3. Clean
             text = (
@@ -168,6 +183,32 @@ class IngestionPipeline:
                 await self._document_store.store(doc_id, document)
             if self._metadata_store:
                 await self._metadata_store.store(doc_id, metadata)
+
+            # 7. Index in Vector & Lexical Stores if available
+            if self._vector_store or self._lexical_store:
+                chunk_texts = [c.chunk.text for c in embedded_chunks]
+                chunk_ids = [c.chunk.chunk_id for c in embedded_chunks]
+                payloads = [dict(c.chunk.metadata) for c in embedded_chunks]
+
+                # Ensure payloads have 'text' and 'document_id' fields for search display
+                for p, txt in zip(payloads, chunk_texts):
+                    p["text"] = txt
+                    p["document_id"] = doc_id
+
+                # Generate matching UUID5 chunk IDs for both stores so they can be merged by RRF
+                import uuid
+                qdrant_ids = [str(uuid.uuid5(uuid.NAMESPACE_DNS, cid)) for cid in chunk_ids]
+
+                if self._vector_store:
+                    vectors = [c.embedding for c in embedded_chunks]
+                    from core.config import DocumentType
+                    if document.document_type == DocumentType.JOB_DESCRIPTION:
+                        await self._vector_store.upsert_jds(qdrant_ids, vectors, payloads)
+                    else:
+                        await self._vector_store.upsert_resumes(qdrant_ids, vectors, payloads)
+
+                if self._lexical_store:
+                    await self._lexical_store.index(qdrant_ids, chunk_texts, payloads)
 
             logger.info(
                 "Ingested document",

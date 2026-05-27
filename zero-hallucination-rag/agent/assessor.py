@@ -107,6 +107,32 @@ class CandidateAssessor:
             Structured assessment with scores, strengths, gaps, and citations.
             Returns a fallback assessment if the LLM call fails.
         """
+        # 1. Check cache first if enabled
+        from core.config import get_settings
+        settings = get_settings()
+        cache_enabled = getattr(settings, "cache", None) and settings.cache.enable_llm_cache
+
+        cache_key = {
+            "resume_text": resume_text,
+            "resume_metadata": resume_metadata,
+            "match_results": match_results,
+            "model": self._config.model,
+            "temperature": self._config.temperature,
+        }
+
+        if cache_enabled:
+            try:
+                from core.cache import get_cache_instance
+                cache = get_cache_instance()
+                cached_val = cache.get_llm(cache_key)
+                if cached_val is not None:
+                    logger.info("LLM assessment cache hit (DeepSeek R1 bypassed)")
+                    assessment = CandidateAssessment(**cached_val)
+                    assessment.cache_hit = True
+                    return assessment
+            except Exception as exc:
+                logger.warning("Failed to retrieve from LLM cache", error=str(exc))
+
         if not self._config.api_key:
             logger.warning("No Chutes API key configured — skipping LLM assessment")
             return fallback_assessment("No LLM API key configured. Set CHUTES_API_KEY in .env")
@@ -142,6 +168,14 @@ class CandidateAssessor:
             # Parse into Pydantic model
             data = json.loads(json_str)
             assessment = CandidateAssessment(**data)
+            assessment.cache_hit = False
+
+            # Cache the successful assessment
+            if cache_enabled and assessment.overall_score > 0.0:
+                try:
+                    cache.set_llm(cache_key, assessment.model_dump())
+                except Exception as exc:
+                    logger.warning("Failed to store in LLM cache", error=str(exc))
 
             logger.info(
                 "LLM assessment complete",

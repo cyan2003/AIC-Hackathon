@@ -43,6 +43,8 @@ class RawDocument:
     content: str | bytes
     mime_type: str = "text/plain"
     document_type: Optional[DocumentType] = None
+    trust_rating: float = 1.0
+    created_at: Optional[str] = None
     metadata: dict[str, Any] = field(default_factory=dict)
 
 

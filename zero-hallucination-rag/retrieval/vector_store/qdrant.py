@@ -293,15 +293,65 @@ class QdrantVectorStore(VectorStore):
     @staticmethod
     def _build_filter(filters: dict[str, Any]):
         """
-        Convert a simple key-value filter dict to a Qdrant ``Filter``.
-
-        For advanced filter logic, callers should construct Qdrant filter
-        objects directly.
+        Convert a MatchFilters dict to a complex Qdrant ``Filter``.
         """
-        from qdrant_client.models import FieldCondition, Filter, MatchValue
+        from qdrant_client.models import FieldCondition, MatchAny, MatchValue, Range, IsEmpty, Filter
 
-        conditions = [
-            FieldCondition(key=k, match=MatchValue(value=v))
-            for k, v in filters.items()
-        ]
-        return Filter(must=conditions)
+        must_conditions = []
+
+        # 1. Skills filter (MatchAny)
+        if "skills" in filters and filters["skills"]:
+            must_conditions.append(
+                FieldCondition(
+                    key="required_skills",
+                    match=MatchAny(any=[s.lower() for s in filters["skills"]])
+                )
+            )
+
+        # 2. Experience years filter: JD's experience requirement must be <= candidate_experience
+        if "experience_years_max" in filters and filters["experience_years_max"] is not None:
+            max_exp = filters["experience_years_max"]
+            must_conditions.append(
+                Filter(
+                    should=[
+                        FieldCondition(key="experience_years", range=Range(lte=max_exp)),
+                        FieldCondition(key="experience_years", is_empty=IsEmpty(key="experience_years")),
+                    ]
+                )
+            )
+
+        # 3. Education level filter: JD's education requirement must be <= candidate_education_level
+        if "education_level" in filters and filters["education_level"]:
+            EDUCATION_ORDER = {"associate": 1, "bachelor": 2, "master": 3, "phd": 4}
+            candidate_edu = filters["education_level"].lower()
+            if candidate_edu in EDUCATION_ORDER:
+                candidate_rank = EDUCATION_ORDER[candidate_edu]
+                acceptable_levels = [
+                    lvl for lvl, rank in EDUCATION_ORDER.items() if rank <= candidate_rank
+                ]
+                must_conditions.append(
+                    Filter(
+                        should=[
+                            FieldCondition(key="education_level", match=MatchAny(any=acceptable_levels)),
+                            FieldCondition(key="education_level", is_empty=IsEmpty(key="education_level")),
+                        ]
+                    )
+                )
+
+        # 4. Industry filter (exact match)
+        if "industry" in filters and filters["industry"]:
+            must_conditions.append(
+                FieldCondition(
+                    key="industry",
+                    match=MatchValue(value=filters["industry"].lower())
+                )
+            )
+
+        # 5. Handle any other basic key-value filters that might be passed
+        for k, v in filters.items():
+            if k not in ["skills", "experience_years_max", "education_level", "industry"]:
+                must_conditions.append(
+                    FieldCondition(key=k, match=MatchValue(value=v))
+                )
+
+        return Filter(must=must_conditions) if must_conditions else None

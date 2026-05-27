@@ -161,6 +161,11 @@ class RetrievalConfig(BaseSettings):
 
     top_k: int = 10
     min_score_threshold: float = 0.0
+    min_confidence_threshold: float = 0.4
+    max_freshness_days: int = 180
+    weight_similarity: float = 0.6
+    weight_freshness: float = 0.2
+    weight_trust: float = 0.2
     enable_reranking: bool = True
     vector_store: VectorStoreConfig = Field(default_factory=VectorStoreConfig)
     lexical_store: LexicalStoreConfig = Field(default_factory=LexicalStoreConfig)
@@ -178,6 +183,16 @@ class AgentConfig(BaseSettings):
     max_tokens: int = 4096
     temperature: float = 0.3
     timeout: float = 120.0
+
+
+class CacheConfig(BaseSettings):
+    """Configuration for caching of LLM and embedding results."""
+
+    model_config = SettingsConfigDict(env_prefix="CACHE_")
+
+    enable_llm_cache: bool = True
+    enable_embedding_cache: bool = True
+    db_path: str = "data/cache.db"
 
 
 # ---------------------------------------------------------------------------
@@ -211,6 +226,7 @@ class Settings(BaseSettings):
     ingestion: IngestionConfig = Field(default_factory=IngestionConfig)
     retrieval: RetrievalConfig = Field(default_factory=RetrievalConfig)
     agent: AgentConfig = Field(default_factory=AgentConfig)
+    cache: CacheConfig = Field(default_factory=CacheConfig)
 
 
 def get_settings() -> Settings:
