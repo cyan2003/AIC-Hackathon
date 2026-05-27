@@ -16,56 +16,11 @@ The architecture is built from the ground up to scale to **10M+ documents** with
 
 The system divides candidates' matching and ingestion into two distinct high-performance paths:
 
-```mermaid
-graph TD
-    %% Styling
-    classDef ingest fill:#e1f5fe,stroke:#01579b,stroke-width:2px;
-    classDef retrieval fill:#efebe9,stroke:#4e342e,stroke-width:2px;
-    classDef agent fill:#efe8e0,stroke:#e65100,stroke-width:2px;
-    classDef db fill:#e8f5e9,stroke:#1b5e20,stroke-width:2px;
+## Architecture
 
-    %% Ingestion Pipeline Nodes
-    subgraph Ingestion["📥 INGESTION PATH"]
-        A[Raw Document: Resume / JD] --> B[DefaultDocumentValidator]
-        B --> C[DefaultTextCleaner]
-        C --> D[Section-Aware Chunker]
-        D --> E[Metadata Extractor]
-        E --> F[Semantic Embedder]
-    end
 
-    %% Storage Nodes
-    subgraph Storage["🗄️ STORAGE LAYER"]
-        G[(Qdrant Vector DB: Dual-Collection)]
-        H[(BM25 Lexical Store)]
-    end
 
-    %% Retrieval Pipeline Nodes
-    subgraph Retrieval["🔍 RETRIEVAL PATH"]
-        I[Query: Resume Text] --> J[Query Processor]
-        J --> K[Vector Search - JD Collection]
-        J --> L[Lexical Search - BM25 Store]
-        K --> M[Reciprocal Rank Fusion - RRF]
-        L --> M
-        M --> N[Cross-Encoder Reranker]
-    end
-
-    %% Agent Flow Nodes
-    subgraph LLMAgent["🤖 ASSESSMENT AGENT"]
-        N --> O[Top-K Candidate Matches]
-        O --> P[DeepSeek-R1 LLM Assessor]
-        P --> Q[Final Assessment Report]
-    end
-
-    %% DB Cache
-    R[(SQLite Cache)] <--> F
-    R <--> P
-
-    %% Apply Styles
-    class A,B,C,D,E,F ingest;
-    class I,J,K,L,M,N,O retrieval;
-    class P,Q agent;
-    class G,H,R db;
-```
+![Architecture Diagram](IMG_20260523_104209_219.jpg)
 
 ---
 
