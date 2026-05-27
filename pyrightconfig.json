@@ -1,6 +1,6 @@
 {
-  "venvPath": ".",
-  "venv": "zero-hallucination-rag/.venv",
+  "venvPath": "./zero-hallucination-rag",
+  "venv": ".venv",
   "extraPaths": [
     "zero-hallucination-rag"
   ]

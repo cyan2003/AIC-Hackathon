@@ -53,7 +53,9 @@ class ReciprocalRankFusion(ResultFuser):
         best_result: dict[str, SearchResult] = {}
         sources_tracker: dict[str, set[str]] = defaultdict(set)
 
-        for rlist in result_lists:
+        lists_to_fuse = list(result_lists.values()) if isinstance(result_lists, dict) else result_lists
+
+        for rlist in lists_to_fuse:
             for rank, result in enumerate(rlist, start=1):
                 key = result.chunk_id
                 

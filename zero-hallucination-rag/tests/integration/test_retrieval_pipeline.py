@@ -50,6 +50,15 @@ class MockVectorStore(VectorStore):
     async def close(self) -> None:
         pass
 
+    async def search_jds(self, vector, *, top_k=10, filters=None) -> list[SearchResult]:
+        return self._results
+
+    async def upsert_resumes(self, ids, vectors, payloads=None) -> None:
+        pass
+
+    async def upsert_jds(self, ids, vectors, payloads=None) -> None:
+        pass
+
 
 @pytest.mark.asyncio
 async def test_retrieval_pipeline_hybrid_search():

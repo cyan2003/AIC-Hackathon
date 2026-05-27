@@ -295,7 +295,18 @@ class QdrantVectorStore(VectorStore):
         """
         Convert a MatchFilters dict to a complex Qdrant ``Filter``.
         """
-        from qdrant_client.models import FieldCondition, MatchAny, MatchValue, Range, IsEmpty, Filter
+        from qdrant_client.models import FieldCondition as RealFieldCondition, MatchAny, MatchValue, Range, Filter
+        try:
+            from qdrant_client.models import IsEmpty
+        except ImportError:
+            from dataclasses import dataclass
+            @dataclass
+            class IsEmpty:
+                key: str
+
+        from typing import Union
+        class FieldCondition(RealFieldCondition):
+            is_empty: Union[bool, IsEmpty, None] = None
 
         must_conditions = []
 

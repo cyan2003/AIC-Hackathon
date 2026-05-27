@@ -145,6 +145,37 @@ class VectorStore(ABC):
         """Release backend resources."""
         ...
 
+    @abstractmethod
+    async def search_jds(
+        self,
+        vector: list[float],
+        *,
+        top_k: int = 10,
+        filters: Optional[dict[str, Any]] = None,
+    ) -> list[SearchResult]:
+        """Search the job descriptions collection (for resume→JD matching)."""
+        ...
+
+    @abstractmethod
+    async def upsert_resumes(
+        self,
+        ids: Sequence[str],
+        vectors: Sequence[list[float]],
+        payloads: Optional[Sequence[dict[str, Any]]] = None,
+    ) -> None:
+        """Upsert into the resumes collection."""
+        ...
+
+    @abstractmethod
+    async def upsert_jds(
+        self,
+        ids: Sequence[str],
+        vectors: Sequence[list[float]],
+        payloads: Optional[Sequence[dict[str, Any]]] = None,
+    ) -> None:
+        """Upsert into the job descriptions collection."""
+        ...
+
 
 class LexicalStore(ABC):
     """Interface for keyword / lexical search backends."""

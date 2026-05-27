@@ -67,3 +67,28 @@ class MilvusVectorStore(VectorStore):
 
     async def close(self) -> None:
         logger.info("MilvusVectorStore closed (stub)")
+
+    async def search_jds(
+        self,
+        vector: list[float],
+        *,
+        top_k: int = 10,
+        filters: Optional[dict[str, Any]] = None,
+    ) -> list[SearchResult]:
+        raise NotImplementedError("Milvus search_jds is not yet implemented")
+
+    async def upsert_resumes(
+        self,
+        ids: Sequence[str],
+        vectors: Sequence[list[float]],
+        payloads: Optional[Sequence[dict[str, Any]]] = None,
+    ) -> None:
+        raise NotImplementedError("Milvus upsert_resumes is not yet implemented")
+
+    async def upsert_jds(
+        self,
+        ids: Sequence[str],
+        vectors: Sequence[list[float]],
+        payloads: Optional[Sequence[dict[str, Any]]] = None,
+    ) -> None:
+        raise NotImplementedError("Milvus upsert_jds is not yet implemented")

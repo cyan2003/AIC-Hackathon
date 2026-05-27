@@ -50,7 +50,9 @@ class WeightedScoreFusion(ResultFuser):
             "lexical": self._config.lexical_weight
         }
 
-        for rlist in result_lists:
+        lists_to_fuse = list(result_lists.values()) if isinstance(result_lists, dict) else result_lists
+
+        for rlist in lists_to_fuse:
             if not rlist:
                 continue
             backend_name = rlist[0].source or "vector"
